@@ -9,6 +9,7 @@ import { UserslistComponent } from './pages/admin/userlist/userslist.component';
 import { AddhotelComponent } from './pages/hotel/addhotel/addhotel.component';
 import { UpdatehotelComponent } from './pages/hotel/updatehotel/updatehotel.component';
 import { HotellistComponent } from './pages/admin/hotellist/hotellist.component';
+import { DashboardComponent } from './pages/admin/dashboard/dashboard.component';
 
 export const routes: Routes = [
   //Landing page
@@ -61,6 +62,12 @@ export const routes: Routes = [
   
   //Admin pages
 
+  //Dashboard page
+  {
+    path: 'dashboard',
+    component: DashboardComponent,
+  },
+
   //Users list page
   {
     path: 'users',
@@ -73,6 +80,8 @@ export const routes: Routes = [
     path: 'hotels',
     component: HotellistComponent,
   },
+
+
   
   
   
