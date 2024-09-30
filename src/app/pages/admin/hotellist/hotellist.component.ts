@@ -10,18 +10,6 @@ import { Router } from '@angular/router';
   templateUrl: './hotellist.component.html',
 })
 export class HotellistComponent implements OnInit {
-deleteHotel(arg0: any) {
-throw new Error('Method not implemented.');
-}
-navigateToUpdate(arg0: any) {
-throw new Error('Method not implemented.');
-}
-navigateToContractList(arg0: any) {
-throw new Error('Method not implemented.');
-}
-navigateToAddContract(arg0: any) {
-throw new Error('Method not implemented.');
-}
   hotels: any[] = [];
 
   constructor(
@@ -30,5 +18,46 @@ throw new Error('Method not implemented.');
   ) {}
 
   ngOnInit(): void {
+    this.loadHotels();
+  }
+
+  async loadHotels() {
+    try {
+      const token: any = localStorage.getItem('token');
+      const response = await this.hotelService.getAllHotels(token);
+      if (response && response.statusCode === 200 && response.hotelList) {
+        this.hotels = response.hotelList;
+      } else {
+        console.log('No Hotels found.');
+      }
+    } catch (error: any) {
+      console.log(error.message);
+    }
+  }
+  
+
+  navigateToUpdate(hotelId: string) {
+    this.router.navigate(['/updatehotel', hotelId]);
+  }
+
+  navigateToAddContract(hotelId: string) {
+    this.router.navigate(['/addcontract', hotelId]);
+  }
+
+  navigateToContractList(hotelId: string) {
+    this.router.navigate(['hotel/contracts', hotelId]);
+  }
+
+  async deleteHotel(hotelId: string) {
+    const confirmDelete = confirm('Are you sure you want to delete this user?');
+    if (confirmDelete) {
+      try {
+        const token: any = localStorage.getItem('token');
+        await this.hotelService.deleteHotel(hotelId, token);
+        this.loadHotels();
+      } catch (error: any) {
+        console.log(error.message);
+      }
+    }
   }
 }
