@@ -1,0 +1,75 @@
+<!-- hotel-list.component.html -->
+<div class="mt-[130px]">
+  <h2 class="my-10 text-4xl font-extrabold text-center dark:text-white">
+    Hotels
+  </h2>
+
+  <div class="flex items-center justify-center mb-10">
+    <div class="grid grid-cols-1 gap-8 md:grid-cols-1">
+      <!-- Loop through the hotels array -->
+      <div
+        *ngFor="let hotel of hotels"
+        key="hotel.hotelID"
+        class="relative flex flex-row items-start h-auto max-w-4xl p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700"
+      >
+        <!-- Image Section -->
+        <div class="w-[300px] h-[120px]">
+          <img
+            [src]="hotel.hotelImages[0]"
+            alt="Hotel Image"
+            class="object-cover w-full h-full rounded-l-lg"
+          />
+        </div>
+
+        <!-- Hotel Info Section -->
+        <div class="flex flex-col items-start w-2/3 p-6">
+          <h5
+            class="text-2xl font-bold tracking-tight text-gray-900 dark:text-white"
+          >
+            {{ hotel.hotelName }} ★ {{ hotel.hotelRating }}
+          </h5>
+          <p class="text-sm text-gray-500 dark:text-gray-400">
+            {{ hotel.hotelCity }}, {{ hotel.hotelCountry }}
+          </p>
+          <p class="mb-2 text-gray-700 dark:text-gray-300">
+            {{ hotel.hotelDescription }}
+          </p>
+          <p class="mb-1 text-gray-700 dark:text-gray-300">
+            <strong>Contact:</strong> {{ hotel.hotelContactNumber }}
+          </p>
+          <p class="mb-3 text-gray-700 dark:text-gray-300">
+            <strong>Email:</strong> {{ hotel.hotelEmail }}
+          </p>
+
+          <!-- Buttons -->
+          <div class="absolute space-x-2 bottom-4 right-4">
+            <button
+            (click)="navigateToAddContract(hotel.hotelID)"
+              class="px-3 py-2 text-sm text-white bg-blue-500 rounded-lg hover:bg-blue-600"
+            >
+              Add Contarct
+            </button>
+            <button
+            (click)="navigateToContractList(hotel.hotelID)"
+              class="px-3 py-2 text-sm text-white bg-blue-500 rounded-lg hover:bg-blue-600"
+            >
+              Contracts
+            </button>
+            <button
+              (click)="navigateToUpdate(hotel.hotelID)"
+              class="px-3 py-2 text-sm text-white bg-green-500 rounded-lg hover:bg-green-600"
+            >
+              Update
+            </button>
+            <button
+              (click)="deleteHotel(hotel.hotelID)"
+              class="px-3 py-2 text-sm text-white bg-red-500 rounded-lg hover:bg-red-600"
+            >
+              Delete
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
