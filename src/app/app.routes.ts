@@ -11,6 +11,7 @@ import { UpdatehotelComponent } from './pages/hotel/updatehotel/updatehotel.comp
 import { HotellistComponent } from './pages/admin/hotellist/hotellist.component';
 import { DashboardComponent } from './pages/admin/dashboard/dashboard.component';
 import { AddcontractComponent } from './pages/contract/addcontract/addcontract.component';
+import { UpdatecontractComponent } from './pages/contract/updatecontract/updatecontract.component';
 
 export const routes: Routes = [
   //Landing page
@@ -88,6 +89,12 @@ export const routes: Routes = [
   {
     path: 'addcontract/:id',
     component: AddcontractComponent,
+  },
+
+  //Update contract page
+  {
+    path: 'update-contract/:id',
+    component: UpdatecontractComponent,
   },
 
 
