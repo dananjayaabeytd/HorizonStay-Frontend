@@ -3,7 +3,8 @@ import { LandingComponent } from './pages/landing/landing.component';
 import { RegisterComponent } from './pages/auth/register/register.component';
 import { LoginComponent } from './pages/auth/login/login.component';
 import { ProfileComponent } from './pages/user/profile/profile.component';
-import { usersGuard } from './utils/userGuard/users.guard';
+import { adminGuard, usersGuard } from './utils/userGuard/users.guard';
+import { UpdateuserComponent } from './pages/user/updateuser/updateuser.component';
 
 export const routes: Routes = [
   //Landing page
@@ -32,5 +33,11 @@ export const routes: Routes = [
     path: 'profile',
     component: ProfileComponent,
     canActivate: [usersGuard],
+  },
+  //Update user page
+  {
+    path: 'update/:id',
+    component: UpdateuserComponent,
+    canActivate: [adminGuard],
   },
 ];
