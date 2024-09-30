@@ -13,6 +13,7 @@ import { DashboardComponent } from './pages/admin/dashboard/dashboard.component'
 import { AddcontractComponent } from './pages/contract/addcontract/addcontract.component';
 import { UpdatecontractComponent } from './pages/contract/updatecontract/updatecontract.component';
 import { ContractlistComponent } from './pages/admin/contractlist/contractlist.component';
+import { ResultlistComponent } from './pages/search/resultlist/resultlist.component';
 
 export const routes: Routes = [
   //Landing page
@@ -84,6 +85,7 @@ export const routes: Routes = [
     component: HotellistComponent,
   },
 
+  //Contract list page
   {
     path: 'hotel/contracts/:id',
     component: ContractlistComponent,
@@ -101,6 +103,13 @@ export const routes: Routes = [
   {
     path: 'update-contract/:id',
     component: UpdatecontractComponent,
+  },
+
+
+  //Search page
+  {
+    path: 'search',
+    component: ResultlistComponent,
   },
 
 
