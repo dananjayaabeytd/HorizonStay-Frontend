@@ -7,6 +7,7 @@ import { adminGuard, usersGuard } from './utils/userGuard/users.guard';
 import { UpdateuserComponent } from './pages/user/updateuser/updateuser.component';
 import { UserslistComponent } from './pages/admin/userlist/userslist.component';
 import { AddhotelComponent } from './pages/hotel/addhotel/addhotel.component';
+import { UpdatehotelComponent } from './pages/hotel/updatehotel/updatehotel.component';
 
 export const routes: Routes = [
   //Landing page
@@ -58,6 +59,12 @@ export const routes: Routes = [
   {
     path: 'addhotel',
     component: AddhotelComponent,
+  },
+
+  //Update hotel page
+  {
+    path: 'updatehotel/:id',
+    component: UpdatehotelComponent,
   },
 
 
