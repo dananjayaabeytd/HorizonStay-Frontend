@@ -1,0 +1,165 @@
+<form
+  (submit)="handleSubmit()"
+  class="max-w-lg mx-auto mt-[100px] bg-green-50 p-6 rounded-lg"
+>
+  <h2 class="my-5 text-4xl font-extrabold text-center dark:text-white">
+    Signup
+  </h2>
+
+  <div class="flex justify-center mb-5">
+    <input type="file" id="image" accept="image/*" class="hidden" required />
+    <label for="image" class="cursor-pointer">
+      <img
+        id="previewImage"
+        src="https://via.placeholder.com/96"
+        alt="Profile Image"
+        class="object-cover w-24 h-24 border-2 border-gray-300 rounded-full"
+      />
+    </label>
+  </div>
+
+  <p
+    ngClass="text-center text-red-500"
+    *ngIf="errorMessage"
+    class="error-message"
+  ></p>
+
+  <div class="grid grid-cols-1 gap-4 mb-5 md:grid-cols-2">
+    <div>
+      <label
+        for="name"
+        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+        >Your Name</label
+      >
+      <input
+        type="text"
+        id="name"
+        [(ngModel)]="formData.name"
+        name="name"
+        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-gray-500 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-green-500 dark:focus:border-green-500"
+        placeholder="John Doe"
+        required
+      />
+    </div>
+
+    <div>
+      <label
+        for="email"
+        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+        >Your Email</label
+      >
+      <input
+        type="email"
+        id="email"
+        name="email"
+        [(ngModel)]="formData.email" 
+        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-gray-500 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-green-500 dark:focus:border-green-500"
+        placeholder="name@gmail.com"
+        required
+      />
+    </div>
+
+    <div>
+      <label
+        for="password"
+        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+        >Your Password</label
+      >
+      <input
+        type="password"
+        id="password"
+        name="password"
+        [(ngModel)]="formData.password"
+        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-gray-500 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-green-500 dark:focus:border-green-500"
+        required
+      />
+    </div>
+
+    <div>
+      <label
+        for="confirmPassword"
+        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+        >Confirm Password</label
+      >
+      <input
+        type="password"
+        id="confirmPassword"
+        name="confirmPassword"
+        name="image"
+        [(ngModel)]="formData.image"
+        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-gray-500 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-green-500 dark:focus:border-green-500"
+        required
+      />
+    </div>
+
+    <div>
+      <label
+        for="address"
+        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+        >Your Address</label
+      >
+      <input
+        type="text"
+        id="address"
+        name="address"
+        [(ngModel)]="formData.address"
+        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-gray-500 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-green-500 dark:focus:border-green-500"
+        placeholder="123 Main St, City"
+        required
+      />
+    </div>
+
+    <div>
+      <label
+        for="nic"
+        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+        >Your NIC</label
+      >
+      <input
+        type="text"
+        id="nic"
+        name="nic"
+        [(ngModel)]="formData.nic"
+        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-gray-500 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-green-500 dark:focus:border-green-500"
+        placeholder="12345-6789012-3"
+        required
+      />
+    </div>
+
+    <div>
+      <label
+        for="role"
+        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+        >Role</label
+      >
+      <select
+        id="role"
+        [(ngModel)]="formData.role"
+        name="role"
+        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-gray-500 dark:border-gray-600 dark:text-white dark:focus:ring-green-500 dark:focus:border-green-500"
+        required
+      >
+        <option value="" disabled selected>Select your role</option>
+        <option value="USER">USER</option>
+        <option value="ADMIN">ADMIN</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="flex justify-center mb-5">
+    <a href="">
+      <p
+        class="text-sm font-medium text-gray-500 dark:text-white underline mx-[80px]"
+      >
+        Already have an Account?
+      </p>
+    </a>
+  </div>
+
+  <button
+    type="submit"
+    class="flex items-center justify-center text-white bg-green-500 hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-500 dark:focus:ring-green-600"
+  >
+    Signup
+  </button>
+</form>
