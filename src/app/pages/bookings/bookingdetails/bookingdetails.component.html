@@ -1,0 +1,99 @@
+<!-- <div class="mb-4">
+    <img src="https://via.placeholder.com/300x200" alt="Hotel Image" class="object-cover w-full rounded-lg">
+</div> -->
+<div class="flex items-center justify-center min-h-screen mt-[120px]">
+    <div class="max-w-4xl p-6 bg-white border border-gray-200 rounded-lg shadow-lg dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
+        <h2 class="mb-10 text-2xl font-bold text-center text-gray-900 dark:text-white">Booking Details for {{ booking?.hotelName }}</h2>
+
+        <div class="grid grid-cols-2 gap-1 mb-6">
+            <div class="flex">
+                <strong class="text-gray-700 dark:text-gray-300">Hotel Name:</strong>
+                <p class="ml-2 text-gray-900 dark:text-white">{{ booking?.hotelName }}</p>
+            </div>
+            <div class="flex">
+                <strong class="text-gray-700 dark:text-gray-300">Location:</strong>
+                <p class="ml-2 text-gray-900 dark:text-white">{{ booking?.hotelLocation }}</p>
+            </div>
+            <div class="flex">
+                <strong class="text-gray-700 dark:text-gray-300">Booking Reference:</strong>
+                <p class="ml-2 text-gray-900 dark:text-white">{{ booking?.bookingId }}</p>
+            </div>
+            <div class="flex">
+                <strong class="text-gray-700 dark:text-gray-300">Check-in:</strong>
+                <p class="ml-2 text-gray-900 dark:text-white">{{ booking?.checkIn }}</p>
+            </div>
+            <div class="flex">
+                <strong class="text-gray-700 dark:text-gray-300">Check-out:</strong>
+                <p class="ml-2 text-gray-900 dark:text-white">{{ booking?.checkOut }}</p>
+            </div>
+            <!-- <div class="flex">
+                <strong class="text-gray-700 dark:text-gray-300">Room Type:</strong>
+                <p class="ml-2 text-gray-900 dark:text-white">Deluxe Double Room, Eiffel Tower View</p>
+            </div> -->
+            <div class="flex">
+                <strong class="text-gray-700 dark:text-gray-300">Guests:</strong>
+                <p class="ml-2 text-gray-900 dark:text-white">{{ booking?.noOfAdults }} Adults, {{ booking?.noOfChildren }} Children</p>
+            </div>
+            <!-- <div class="flex">
+                <strong class="text-gray-700 dark:text-gray-300">Booking Status:</strong>
+                <p class="ml-2 text-gray-900 dark:text-white">Completed</p>
+            </div>
+            <div class="flex">
+                <strong class="text-gray-700 dark:text-gray-300">Payment Status:</strong>
+                <p class="ml-2 text-gray-900 dark:text-white">Paid</p>
+            </div> -->
+        </div>
+
+        <h3 class="mt-6 text-xl font-semibold text-gray-900 dark:text-white">Pricing Details</h3>
+        
+        <div class="pt-4 mt-4 mb-4 border-t border-gray-300">
+            <div class="flex justify-between">
+                <strong class="text-gray-700 dark:text-gray-300">Base Room Cost:</strong>
+                <p class="text-gray-900 dark:text-white">5 Nights: LKR 80,000 per night</p>
+            </div>
+            <p class="text-gray-900 dark:text-white">Total Base Cost: LKR 400,000</p>
+        </div>
+
+        <h4 class="mt-4 text-lg font-semibold text-gray-900 dark:text-white">Supplements:</h4>
+        <div class="flex flex-col pt-4 mb-4 border-t border-gray-300">
+            <div class="flex justify-between">
+                <p class="text-gray-900 dark:text-white">Breakfast: LKR 1,800 per person, per day</p>
+            </div>
+            <div class="flex justify-between">
+                <p class="text-gray-900 dark:text-white">Total for 2 Guests (5 Days): LKR 18,000</p>
+            </div>
+            <div class="flex justify-between">
+                <p class="text-gray-900 dark:text-white">Late Check-out: LKR 16,000</p>
+            </div>
+        </div>
+
+        <div class="pt-4 mt-4 mb-4 border-t border-gray-300">
+            <div class="flex justify-between" *ngFor="let item of booking?.items">
+                <p class="text-gray-900 dark:text-white">{{ item.name }}: LKR {{ item.price }} per unit</p>
+                <p class="text-gray-900 dark:text-white">Quantity: {{ item.quantity }}</p>
+                <p class="text-gray-900 dark:text-white">Total: LKR {{ item.totalAmount }}</p>
+            </div>
+        </div>
+
+        <h4 class="mt-4 text-lg font-semibold text-gray-900 dark:text-white">Discount:</h4>
+        <div class="flex justify-between pt-4 mb-4 border-t border-gray-300">
+            <p class="text-gray-900 dark:text-white">Summer Promotion (15% Off): -LKR 67,206</p>
+        </div>
+
+        <h3 class="mt-6 text-xl font-semibold text-gray-900 dark:text-white">Final Pricing</h3>
+        <div class="pt-4 mt-4 mb-4 border-t border-gray-300">
+            <strong class="text-gray-700 dark:text-gray-300">Subtotal:</strong>
+            <p class="text-gray-900 dark:text-white">Base Cost: LKR 400,000</p>
+            <p class="text-gray-900 dark:text-white">Supplements: LKR 18,000 (Breakfast) + LKR 16,000 (Late Check-out) = LKR 34,000</p>
+            <p class="text-gray-900 dark:text-white">Discount: LKR - {{ booking?.discount }}</p>
+        </div>
+
+        <h4 class="mt-4 text-lg font-semibold text-gray-900 dark:text-white">Total Cost:</h4>
+        <p class="text-lg font-bold text-gray-900 dark:text-white">Grand Total: LKR {{ booking?.payableAmount }}</p>
+
+        <div class="flex justify-end mt-6">
+            <button class="px-4 py-2 font-semibold text-white transition duration-300 bg-green-500 rounded hover:bg-green-600">Print Receipt</button>
+        </div>
+    </div>
+</div>
+
