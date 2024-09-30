@@ -1,0 +1,137 @@
+<form (ngSubmit)="onSubmit()" class="max-w-lg p-6 mx-auto mt-10 rounded-lg shadow-md bg-green-50">
+  <h2 class="my-5 text-4xl font-extrabold text-center text-gray-900 dark:text-white">
+    Add Hotel
+  </h2>
+
+  <!-- Image Preview Section -->
+  <div id="imagePreview" class="grid grid-cols-2 gap-4 mb-5">
+    <div *ngFor="let img of imagePreviews" class="flex flex-col items-center">
+      <img [src]="img.src" class="object-cover w-24 h-24 mb-2 rounded-lg" alt="Image preview" />
+      <span class="text-sm text-gray-700 dark:text-gray-300">{{ img.name }}</span>
+    </div>
+  </div>
+
+  <!-- Upload Images Field -->
+  <div class="mb-5">
+    <label for="images" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Upload Images</label>
+    <input
+      type="file"
+      id="images"
+      name="images"
+      multiple
+      class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-500 dark:border-gray-600 dark:placeholder-gray-400"
+      accept="image/*"
+      (change)="onselectFile($event)"
+    />
+  </div>
+
+  <div>
+    <label for="hotelEmail" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Hotel Email</label>
+    <input
+      type="email"
+      id="hotelName"
+      [(ngModel)]="hotelEmail"
+      name="hotelEmail"
+      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-gray-500 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-green-500 dark:focus:border-green-500"
+      placeholder="Hotel@gmail.com"
+      required
+    />
+  </div>
+
+  <!-- Two-column grid for form inputs -->
+  <div class="grid grid-cols-1 gap-4 mb-5 md:grid-cols-2">
+    <!-- Hotel Name -->
+    <div>
+      <label for="hotelName" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Hotel Name</label>
+      <input
+        type="text"
+        id="hotelName"
+        [(ngModel)]="hotelName"
+        name="hotelName"
+        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-gray-500 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-green-500 dark:focus:border-green-500"
+        placeholder="Hotel ABC"
+        required
+      />
+    </div>
+
+    <!-- Contact Number -->
+    <div>
+      <label for="contactNumber" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Contact Number</label>
+      <input
+        type="tel"
+        id="contactNumber"
+        [(ngModel)]="hotelContactNumber"
+        name="contactNumber"
+        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-gray-500 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-green-500 dark:focus:border-green-500"
+        placeholder="+1234567890"
+        required
+      />
+    </div>
+
+    <!-- City -->
+    <div>
+      <label for="city" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">City</label>
+      <input
+        type="text"
+        id="city"
+        [(ngModel)]="hotelCity"
+        name="city"
+        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-gray-500 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-green-500 dark:focus:border-green-500"
+        placeholder="New York"
+        required
+      />
+    </div>
+
+    <!-- Country -->
+    <div>
+      <label for="country" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Country</label>
+      <input
+        type="text"
+        id="country"
+        [(ngModel)]="hotelCountry"
+        name="country"
+        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-gray-500 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-green-500 dark:focus:border-green-500"
+        placeholder="USA"
+        required
+      />
+    </div>
+  </div>
+
+  <!-- Rating Slider -->
+  <div class="mb-2">
+    <label for="rating" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Rating</label>
+    <input
+      type="range"
+      id="rating"
+      name="rating"
+      min="0"
+      max="5"
+      step="0.1"
+      [(ngModel)]="hotelRating"
+      class="w-full h-2 bg-gray-300 rounded-lg appearance-none cursor-pointer dark:bg-gray-500 focus:outline-none focus:ring-green-500 focus:border-green-500"
+    />
+    <span class="text-sm font-medium text-gray-900 dark:text-white">{{ hotelRating }}</span>
+  </div>
+
+  <!-- Description Field -->
+  <div class="mb-5">
+    <label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
+    <textarea
+      id="description"
+      [(ngModel)]="hotelDescription"
+      name="description"
+      rows="4"
+      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-gray-500 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-green-500 dark:focus:border-green-500"
+      placeholder="Write a brief description about the hotel"
+      required
+    ></textarea>
+  </div>
+
+  <!-- Submit Button -->
+  <button
+    type="submit"
+    class="w-full px-5 py-2.5 text-sm font-medium text-center text-white bg-green-500 rounded-lg hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-500 dark:focus:ring-green-600"
+  >
+    Add Hotel
+  </button>
+</form>

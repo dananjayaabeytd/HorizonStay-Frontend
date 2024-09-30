@@ -6,6 +6,7 @@ import { ProfileComponent } from './pages/user/profile/profile.component';
 import { adminGuard, usersGuard } from './utils/userGuard/users.guard';
 import { UpdateuserComponent } from './pages/user/updateuser/updateuser.component';
 import { UserslistComponent } from './pages/admin/userlist/userslist.component';
+import { AddhotelComponent } from './pages/hotel/addhotel/addhotel.component';
 
 export const routes: Routes = [
   //Landing page
@@ -51,6 +52,13 @@ export const routes: Routes = [
     canActivate: [adminGuard],
   },
 
+  //Hotel pages
+
+  //Add hotel page
+  {
+    path: 'addhotel',
+    component: AddhotelComponent,
+  },
 
 
 
@@ -76,7 +84,8 @@ export const routes: Routes = [
 
 
 
-  
+
+
   //Error page
   {
     path: '**',
