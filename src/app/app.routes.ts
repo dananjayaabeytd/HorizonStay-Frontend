@@ -5,6 +5,7 @@ import { LoginComponent } from './pages/auth/login/login.component';
 import { ProfileComponent } from './pages/user/profile/profile.component';
 import { adminGuard, usersGuard } from './utils/userGuard/users.guard';
 import { UpdateuserComponent } from './pages/user/updateuser/updateuser.component';
+import { UserslistComponent } from './pages/admin/userlist/userslist.component';
 
 export const routes: Routes = [
   //Landing page
@@ -39,5 +40,52 @@ export const routes: Routes = [
     path: 'update/:id',
     component: UpdateuserComponent,
     canActivate: [adminGuard],
+  },
+
+  //Admin pages
+
+  //Users list page
+  {
+    path: 'users',
+    component: UserslistComponent,
+    canActivate: [adminGuard],
+  },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  //Error page
+  {
+    path: '**',
+    component: LoginComponent,
+  },
+  //Redirect to login page
+  {
+    path: '',
+    redirectTo: '/login',
+    pathMatch: 'full',
   },
 ];
