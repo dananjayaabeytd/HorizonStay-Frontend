@@ -18,6 +18,7 @@ import { MakebookingComponent } from './pages/bookings/makebooking/makebooking.c
 import { ResultmoreComponent } from './pages/search/resultmore/resultmore.component';
 import { BookingdetailsComponent } from './pages/bookings/bookingdetails/bookingdetails.component';
 import { BookinglistComponent } from './pages/bookings/bookinglist/bookinglist.component';
+import { BookingcompleteComponent } from './pages/bookings/bookingcomplete/bookingcomplete.component';
 
 export const routes: Routes = [
   //Landing page
@@ -137,11 +138,17 @@ export const routes: Routes = [
     path: 'bookings/:id',
     component: BookinglistComponent,
   },
-  
+
   //Booking details page
   {
     path: 'details/:id',
     component: BookingdetailsComponent,
+  },
+
+  //Booking success page
+  {
+    path: 'completebooking',
+    component: BookingcompleteComponent,
   },
 
 
