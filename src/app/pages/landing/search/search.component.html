@@ -1,0 +1,71 @@
+<div class="flex justify-center m-10">
+  <div class="flex items-center rounded-md shadow-lg bg-green-50">
+    <!-- Destination Section -->
+    <div class="flex items-center px-4 py-2 border-r border-green-300">
+      <svg class="w-5 h-5 mr-2 text-green-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+        <path d="M10 4a6 6 0 100 12A6 6 0 0010 4zM2 10a8 8 0 1116 0A8 8 0 012 10z" />
+        <path d="M10 14a2 2 0 100-4 2 2 0 000 4z" />
+      </svg>
+      <input type="text" placeholder="Destination" [(ngModel)]="location" class="pl-4 text-sm text-gray-700 bg-transparent border-none focus:ring-0" />
+    </div>
+
+    <!-- Date Picker Section -->
+    <div class="flex items-center px-4 py-2 border-r border-green-300">
+      <!-- Start Date -->
+      <div class="relative">
+        <div class="absolute inset-y-0 flex items-center pointer-events-none start-0 ps-3">
+          <svg class="w-5 h-5 text-green-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
+          </svg>
+        </div>
+        <input id="datepicker-range-start" name="start" type="date" [(ngModel)]="checkInDate" class="pl-12 text-sm text-gray-700 bg-transparent border-none focus:ring-0" placeholder="Check-in Date" />
+      </div>
+      <!-- Separator -->
+      <span class="mx-2 text-gray-500">|</span>
+      <!-- End Date -->
+      <div class="relative">
+        <div class="absolute inset-y-0 flex items-center pointer-events-none start-0 ps-3">
+          <svg class="w-5 h-5 text-green-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
+          </svg>
+        </div>
+        <input id="datepicker-range-end" name="end" type="date" [(ngModel)]="checkOutDate" class="pl-12 text-sm text-gray-700 bg-transparent border-none focus:ring-0" placeholder="Check-out Date" />
+      </div>
+    </div>
+
+    <!-- Adults and Children Section -->
+    <div class="flex items-center px-4 py-2">
+      <svg class="w-5 h-5 mr-2 text-green-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+        <path fill-rule="evenodd" d="M5 10a1.5 1.5 0 112.83 0H9V9a2 2 0 10-4 0v1h-.17zM5.5 9H7V8a.5.5 0 10-1 0v1zm7 0H12v1a1.5 1.5 0 113 0V9a2 2 0 10-4 0v1h.5z" clip-rule="evenodd"/>
+        <path d="M2 18a2 2 0 012-2h12a2 2 0 012 2v1H2v-1z"/>
+      </svg>
+    
+      <div class="relative" (click)="toggleDropdown('adult')">
+        <button class="flex items-center text-sm text-gray-700 bg-transparent border-none focus:ring-0">
+          Adults: <span>{{ adultCount }}</span>
+        </button>
+        <div *ngIf="showAdultDropdown" class="absolute left-0 z-10 w-24 bg-white rounded-lg shadow">
+          <ul>
+            <li *ngFor="let count of counts" (click)="selectCount('adult', count)">{{ count }}</li>
+          </ul>
+        </div>
+      </div>
+    
+      <div class="relative mx-4" (click)="toggleDropdown('child')">
+        <button class="flex items-center text-sm text-gray-700 bg-transparent border-none focus:ring-0">
+          Children: <span>{{ childCount }}</span>
+        </button>
+        <div *ngIf="showChildDropdown" class="absolute left-0 z-10 w-24 bg-white rounded-lg shadow">
+          <ul>
+            <li *ngFor="let count of counts" (click)="selectCount('child', count)">{{ count }}</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Search Button -->
+    <button (click)="search()" class="px-4 py-2 mr-4 text-sm font-bold text-white bg-green-500 rounded-md hover:bg-green-600">
+      Search
+    </button>
+  </div>
+</div>
