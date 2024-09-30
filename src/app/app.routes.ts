@@ -14,6 +14,7 @@ import { AddcontractComponent } from './pages/contract/addcontract/addcontract.c
 import { UpdatecontractComponent } from './pages/contract/updatecontract/updatecontract.component';
 import { ContractlistComponent } from './pages/admin/contractlist/contractlist.component';
 import { ResultlistComponent } from './pages/search/resultlist/resultlist.component';
+import { MakebookingComponent } from './pages/bookings/makebooking/makebooking.component';
 
 export const routes: Routes = [
   //Landing page
@@ -110,6 +111,16 @@ export const routes: Routes = [
   {
     path: 'search',
     component: ResultlistComponent,
+  },
+
+
+
+  //Booking pages
+
+  //Make booking page
+  {
+    path: 'makebooking',
+    component: MakebookingComponent,
   },
 
 
