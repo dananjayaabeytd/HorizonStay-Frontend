@@ -15,6 +15,7 @@ import { UpdatecontractComponent } from './pages/contract/updatecontract/updatec
 import { ContractlistComponent } from './pages/admin/contractlist/contractlist.component';
 import { ResultlistComponent } from './pages/search/resultlist/resultlist.component';
 import { MakebookingComponent } from './pages/bookings/makebooking/makebooking.component';
+import { ResultmoreComponent } from './pages/search/resultmore/resultmore.component';
 
 export const routes: Routes = [
   //Landing page
@@ -111,6 +112,12 @@ export const routes: Routes = [
   {
     path: 'search',
     component: ResultlistComponent,
+  },
+
+  //Result details page
+  {
+    path: 'resultmore/:number',
+    component: ResultmoreComponent,
   },
 
 
