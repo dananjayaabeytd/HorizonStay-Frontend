@@ -11,7 +11,6 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   templateUrl: './app.component.html',
   imports: [RouterOutlet, NavComponent, FooterComponent, CommonModule],
-  styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements OnInit {
   title = 'web-app';
