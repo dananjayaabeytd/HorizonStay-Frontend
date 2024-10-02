@@ -37,8 +37,8 @@ export class UpdateuserComponent {
 
       try {
         let userDataResponse = await this.userService.getUsersById(this.userId, token)
-        const {name, email,role ,address,nic,password,image} = userDataResponse.systemUsers
-        this.userData = {name, email,role ,address,nic,password,image};
+        const {name, email,role ,address,nic,image} = userDataResponse.systemUsers
+        this.userData = {name, email,role ,address,nic,image};
         
       } catch (error:any) {
         this.showError(error.message);

@@ -33,21 +33,37 @@ export class UsersService {
     }
   }
 
-  async register(userData: any, token: string): Promise<any> {
+  async register(userData: any): Promise<any> {
     const url = `${this.BASE_URL}/auth/register`;
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${token}`,
-    });
+    // const headers = new HttpHeaders({
+    //   Authorization: `Bearer ${token}`,
+    // });
 
     try {
       const response = this.http
-        .post<any>(url, userData, { headers })
+        .post<any>(url, userData)
         .toPromise();
       return response;
     } catch (error) {
       throw error;
     }
   }
+
+  // async register(userData: any, token: string): Promise<any> {
+  //   const url = `${this.BASE_URL}/auth/register`;
+  //   const headers = new HttpHeaders({
+  //     Authorization: `Bearer ${token}`,
+  //   });
+
+  //   try {
+  //     const response = this.http
+  //       .post<any>(url, userData, { headers })
+  //       .toPromise();
+  //     return response;
+  //   } catch (error) {
+  //     throw error;
+  //   }
+  // }
 
   async getAllUsers(token: string): Promise<any> {
     const url = `${this.BASE_URL}/admin/get-all-users`;
