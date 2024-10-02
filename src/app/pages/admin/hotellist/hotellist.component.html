@@ -13,9 +13,9 @@
         class="relative flex flex-row items-start h-auto max-w-4xl p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700"
       >
         <!-- Image Section -->
-        <div class="w-[300px] h-[120px]">
+        <div class="w-[300px] h-[270px] py-[-50px]">
           <img
-            [src]="hotel.hotelImages[0]"
+            [src]="'http://localhost:5000/hotelImages/' + hotel.hotelImages[0]"
             alt="Hotel Image"
             class="object-cover w-full h-full rounded-l-lg"
           />
