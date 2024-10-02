@@ -21,40 +21,24 @@ export class RegisterComponent {
     nic: '',
   };
   errorMessage: string = '';
+  selectedFile: File | null = null;
+  previewImageUrl: string | ArrayBuffer | null = null;
 
   constructor(
     private readonly userService: UsersService,
     private readonly router: Router
   ) {}
 
-  // async handleSubmit() {
-  //   if (!this.formData.name || !this.formData.email || !this.formData.password || !this.formData.role || !this.formData.address || !this.formData.image|| !this.formData.nic  ) {
-  //     this.showError('Please fill in all fields.');
-  //     return;
-  //   }
-
-  //   const confirmRegistration = confirm('Are you sure you want to register this user?');
-  //   if (!confirmRegistration) {
-  //     return;
-  //   }
-
-  //   try {
-  //     const token = localStorage.getItem('token');
-  //     if (!token) {
-  //       console.log('No token found');
-  //       throw new Error('No token found');
-  //     }
-
-  //     const response = await this.userService.register(this.formData, token);
-  //     if (response.statusCode === 200) {
-  //       this.router.navigate(['/users']);
-  //     } else {
-  //       this.showError(response.message);
-  //     }
-  //   } catch (error: any) {
-  //     this.showError(error.message);
-  //   }
-  // }
+  onFileSelected(event: any) {
+    this.selectedFile = event.target.files[0];
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.previewImageUrl = reader.result;
+    };
+    if (this.selectedFile) {
+      reader.readAsDataURL(this.selectedFile);
+    }
+  }
 
   async handleSubmit() {
     if (
@@ -63,7 +47,6 @@ export class RegisterComponent {
       !this.formData.password ||
       !this.formData.role ||
       !this.formData.address ||
-      !this.formData.image ||
       !this.formData.nic
     ) {
       this.showError('Please fill in all fields.');
@@ -78,20 +61,24 @@ export class RegisterComponent {
     }
 
     try {
-      const response = await this.userService.register(this.formData);
+      if (this.selectedFile) {
+        const response = await this.userService.register(this.formData, this.selectedFile);
 
-      const token = localStorage.getItem('token');
-      if (!token) {
-        this.router.navigate(['/login']);
-        return;
-      }
+        const token = localStorage.getItem('token');
+        if (!token) {
+          this.router.navigate(['/login']);
+          return;
+        }
 
-      console.log(response);
-      alert(response.message);
-      if (response.statusCode === 200) {
-        this.router.navigate(['/users']);
+        console.log(response);
+        alert(response.message);
+        if (response.statusCode === 200) {
+          this.router.navigate(['/users']);
+        } else {
+          this.showError(response.message);
+        }
       } else {
-        this.showError(response.message);
+        this.showError('Please select a file.');
       }
     } catch (error: any) {
       this.showError(error.message);

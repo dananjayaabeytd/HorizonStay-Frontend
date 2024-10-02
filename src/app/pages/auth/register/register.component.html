@@ -7,11 +7,11 @@
   </h2>
 
   <div class="flex justify-center mb-5">
-    <input type="file" id="image" accept="image/*" class="hidden" required />
+    <input type="file" id="image" accept="image/*" class="hidden" (change)="onFileSelected($event)" required />
     <label for="image" class="cursor-pointer">
       <img
         id="previewImage"
-        src="https://via.placeholder.com/96"
+        [src]="previewImageUrl || 'https://via.placeholder.com/96'"
         alt="Profile Image"
         class="object-cover w-24 h-24 border-2 border-gray-300 rounded-full"
       />

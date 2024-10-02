@@ -17,6 +17,7 @@ export class ProfileComponent implements OnInit {
 
   profileInfo: any;
   errorMessage: string = '';
+  imageUrl: string = '';
 
   async ngOnInit() {
     try {
@@ -26,6 +27,10 @@ export class ProfileComponent implements OnInit {
       }
 
       this.profileInfo = await this.userService.getYourProfile(token);
+      if (this.profileInfo?.systemUsers?.image) {
+        this.imageUrl = `http://localhost:5000/profileImages/${this.profileInfo.systemUsers.image}`;
+        console.log('Image URL:', this.imageUrl); // Log the image URL
+      }
     } catch (error: any) {
       this.showError(error.message);
     }

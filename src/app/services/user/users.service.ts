@@ -20,6 +20,8 @@ export class UsersService {
     return this.userData;
   }
 
+  
+
   async login(email: string, password: string): Promise<any> {
     const url = `${this.BASE_URL}/auth/login`;
 
@@ -33,16 +35,29 @@ export class UsersService {
     }
   }
 
-  async register(userData: any): Promise<any> {
+  // async register(userData: any): Promise<any> {
+  //   const url = `${this.BASE_URL}/auth/register`;
+
+  //   try {
+  //     const response = this.http
+  //       .post<any>(url, userData)
+  //       .toPromise();
+  //     return response;
+  //   } catch (error) {
+  //     throw error;
+  //   }
+  // }
+
+
+  async register(userData: any, file: File): Promise<any> {
     const url = `${this.BASE_URL}/auth/register`;
-    // const headers = new HttpHeaders({
-    //   Authorization: `Bearer ${token}`,
-    // });
+
+    const formData: FormData = new FormData();
+    formData.append('user', new Blob([JSON.stringify(userData)], { type: 'application/json' }));
+    formData.append('files', file);
 
     try {
-      const response = this.http
-        .post<any>(url, userData)
-        .toPromise();
+      const response = await this.http.post<any>(url, formData).toPromise();
       return response;
     } catch (error) {
       throw error;
