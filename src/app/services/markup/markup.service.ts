@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class MarkupService {
-  private BASE_URL = 'http://localhost:5000'; // Update this with your actual backend URL
+  private BASE_URL = 'http://localhost:5000';
 
   constructor(private http: HttpClient) {}
 
