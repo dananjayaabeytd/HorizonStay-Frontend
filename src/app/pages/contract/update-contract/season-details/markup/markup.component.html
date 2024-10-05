@@ -1,0 +1,74 @@
+<div class="max-w-3xl p-6 mx-auto rounded-lg bg-gray-50 mt-[120px]">
+    <h2 class="mb-5 text-4xl font-extrabold text-center dark:text-white">
+      Manage Markups
+    </h2>
+    <form [formGroup]="newMarkupForm" (ngSubmit)="onAddNewMarkup()">
+      <div class="flex items-end mb-4 space-x-4">
+        <div class="flex-1">
+          <label for="name" class="block mb-2 text-sm font-medium">Name</label>
+          <input
+            id="name"
+            formControlName="markupName"
+            class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg w-full p-2.5"
+          />
+        </div>
+        <div class="flex-1">
+          <label for="value" class="block mb-2 text-sm font-medium">Value</label>
+          <input
+            id="value"
+            formControlName="percentage"
+            class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg w-full p-2.5"
+          />
+        </div>
+        <div class="flex items-end">
+          <button
+            type="submit"
+            class="px-4 py-2 text-sm font-bold text-white bg-green-500 rounded hover:bg-green-700"
+          >
+            Add Markup
+          </button>
+        </div>
+      </div>
+    </form>
+  
+    <h3 class="mb-5 text-2xl font-extrabold text-center dark:text-white">
+      Available Markups
+    </h3>
+    <div *ngFor="let markup of markups" class="mb-4">
+      <form [formGroup]="markup.form" (ngSubmit)="onSubmitMarkupDetails(markup)">
+        <div class="flex mb-4 space-x-4">
+          <div class="w-1/2">
+            <label class="block mb-2 text-sm font-medium">Name</label>
+            <input
+              type="text"
+              formControlName="markupName"
+              class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg w-full p-2.5"
+            />
+          </div>
+          <div class="w-1/2">
+            <label class="block mb-2 text-sm font-medium">Value</label>
+            <input
+              type="text"
+              formControlName="percentage"
+              class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg w-full p-2.5"
+            />
+          </div>
+        </div>
+        <div class="flex space-x-4">
+          <button
+            type="submit"
+            class="px-2 py-2 mt-2 text-xs font-bold text-white bg-green-500 rounded hover:bg-green-700"
+          >
+            Update Markup
+          </button>
+          <button
+            type="button"
+            class="px-2 py-2 mt-2 text-xs font-bold text-white bg-red-500 rounded hover:bg-red-700"
+            (click)="onDeleteMarkup(markup.id)"
+          >
+            Delete
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>

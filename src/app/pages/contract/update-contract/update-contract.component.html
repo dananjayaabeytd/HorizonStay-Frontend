@@ -1,0 +1,173 @@
+<form
+  class="max-w-3xl p-6 mx-auto rounded-lg bg-gray-50 mt-[100px]"
+  (ngSubmit)="onSubmitContractDetails()"
+  [formGroup]="form"
+>
+  <h2 class="mb-5 text-4xl font-extrabold text-center dark:text-white">
+    Update Hotel Contract
+  </h2>
+
+  <!-- Valid From and Valid To in one row -->
+  <div class="flex mb-4 space-x-4">
+    <div class="w-1/2">
+      <label class="block mb-2 text-sm font-medium">Contract Valid From</label>
+      <input
+        type="date"
+        formControlName="validFrom"
+        class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg w-full p-2.5"
+      />
+    </div>
+    <div class="w-1/2">
+      <label class="block mb-2 text-sm font-medium">Contract Valid To</label>
+      <input
+        type="date"
+        formControlName="validTo"
+        class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg w-full p-2.5"
+      />
+    </div>
+  </div>
+
+  <!-- Cancellation Policy Field -->
+  <div class="mb-5">
+    <label
+      for="cancellationPolicy"
+      class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+    >
+      Cancellation Policy
+    </label>
+    <textarea
+      id="cancellationPolicy"
+      formControlName="cancellationPolicy"
+      rows="4"
+      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-gray-500 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-green-500 dark:focus:border-green-500"
+      placeholder="Write a brief description about cancellation policy"
+      required
+    ></textarea>
+  </div>
+
+  <!-- Payment Policy Field -->
+  <div class="mb-5">
+    <label
+      for="paymentPolicy"
+      class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+    >
+      Payment Policy
+    </label>
+    <textarea
+      id="paymentPolicy"
+      formControlName="paymentPolicy"
+      rows="4"
+      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-gray-500 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-green-500 dark:focus:border-green-500"
+      placeholder="Write a brief description about payment policy"
+      required
+    ></textarea>
+  </div>
+
+  <!-- Submit Contract Details Button -->
+  <button
+    type="submit"
+    class="px-2 py-2 m-5 mt-2 text-xs font-bold text-white bg-green-500 rounded hover:bg-green-700"
+  >
+    Update Contract Details
+  </button>
+</form>
+
+<!-- Add New Season Form -->
+<div class="max-w-3xl p-6 mx-auto mt-10 rounded-lg bg-gray-50">
+  <h3 class="mb-5 text-2xl font-extrabold text-center dark:text-white">
+    Add New Season
+  </h3>
+  <form [formGroup]="newSeasonForm" (ngSubmit)="onAddNewSeason()">
+    <div class="flex mb-4 space-x-4">
+      <div class="w-1/2">
+        <label class="block mb-2 text-sm font-medium">Season Name</label>
+        <input
+          type="text"
+          formControlName="seasonName"
+          class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg w-full p-2.5"
+        />
+      </div>
+      <div class="w-1/2">
+        <label class="block mb-2 text-sm font-medium">Valid From</label>
+        <input
+          type="date"
+          formControlName="validFrom"
+          class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg w-full p-2.5"
+        />
+      </div>
+      <div class="w-1/2">
+        <label class="block mb-2 text-sm font-medium">Valid To</label>
+        <input
+          type="date"
+          formControlName="validTo"
+          class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg w-full p-2.5"
+        />
+      </div>
+    </div>
+    <button
+      type="submit"
+      class="px-2 py-2 mt-2 text-xs font-bold text-white bg-green-500 rounded hover:bg-green-700"
+    >
+      Add Season
+    </button>
+  </form>
+</div>
+
+<!-- Seasons Section -->
+<div class="max-w-3xl p-6 mx-auto mt-10 rounded-lg bg-gray-50">
+  <h3 class="mb-5 text-2xl font-extrabold text-center dark:text-white">
+    Available Seasons
+  </h3>
+  <div *ngFor="let season of seasons" class="mb-4">
+    <form [formGroup]="season.form" (ngSubmit)="onSubmitSeason(season)">
+      <div class="flex mb-4 space-x-4">
+        <div class="w-1/2">
+          <label class="block mb-2 text-sm font-medium">Season Name</label>
+          <input
+            type="text"
+            formControlName="seasonName"
+            class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg w-full p-2.5"
+          />
+        </div>
+        <div class="w-1/2">
+          <label class="block mb-2 text-sm font-medium">Valid From</label>
+          <input
+            type="date"
+            formControlName="validFrom"
+            class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg w-full p-2.5"
+          />
+        </div>
+        <div class="w-1/2">
+          <label class="block mb-2 text-sm font-medium">Valid To</label>
+          <input
+            type="date"
+            formControlName="validTo"
+            class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg w-full p-2.5"
+          />
+        </div>
+      </div>
+      <div class="flex space-x-4">
+        <button
+          type="submit"
+          class="px-2 py-2 mt-2 text-xs font-bold text-white bg-green-500 rounded hover:bg-green-700"
+        >
+          Update Season
+        </button>
+        <button
+          type="button"
+          class="px-2 py-2 mt-2 text-xs font-bold text-white bg-blue-500 rounded hover:bg-blue-700"
+          (click)="navigateToSeasonDetails(season.id)"
+        >
+          Season Details
+        </button>
+        <button
+          type="button"
+          class="px-2 py-2 mt-2 text-xs font-bold text-white bg-red-500 rounded hover:bg-red-700"
+          (click)="onDeleteSeason(season.id)"
+        >
+          Delete
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

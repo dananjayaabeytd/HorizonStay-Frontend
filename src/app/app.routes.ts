@@ -18,14 +18,26 @@ import { BookingdetailsComponent } from './pages/bookings/bookingdetails/booking
 import { BookinglistComponent } from './pages/bookings/bookinglist/bookinglist.component';
 import { BookingcompleteComponent } from './pages/bookings/bookingcomplete/bookingcomplete.component';
 import { AddContractComponent } from './pages/contract/add-contract/add-contract.component';
+import { UpdateContractComponent } from './pages/contract/update-contract/update-contract.component';
+import { SeasonDetailsComponent } from './pages/contract/update-contract/season-details/season-details.component';
 
 export const routes: Routes = [
 
 
   //Landing page
   {
+    path: 'season-details/:id',
+    component: SeasonDetailsComponent,
+  },
+
+  {
     path: 'contract-add/:id',
     component: AddContractComponent,
+  },
+
+  {
+    path: 'update-contract/:id',
+    component: UpdateContractComponent,
   },
 
 

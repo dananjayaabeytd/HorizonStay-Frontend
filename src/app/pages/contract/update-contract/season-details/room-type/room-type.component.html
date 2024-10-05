@@ -1,0 +1,184 @@
+<div class="max-w-3xl p-6 mx-auto mt-10 rounded-lg bg-gray-50">
+  <h2 class="mb-5 text-4xl font-extrabold text-center dark:text-white">
+    Manage Room Types
+  </h2>
+
+  <!-- New Room Type Form -->
+  <form [formGroup]="newRoomTypeForm" (ngSubmit)="onAddNewRoomType()">
+    <div
+      class="grid grid-cols-1 gap-4 mb-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
+    >
+      <div>
+        <label for="roomTypeName" class="block mb-2 text-sm font-medium"
+          >Name</label
+        >
+        <input
+          id="roomTypeName"
+          formControlName="roomTypeName"
+          class="w-full p-2.5 bg-gray-50 border border-gray-300 text-gray-900 rounded-lg"
+        />
+      </div>
+      <div>
+        <label for="numberOfRooms" class="block mb-2 text-sm font-medium"
+          >Number of Rooms</label
+        >
+        <input
+          id="numberOfRooms"
+          formControlName="numberOfRooms"
+          type="number"
+          class="w-full p-2.5 bg-gray-50 border border-gray-300 text-gray-900 rounded-lg"
+        />
+      </div>
+      <div>
+        <label for="maxNumberOfPersons" class="block mb-2 text-sm font-medium"
+          >Max Number of Persons</label
+        >
+        <input
+          id="maxNumberOfPersons"
+          formControlName="maxNumberOfPersons"
+          type="number"
+          class="w-full p-2.5 bg-gray-50 border border-gray-300 text-gray-900 rounded-lg"
+        />
+      </div>
+      <div>
+        <label for="price" class="block mb-2 text-sm font-medium">Price</label>
+        <input
+          id="price"
+          formControlName="price"
+          type="number"
+          class="w-full p-2.5 bg-gray-50 border border-gray-300 text-gray-900 rounded-lg"
+        />
+      </div>
+      <div class="col-span-2 lg:col-span-1">
+        <label for="roomTypeImages" class="block mb-2 text-sm font-medium"
+          >Images</label
+        >
+        <input
+          type="file"
+          id="roomTypeImages"
+          (change)="onFileSelected($event)"
+          multiple
+          class="w-full p-2.5 bg-gray-50 border border-gray-300 text-gray-900 rounded-lg"
+        />
+      </div>
+      <div class="flex items-end lg:col-span-1">
+        <button
+          type="submit"
+          class="w-full px-4 py-2 font-bold text-white bg-green-500 rounded-lg hover:bg-green-700"
+        >
+          Add Room Type
+        </button>
+      </div>
+    </div>
+
+    <!-- Image Previews -->
+    <div class="flex flex-wrap gap-4 mb-6">
+      <div
+        *ngFor="let preview of imagePreviews"
+        class="h-24 overflow-hidden rounded-lg"
+      >
+        <img
+          [src]="preview"
+          class="object-cover w-24 h-full rounded-lg shadow-lg"
+        />
+      </div>
+    </div>
+  </form>
+
+  <!-- Existing Room Types List -->
+  <div
+    *ngFor="let roomType of roomTypes"
+    class="p-4 mb-4 border border-gray-300 rounded-lg shadow-md"
+  >
+    <form
+      [formGroup]="roomType.form"
+      (ngSubmit)="onSubmitRoomTypeDetails(roomType)"
+    >
+      <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div>
+          <label for="roomTypeName" class="block mb-2 text-sm font-medium"
+            >Name</label
+          >
+          <input
+            id="roomTypeName"
+            formControlName="roomTypeName"
+            class="w-full p-2.5 bg-gray-50 border border-gray-300 text-gray-900 rounded-lg"
+          />
+        </div>
+        <div>
+          <label for="numberOfRooms" class="block mb-2 text-sm font-medium"
+            >Number of Rooms</label
+          >
+          <input
+            id="numberOfRooms"
+            formControlName="numberOfRooms"
+            type="number"
+            class="w-full p-2.5 bg-gray-50 border border-gray-300 text-gray-900 rounded-lg"
+          />
+        </div>
+        <div>
+          <label for="maxNumberOfPersons" class="block mb-2 text-sm font-medium"
+            >Max Number of Persons</label
+          >
+          <input
+            id="maxNumberOfPersons"
+            formControlName="maxNumberOfPersons"
+            type="number"
+            class="w-full p-2.5 bg-gray-50 border border-gray-300 text-gray-900 rounded-lg"
+          />
+        </div>
+        <div>
+          <label for="price" class="block mb-2 text-sm font-medium"
+            >Price</label
+          >
+          <input
+            id="price"
+            formControlName="price"
+            type="number"
+            class="w-full p-2.5 bg-gray-50 border border-gray-300 text-gray-900 rounded-lg"
+          />
+        </div>
+        <div class="col-span-2">
+          <label for="newFiles" class="block mb-2 text-sm font-medium"
+            >Upload New Images</label
+          >
+          <input
+            type="file"
+            id="newFiles"
+            (change)="onFileSelected($event)"
+            multiple
+            class="w-full p-2.5 bg-gray-50 border border-gray-300 text-gray-900 rounded-lg"
+          />
+        </div>
+
+        <!-- Display Room Type Images -->
+        <div class="flex flex-wrap gap-4 mt-4">
+          <div
+            *ngFor="let image of roomType.roomTypeImages"
+            class="h-24 overflow-hidden rounded-lg"
+          >
+            <img
+              [src]="'http://localhost:5000/roomTypeImages/' + image"
+              class="object-cover w-24 h-full rounded-lg shadow-lg"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="flex justify-between mt-4 space-x-2">
+        <button
+          type="submit"
+          class="px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-700"
+        >
+          Save Changes
+        </button>
+        <button
+          type="button"
+          (click)="onDeleteRoomType(roomType.roomTypeID)"
+          class="px-4 py-2 text-white bg-red-500 rounded-lg hover:bg-red-700"
+        >
+          Delete
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
