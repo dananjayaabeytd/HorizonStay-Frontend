@@ -42,10 +42,10 @@ export class UpdatehotelComponent implements OnInit {
       const hotelDataResponse = await this.hotelService.getHotelById(this.hotelId, token);
       const { hotelName, hotelDescription, hotelContactNumber, hotelCity, hotelCountry, hotelRating, hotelImages,hotelEmail } = hotelDataResponse;
       this.hotelData = { hotelName, hotelDescription, hotelContactNumber, hotelCity, hotelCountry, hotelRating,hotelEmail };
-
+      
       // Populate image previews
       this.imagePreviews = hotelImages.map((img: string) => ({
-        src: `path-to-server/${img}`,  // Replace with the actual path to your server
+        src: `http://localhost:5000/hotelImages/${img}`,  // Replace with the actual path to your server
         name: img,
       }));
       
