@@ -61,13 +61,13 @@ export class SearchComponent {
       const formattedCheckInDate = this.formatDate(this.checkInDate);
       const formattedCheckOutDate = this.formatDate(this.checkOutDate);
 
-      const response = await this.contractService.searchContracts(
-        this.location,
-        formattedCheckInDate,
-        formattedCheckOutDate,
-        this.adultCount,
-        this.childCount
-      );
+      // const response = await this.contractService.searchContracts(
+      //   this.location,
+      //   formattedCheckInDate,
+      //   formattedCheckOutDate,
+      //   this.adultCount,
+      //   this.childCount
+      // );
 
       // const response = await this.contractService.searchContracts(
       //   'Colombo',
@@ -85,8 +85,8 @@ export class SearchComponent {
         adultCount: this.adultCount,
         childCount: this.childCount,
       });
-      console.log('Search Results:', response);
-      this.searchService.updateHotels(response); // Update the hotels data in the service
+      // console.log('Search Results:', response);
+      // this.searchService.updateHotels(response); // Update the hotels data in the service
     } catch (error) {
       console.error('Error searching contracts:', error);
     }

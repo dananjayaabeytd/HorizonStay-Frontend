@@ -28,17 +28,20 @@ export class ContractlistComponent implements OnInit {
     try {
       this.hotelID = this.route.snapshot.paramMap.get('id');
       const token: any = localStorage.getItem('token');
-      const response = await this.contractService.getContractByHotelId(
+      const response = await this.contractService.getContractsByHotelId(
         this.hotelID,
         token
-      );
+      ).toPromise(); // Convert Observable to Promise
+      console.log('API Response:', response); // Log the entire response
+  
       if (response && Array.isArray(response)) {
+        console.log('Contracts found:', response);
         this.contracts = response;
       } else {
         console.log('No Contracts found.');
       }
     } catch (error: any) {
-      console.log(error.message);
+      console.log('Error:', error.message);
     }
   }
 
@@ -53,7 +56,7 @@ export class ContractlistComponent implements OnInit {
         contractId,
         token
       );
-      if (response && response.statusCode === 204) {
+      if (response) {
         this.loadContracts(); // Reload contracts after deletion
       } else {
         console.log('Failed to delete contract.');

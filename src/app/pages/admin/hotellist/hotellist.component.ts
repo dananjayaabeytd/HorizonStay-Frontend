@@ -41,7 +41,7 @@ export class HotellistComponent implements OnInit {
   }
 
   navigateToAddContract(hotelId: string) {
-    this.router.navigate(['/addcontract', hotelId]);
+    this.router.navigate(['/contract-add', hotelId]);
   }
 
   navigateToContractList(hotelId: string) {

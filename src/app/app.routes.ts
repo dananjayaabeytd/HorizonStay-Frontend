@@ -10,8 +10,6 @@ import { AddhotelComponent } from './pages/hotel/addhotel/addhotel.component';
 import { UpdatehotelComponent } from './pages/hotel/updatehotel/updatehotel.component';
 import { HotellistComponent } from './pages/admin/hotellist/hotellist.component';
 import { DashboardComponent } from './pages/admin/dashboard/dashboard.component';
-import { AddcontractComponent } from './pages/contract/addcontract/addcontract.component';
-import { UpdatecontractComponent } from './pages/contract/updatecontract/updatecontract.component';
 import { ContractlistComponent } from './pages/admin/contractlist/contractlist.component';
 import { ResultlistComponent } from './pages/search/resultlist/resultlist.component';
 import { MakebookingComponent } from './pages/bookings/makebooking/makebooking.component';
@@ -19,8 +17,18 @@ import { ResultmoreComponent } from './pages/search/resultmore/resultmore.compon
 import { BookingdetailsComponent } from './pages/bookings/bookingdetails/bookingdetails.component';
 import { BookinglistComponent } from './pages/bookings/bookinglist/bookinglist.component';
 import { BookingcompleteComponent } from './pages/bookings/bookingcomplete/bookingcomplete.component';
+import { AddContractComponent } from './pages/contract/add-contract/add-contract.component';
 
 export const routes: Routes = [
+
+
+  //Landing page
+  {
+    path: 'contract-add/:id',
+    component: AddContractComponent,
+  },
+
+
   //Landing page
   {
     path: '',
@@ -97,19 +105,6 @@ export const routes: Routes = [
   },
 
   //Contract pages
-
-  //Add contract page
-  {
-    path: 'addcontract/:id',
-    component: AddcontractComponent,
-  },
-
-  //Update contract page
-  {
-    path: 'update-contract/:id',
-    component: UpdatecontractComponent,
-  },
-
 
   //Search page
   {

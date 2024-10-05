@@ -1,10 +1,10 @@
 <form
   class="max-w-3xl p-6 mx-auto rounded-lg bg-gray-50 mt-[100px]"
-  (ngSubmit)="onSubmit()"
+  (ngSubmit)="onSubmitContractDetails()"
   [formGroup]="form"
 >
   <h2 class="mb-5 text-4xl font-extrabold text-center dark:text-white">
-    Update Hotel Contract
+    Add a Hotel Contract
   </h2>
 
   <!-- Valid From and Valid To in one row -->
@@ -13,7 +13,7 @@
       <label class="block mb-2 text-sm font-medium">Contract Valid From</label>
       <input
         type="date"
-        formControlName="validFrom"
+        formControlName="contractvalidFrom"
         class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg w-full p-2.5"
       />
     </div>
@@ -21,7 +21,7 @@
       <label class="block mb-2 text-sm font-medium">Contract Valid To</label>
       <input
         type="date"
-        formControlName="validTo"
+        formControlName="contractvalidTo"
         class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg w-full p-2.5"
       />
     </div>
@@ -63,6 +63,16 @@
     ></textarea>
   </div>
 
+  <!-- Submit Contract Details Button -->
+  <button
+    type="submit"
+    class="px-2 py-2 m-5 mt-2 text-xs font-bold text-white bg-green-500 rounded hover:bg-green-700"
+  >
+    Submit Contract Details
+  </button>
+
+  <br />
+
   <!-- Loop for Seasons -->
   <div
     formArrayName="seasons"
@@ -71,7 +81,7 @@
     <div [formGroupName]="i" class="p-4 mb-8 border rounded-lg">
       <h3 class="mb-3 text-xl font-bold dark:text-white">Season {{ i + 1 }}</h3>
 
-      <!-- Season Name, Valid From, Valid To -->
+      <!-- Season Name -->
       <div class="flex justify-center gap-8 mt-5">
         <div class="mb-4">
           <label class="block mb-2 text-sm font-medium">Season Name</label>
@@ -82,6 +92,8 @@
             placeholder="Summer, Autumn..."
           />
         </div>
+
+        <!-- Valid From -->
         <div class="mb-4">
           <label class="block mb-2 text-sm font-medium">Valid From</label>
           <input
@@ -90,6 +102,8 @@
             class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg w-full p-2.5"
           />
         </div>
+
+        <!-- Valid To -->
         <div class="mb-4">
           <label class="block mb-2 text-sm font-medium">Valid To</label>
           <input
@@ -98,6 +112,13 @@
             class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg w-full p-2.5"
           />
         </div>
+        <button
+          type="button"
+          class="w-[100px] h-[100px] px-2 py-2 m-5 mt-2 text-xs font-bold text-white bg-green-500 rounded hover:bg-green-700"
+          (click)="onSubmitSeasonDetails(i)"
+        >
+          Submit Season Details
+        </button>
       </div>
 
       <!-- Room Types -->
@@ -111,7 +132,9 @@
 
           <div class="flex gap-8 mt-5">
             <div class="mb-4">
-              <label class="block mb-2 text-sm font-medium">Room Type Name</label>
+              <label class="block mb-2 text-sm font-medium"
+                >Room Type Name</label
+              >
               <input
                 type="text"
                 formControlName="roomTypeName"
@@ -119,22 +142,29 @@
                 placeholder="Deluxe, Suite..."
               />
             </div>
+
             <div class="mb-4">
-              <label class="block mb-2 text-sm font-medium">Number of Rooms</label>
+              <label class="block mb-2 text-sm font-medium"
+                >Number of Rooms</label
+              >
               <input
                 type="number"
                 formControlName="numberOfRooms"
                 class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg w-full p-2.5"
               />
             </div>
+
             <div class="mb-4">
-              <label class="block mb-2 text-sm font-medium">Max No. of Persons</label>
+              <label class="block mb-2 text-sm font-medium"
+                >Max No. of Persons</label
+              >
               <input
                 type="number"
                 formControlName="maxNumberOfPersons"
                 class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg w-full p-2.5"
               />
             </div>
+
             <div class="mb-4">
               <label class="block mb-2 text-sm font-medium">Price</label>
               <input
@@ -150,6 +180,7 @@
             <label class="block mb-2 text-sm font-medium">Upload Images</label>
             <input
               type="file"
+              formControlName="images"
               (change)="onImageUpload($event, i, j)"
               multiple
               class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50"
@@ -157,20 +188,32 @@
           </div>
 
           <!-- Image Preview -->
-          <div *ngIf="roomImages[i]?.[j]?.length">
+          <div *ngIf="roomImages[i][j]?.length">
             <label class="block mb-2 text-sm font-medium">Image Preview:</label>
             <div class="flex flex-wrap gap-2">
               <img
                 *ngFor="let image of roomImages[i][j]"
-                [src]="image"
+                [src]="image.src"
                 alt="Room Image"
                 class="object-cover w-32 h-32 rounded-lg"
               />
             </div>
           </div>
 
-          <button type="button" class="text-red-500" (click)="removeRoom(i, j)">
+          <button
+            type="button"
+            class="text-red-500"
+            (click)="removeRoom(i, j)"
+          >
             Remove Room Type
+          </button>
+
+          <button
+            type="button"
+            class="w-[150px] h-[50px] px-2 py-2 m-2 mt-2 text-xs font-bold text-white bg-green-500 rounded hover:bg-green-700"
+            (click)="onSubmitRoomTypeDetails(i, j)"
+          >
+            Submit Room Type
           </button>
         </div>
 
@@ -180,7 +223,7 @@
           class="px-4 py-2 mt-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700"
           (click)="addRoomType(i)"
         >
-          Add Room Type
+          New Room Type
         </button>
       </div>
 
@@ -195,7 +238,9 @@
 
           <div class="flex justify-center gap-8 mt-5">
             <div class="mb-4">
-              <label class="block mb-2 text-sm font-medium">Discount Name</label>
+              <label class="block mb-2 text-sm font-medium"
+                >Discount Name</label
+              >
               <input
                 type="text"
                 formControlName="discountName"
@@ -203,14 +248,23 @@
                 placeholder="Early Bird, Holiday ..."
               />
             </div>
+
             <div class="mb-4">
               <label class="block mb-2 text-sm font-medium">Percentage</label>
               <input
                 type="number"
-                formControlName="discountAmount"
+                formControlName="percentage"
                 class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg w-full p-2.5"
               />
             </div>
+
+            <button
+              type="button"
+              class="w-[150px] h-[50px] px-2 py-2 m-2 mt-2 text-xs font-bold text-white bg-green-500 rounded hover:bg-green-700"
+              (click)="onSubmitDiscountDetails(i, k)"
+            >
+              Submit Discount
+            </button>
           </div>
 
           <button
@@ -228,7 +282,7 @@
           class="px-4 py-2 mt-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700"
           (click)="addDiscount(i)"
         >
-          Add Discount
+          New Discount
         </button>
       </div>
 
@@ -251,14 +305,23 @@
                 placeholder="Seasonal, Special..."
               />
             </div>
+
             <div class="mb-4">
               <label class="block mb-2 text-sm font-medium">Percentage</label>
               <input
                 type="number"
-                formControlName="markupAmount"
+                formControlName="percentage"
                 class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg w-full p-2.5"
               />
             </div>
+
+            <button
+              type="button"
+              class="w-[150px] h-[50px] px-2 py-2 m-2 mt-2 text-xs font-bold text-white bg-green-500 rounded hover:bg-green-700"
+              (click)="onSubmitMarkupDetails(i, l)"
+            >
+              Submit Markup
+            </button>
           </div>
 
           <button
@@ -276,60 +339,68 @@
           class="px-4 py-2 mt-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700"
           (click)="addMarkup(i)"
         >
-          Add Markup
+          New Markup
         </button>
       </div>
 
       <!-- Supplements -->
-  <div formArrayName="supplements" class="mt-4">
-    <div
-      *ngFor="let supplement of supplements(i).controls; let m = index"
-      [formGroupName]="m"
-      class="p-4 mt-2 border rounded-lg"
-    >
-      <h4 class="text-lg font-semibold">Supplement {{ m + 1 }}</h4>
+      <div formArrayName="supplements" class="mt-4">
+        <div
+          *ngFor="let supplement of supplements(i).controls; let m = index"
+          [formGroupName]="m"
+          class="p-4 mt-2 border rounded-lg"
+        >
+          <h4 class="text-lg font-semibold">Supplement {{ m + 1 }}</h4>
 
-      <div class="flex justify-center gap-8 mt-5">
-        <div class="mb-4">
-          <label class="block mb-2 text-sm font-medium"
-            >Supplement Name</label
+          <div class="flex justify-center gap-8 mt-5">
+            <div class="mb-4">
+              <label class="block mb-2 text-sm font-medium"
+                >Supplement Name</label
+              >
+              <input
+                type="text"
+                formControlName="supplementName"
+                class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg w-full p-2.5"
+                placeholder="Breakfast, Parking ..."
+              />
+            </div>
+
+            <div class="mb-4">
+              <label class="block mb-2 text-sm font-medium">Price</label>
+              <input
+                type="number"
+                formControlName="price"
+                class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg w-full p-2.5"
+              />
+            </div>
+
+            <button
+              type="button"
+              class="w-[150px] h-[50px] px-2 py-2 m-2 mt-2 text-xs font-bold text-white bg-green-500 rounded hover:bg-green-700"
+              (click)="onSubmitSupplementDetails(i, m)"
+            >
+              Submit Supplement
+            </button>
+          </div>
+
+          <button
+            type="button"
+            class="text-red-500"
+            (click)="removeSupplement(i, m)"
           >
-          <input
-            type="text"
-            formControlName="supplementName"
-            class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg w-full p-2.5"
-            placeholder="Breakfast, Parking ..."
-          />
+            Remove Supplement
+          </button>
         </div>
 
-        <div class="mb-4">
-          <label class="block mb-2 text-sm font-medium">Price</label>
-          <input
-            type="number"
-            formControlName="price"
-            class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg w-full p-2.5"
-          />
-        </div>
+        <!-- Add Supplement Button -->
+        <button
+          type="button"
+          class="px-4 py-2 mt-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700"
+          (click)="addSupplement(i)"
+        >
+          New Supplement
+        </button>
       </div>
-
-      <button
-        type="button"
-        class="text-red-500"
-        (click)="removeSupplement(i, m)"
-      >
-        Remove Supplement
-      </button>
-    </div>
-
-    <!-- Add Supplement Button -->
-    <button
-      type="button"
-      class="px-4 py-2 mt-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700"
-      (click)="addSupplement(i)"
-    >
-      Add Supplement
-    </button>
-  </div>
 
       <!-- Remove Season Button -->
       <button type="button" class="mt-4 text-red-500" (click)="removeSeason(i)">
@@ -338,22 +409,20 @@
     </div>
   </div>
 
-  
-
   <!-- Add Season Button -->
   <button
     type="button"
     class="px-4 py-2 mt-4 font-bold text-white bg-green-500 rounded hover:bg-green-700"
     (click)="addSeason()"
   >
-    Add Season
+    New Season
   </button>
 
-  <!-- Submit Button -->
   <button
-    type="submit"
-    class="w-full px-4 py-2 mt-4 font-bold text-white bg-green-500 rounded hover:bg-green-700"
+    type="button"
+    class="px-4 py-2 mx-10 mt-4 font-bold text-white bg-green-500 rounded hover:bg-green-700"
+    (click)="complete()"
   >
-    Update Contract
+    Complete 
   </button>
 </form>
