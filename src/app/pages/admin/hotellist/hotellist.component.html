@@ -1,75 +1,67 @@
 <!-- hotel-list.component.html -->
-<div class="mt-[130px]">
+<div class="mt-[120px] mx-[200px]">
   <h2 class="my-10 text-4xl font-extrabold text-center dark:text-white">
     Hotels
   </h2>
-
-  <div class="flex items-center justify-center mb-10">
-    <div class="grid grid-cols-1 gap-8 md:grid-cols-1">
-      <!-- Loop through the hotels array -->
-      <div
-        *ngFor="let hotel of hotels"
-        key="hotel.hotelID"
-        class="relative flex flex-row items-start h-auto max-w-4xl p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700"
+  <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+    <table
+      class="w-full text-sm text-left text-gray-500 rtl:text-right dark:text-gray-400"
+    >
+      <thead
+        class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
       >
-        <!-- Image Section -->
-        <div class="w-[300px] h-[270px] py-[-50px]">
-          <img
-            [src]="'http://localhost:5000/hotelImages/' + hotel.hotelImages[0]"
-            alt="Hotel Image"
-            class="object-cover w-full h-full rounded-l-lg"
-          />
-        </div>
-
-        <!-- Hotel Info Section -->
-        <div class="flex flex-col items-start w-2/3 p-6">
-          <h5
-            class="text-2xl font-bold tracking-tight text-gray-900 dark:text-white"
+        <tr>
+          <th scope="col" class="px-6 py-3">Hotel Name</th>
+          <th scope="col" class="px-6 py-3">Location</th>
+          <th scope="col" class="px-6 py-3">Contact</th>
+          <th scope="col" class="px-6 py-3">Email</th>
+          <th scope="col" class="px-6 py-3 pl-[180px]">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="let hotel of hotels"
+          class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+        >
+          <th
+            scope="row"
+            class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
           >
             {{ hotel.hotelName }} ★ {{ hotel.hotelRating }}
-          </h5>
-          <p class="text-sm text-gray-500 dark:text-gray-400">
+          </th>
+          <td class="px-6 py-4">
             {{ hotel.hotelCity }}, {{ hotel.hotelCountry }}
-          </p>
-          <p class="mb-2 text-gray-700 dark:text-gray-300">
-            {{ hotel.hotelDescription }}
-          </p>
-          <p class="mb-1 text-gray-700 dark:text-gray-300">
-            <strong>Contact:</strong> {{ hotel.hotelContactNumber }}
-          </p>
-          <p class="mb-3 text-gray-700 dark:text-gray-300">
-            <strong>Email:</strong> {{ hotel.hotelEmail }}
-          </p>
-
-          <!-- Buttons -->
-          <div class="absolute space-x-2 bottom-4 right-4">
+          </td>
+          <td class="px-6 py-4">{{ hotel.hotelContactNumber }}</td>
+          <td class="px-6 py-4">{{ hotel.hotelEmail }}</td>
+          <td class="px-6 py-4 space-x-2 text-right">
             <button
-            (click)="navigateToAddContract(hotel.hotelID)"
-              class="px-3 py-2 text-sm text-white bg-blue-500 rounded-lg hover:bg-blue-600"
+              (click)="navigateToAddContract(hotel.hotelID)"
+              class="px-3 py-2 text-xs text-white bg-orange-400 rounded-lg hover:bg-orange-500"
             >
-              Add Contarct
+              Add Contract
             </button>
             <button
-            (click)="navigateToContractList(hotel.hotelID)"
-              class="px-3 py-2 text-sm text-white bg-blue-500 rounded-lg hover:bg-blue-600"
+              (click)="navigateToContractList(hotel.hotelID)"
+              class="px-3 py-2 text-xs text-white bg-blue-500 rounded-lg hover:bg-blue-600"
             >
               Contracts
             </button>
             <button
               (click)="navigateToUpdate(hotel.hotelID)"
-              class="px-3 py-2 text-sm text-white bg-green-500 rounded-lg hover:bg-green-600"
+              class="px-3 py-2 text-xs text-white bg-green-500 rounded-lg hover:bg-green-600"
             >
               Update
             </button>
             <button
               (click)="deleteHotel(hotel.hotelID)"
-              class="px-3 py-2 text-sm text-white bg-red-500 rounded-lg hover:bg-red-600"
+              class="px-3 py-2 text-xs text-white bg-red-500 rounded-lg hover:bg-red-600"
             >
               Delete
             </button>
-          </div>
-        </div>
-      </div>
-    </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </div>
