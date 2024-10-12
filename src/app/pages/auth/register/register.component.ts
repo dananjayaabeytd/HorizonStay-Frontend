@@ -3,7 +3,8 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { UsersService } from '../../../services/user/users.service';
-import Swal from 'sweetalert2';
+import { AlertService } from '../../../services/alert/alert.service';
+
 
 @Component({
   selector: 'app-register',
@@ -11,6 +12,7 @@ import Swal from 'sweetalert2';
   imports: [FormsModule, CommonModule],
   templateUrl: './register.component.html',
 })
+
 export class RegisterComponent {
   formData: any = {
     name: '',
@@ -27,6 +29,7 @@ export class RegisterComponent {
 
   constructor(
     private readonly userService: UsersService,
+    private alertService: AlertService,
     private readonly router: Router
   ) {}
 
@@ -50,12 +53,16 @@ export class RegisterComponent {
       !this.formData.address ||
       !this.formData.nic
     ) {
-      this.showError('Please fill in all fields.');
+      // this.showError('Please fill in all fields.');
+      this.alertService.showError('Please fill in all fields.');
       return;
     }
 
-    const confirmRegistration = confirm(
-      'Are you sure you want to register this user?'
+    const confirmRegistration = await this.alertService.showConfirm(
+      'Are you sure you want to register this user?',
+      'Do you want to proceed?',
+      'Yes, proceed',
+      'No, cancel'
     );
     if (!confirmRegistration) {
       return;
@@ -64,7 +71,8 @@ export class RegisterComponent {
     try {
       if (this.selectedFile) {
         const response = await this.userService.register(this.formData, this.selectedFile);
-
+        this.alertService.normalSuccess(response.message);
+        
         const token = localStorage.getItem('token');
         if (!token) {
           this.router.navigate(['/login']);
@@ -72,8 +80,10 @@ export class RegisterComponent {
         }
 
         console.log(response);
-        alert(response.message);
+        // alert(response.message);
+        
         if (response.statusCode === 200) {
+          
           this.router.navigate(['/users']);
         } else {
           this.showError(response.message);
