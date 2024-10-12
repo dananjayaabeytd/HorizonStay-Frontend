@@ -12,11 +12,13 @@ import {
 } from '@angular/forms';
 
 interface RoomType {
+  roomTypeID: number;
   roomTypeName: string;
   price: number;
 }
 
 interface Supplement {
+  supplementID: number;
   supplementName: string;
   price: number;
 }
@@ -59,6 +61,7 @@ export class MakebookingComponent implements OnInit {
       if (this.hotel.roomTypeDTO && this.hotel.roomTypeDTO.length > 0) {
         this.availableRoomTypes = this.hotel.roomTypeDTO.map(
           (roomType: any) => ({
+            roomTypeID: roomType.roomTypeID,
             roomTypeName: roomType.roomTypeName,
             price: roomType.price,
           })
@@ -68,6 +71,7 @@ export class MakebookingComponent implements OnInit {
       if (this.hotel.supplementDTOS && this.hotel.supplementDTOS.length > 0) {
         this.availableSupplements = this.hotel.supplementDTOS.map(
           (supplement: any) => ({
+            supplementID: supplement.supplementID,
             supplementName: supplement.supplementName,
             price: supplement.price,
           })
@@ -176,6 +180,7 @@ export class MakebookingComponent implements OnInit {
 
   addRoomType(roomTypeData?: any) {
     const roomTypeFormGroup = this.fb.group({
+      roomTypeID: [roomTypeData?.roomTypeID || null], // Add roomTypeID control
       roomTypeName: [roomTypeData?.roomTypeName || '', Validators.required],
       price: [
         { value: roomTypeData?.price || 0, disabled: true },
@@ -200,6 +205,7 @@ export class MakebookingComponent implements OnInit {
 
   addSupplement(supplementData?: any) {
     const supplementFormGroup = this.fb.group({
+      supplementID: [supplementData?.supplementID || null], // Add supplementID control
       supplementName: [
         supplementData?.supplementName || '',
         Validators.required,
@@ -235,6 +241,7 @@ export class MakebookingComponent implements OnInit {
 
     if (selectedRoomType) {
       this.roomTypes.at(index).get('price')?.setValue(selectedRoomType.price);
+      this.roomTypes.at(index).get('roomTypeID')?.setValue(selectedRoomType.roomTypeID); // Set roomTypeID
       this.updateRoomTypePrice(this.roomTypes.at(index) as FormGroup);
     }
   }
@@ -252,6 +259,7 @@ export class MakebookingComponent implements OnInit {
         .at(index)
         .get('price')
         ?.setValue(selectedSupplement.price);
+      this.supplements.at(index).get('supplementID')?.setValue(selectedSupplement.supplementID); // Set supplementID
       this.updateSupplementPrice(this.supplements.at(index) as FormGroup);
     }
   }
@@ -266,6 +274,7 @@ export class MakebookingComponent implements OnInit {
     if (selectedRoomType) {
       const totalPrice = selectedRoomType.price * numberOfRooms;
       roomTypeFormGroup.get('price')?.setValue(totalPrice);
+      roomTypeFormGroup.get('roomTypeID')?.setValue(selectedRoomType.roomTypeID); // Set roomTypeID
     }
   }
 
@@ -279,6 +288,7 @@ export class MakebookingComponent implements OnInit {
     if (selectedSupplement) {
       const totalPrice = selectedSupplement.price * quantity;
       supplementFormGroup.get('price')?.setValue(totalPrice);
+      supplementFormGroup.get('supplementID')?.setValue(selectedSupplement.supplementID); // Set supplementID
     }
   }
 
@@ -291,6 +301,7 @@ export class MakebookingComponent implements OnInit {
 
   calculatePayableAmount() {
     const formValue = this.bookingForm.getRawValue();
+    console.log('form values ->', formValue);
 
     const payload = {
       supplements: formValue.supplements.map((supplement: any) => ({
@@ -301,7 +312,7 @@ export class MakebookingComponent implements OnInit {
       })),
       checkIn: formValue.checkIn,
       checkOut: formValue.checkOut,
-      roomType: formValue.roomTypes.map((roomType: any) => ({
+      roomTypes: formValue.roomTypes.map((roomType: any) => ({
         roomTypeID: roomType.roomTypeID,
         name: roomType.roomTypeName,
         price: roomType.price,
@@ -313,10 +324,11 @@ export class MakebookingComponent implements OnInit {
       markupPercentage: this.mPercentage,
     };
 
-    this.bookingService
-      .calculateAmount(payload)
-      .then((response: any) => {
+    console.log('payload -> ', payload);
+
+    this.bookingService.calculateAmount(payload).then((response: any) => {
         console.log(response);
+
         this.totalAmount = response.payableAmount;
         this.discountAmount = response.discountAmount;
       })
