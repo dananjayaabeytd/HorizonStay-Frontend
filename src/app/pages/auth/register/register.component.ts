@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { UsersService } from '../../../services/user/users.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-register',

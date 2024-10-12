@@ -3,6 +3,8 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { UsersService } from '../../../services/user/users.service';
 import { Router } from '@angular/router';
+import { AlertService } from '../../../services/alert/alert.service';
+
 
 @Component({
   selector: 'app-login',
@@ -13,7 +15,8 @@ import { Router } from '@angular/router';
 export class LoginComponent {
   constructor(
     private readonly usersService: UsersService,
-    private router: Router
+    private router: Router,
+    private alertService: AlertService
   ) {}
 
   userId: any;
@@ -24,7 +27,8 @@ export class LoginComponent {
 
   async handleSubmit() {
     if (!this.email || !this.password) {
-      this.showError('Email and Password is required');
+      // this.showError('Email and Password is required');
+      this.alertService.showError('Email and Password are required');
       return;
     }
 
@@ -44,7 +48,8 @@ export class LoginComponent {
 
         console.log(this.usersService.getUserData());
       } else {
-        this.showError(response.message);
+        // this.showError(response.message);
+        this.alertService.showError(response.error);
       }
     } catch (error: any) {
       this.showError(error.message);
