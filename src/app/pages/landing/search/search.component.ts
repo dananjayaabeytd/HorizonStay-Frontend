@@ -12,11 +12,11 @@ import { BookingService } from '../../../services/booking/booking.service'; // I
   templateUrl: './search.component.html',
 })
 export class SearchComponent {
-  location = '';
-  checkInDate = '';
-  checkOutDate = '';
-  adultCount = 0;
-  childCount = 0;
+  location = 'colombo';
+  checkInDate = '2025-11-10';
+  checkOutDate = '2025-12-31';
+  adultCount = 2;
+  childCount = 1;
   showAdultDropdown = false;
   showChildDropdown = false;
   counts = [0, 1, 2, 3, 4]; // You can modify this array as needed
@@ -61,18 +61,18 @@ export class SearchComponent {
       const formattedCheckInDate = this.formatDate(this.checkInDate);
       const formattedCheckOutDate = this.formatDate(this.checkOutDate);
 
-      // const response = await this.contractService.searchContracts(
-      //   this.location,
-      //   formattedCheckInDate,
-      //   formattedCheckOutDate,
-      //   this.adultCount,
-      //   this.childCount
-      // );
+      const response = await this.contractService.searchContracts(
+        this.location,
+        formattedCheckInDate,
+        formattedCheckOutDate,
+        this.adultCount,
+        this.childCount
+      );
 
       // const response = await this.contractService.searchContracts(
-      //   'Colombo',
-      //   '2024-01-01',
-      //   '3024-12-31',
+      //   'colombo',
+      //   '2025-11-10',
+      //   '2025-12-31',
       //   2,
       //   1
       // );
@@ -85,8 +85,13 @@ export class SearchComponent {
         adultCount: this.adultCount,
         childCount: this.childCount,
       });
-      // console.log('Search Results:', response);
-      // this.searchService.updateHotels(response); // Update the hotels data in the service
+
+      const datatoPass = this.bookingService.getBookingData()
+
+      console.log('data to be passed ->',datatoPass)
+
+
+      this.searchService.updateHotels(response); // Update the hotels data in the service
     } catch (error) {
       console.error('Error searching contracts:', error);
     }

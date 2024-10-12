@@ -87,6 +87,7 @@
         formControlName="checkIn"
         required
         class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg w-full p-2.5"
+        readonly
       />
     </div>
     <div class="mb-4">
@@ -99,6 +100,7 @@
         formControlName="checkOut"
         required
         class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg w-full p-2.5"
+        readonly
       />
     </div>
     <div class="mb-4">
@@ -111,6 +113,7 @@
         formControlName="noOfAdults"
         required
         class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg w-full p-2.5"
+        readonly
       />
     </div>
     <div class="mb-4">
@@ -122,6 +125,7 @@
         type="number"
         formControlName="noOfChildren"
         class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg w-full p-2.5"
+        readonly
       />
     </div>
   </div>
@@ -148,7 +152,7 @@
             (change)="onRoomTypeChange(i)"
           >
             <option
-              *ngFor="let roomType of hotel.seasons[0].roomTypes"
+              *ngFor="let roomType of hotel.roomTypeDTO"
               [value]="roomType.roomTypeName"
             >
               {{ roomType.roomTypeName }}
@@ -223,7 +227,7 @@
             (change)="onSupplementChange(i)"
           >
             <option
-              *ngFor="let supplement of hotel.seasons[0].supplements"
+              *ngFor="let supplement of hotel.supplementDTOS"
               [value]="supplement.supplementName"
             >
               {{ supplement.supplementName }}

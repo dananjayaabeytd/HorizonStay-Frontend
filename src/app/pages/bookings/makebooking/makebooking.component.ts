@@ -1,5 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
+import { BookingService } from '../../../services/booking/booking.service';
+import { UsersService } from '../../../services/user/users.service';
 import {
   FormBuilder,
   FormGroup,
@@ -7,9 +10,6 @@ import {
   Validators,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { Router, ActivatedRoute } from '@angular/router';
-import { BookingService } from '../../../services/booking/booking.service'; // Import BookingService
-import { UsersService } from '../../../services/user/users.service';
 
 interface RoomType {
   roomTypeName: string;
@@ -31,7 +31,7 @@ export class MakebookingComponent implements OnInit {
   bookingForm!: FormGroup;
   totalAmount: number = 0;
   discountAmount: number = 0;
-  hotel: any; // Variable to store the passed hotel data
+  hotel: any;
   hotelID: any;
 
   dPercentage: number = 0;
@@ -45,44 +45,42 @@ export class MakebookingComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private bookingService: BookingService,
-    private userService: UsersService, // Inject BookingService
-    private userServicetoGetData: UsersService // Inject BookingService
+    private userService: UsersService,
+    private userServicetoGetData: UsersService
   ) {}
 
   ngOnInit() {
     const state = history.state;
-    // console.log('Current state:', state);
 
     if (state && state.hotel) {
       this.hotel = state.hotel;
       // console.log('Received hotel data:', this.hotel);
 
-      if (this.hotel.seasons && this.hotel.seasons.length > 0) {
-        this.availableRoomTypes = this.hotel.seasons[0].roomTypes.map(
+      if (this.hotel.roomTypeDTO && this.hotel.roomTypeDTO.length > 0) {
+        this.availableRoomTypes = this.hotel.roomTypeDTO.map(
           (roomType: any) => ({
             roomTypeName: roomType.roomTypeName,
             price: roomType.price,
           })
         );
+      }
 
-        this.availableSupplements = this.hotel.seasons[0].supplements.map(
+      if (this.hotel.supplementDTOS && this.hotel.supplementDTOS.length > 0) {
+        this.availableSupplements = this.hotel.supplementDTOS.map(
           (supplement: any) => ({
             supplementName: supplement.supplementName,
             price: supplement.price,
           })
         );
-
-        // Calculate total discount and markup percentages
-        this.dPercentage = this.hotel.seasons[0].discounts.reduce(
-          (sum: number, discount: any) => sum + discount.percentage,
-          0
-        );
-        this.mPercentage = this.hotel.seasons[0].markups.reduce(
-          (sum: number, markup: any) => sum + markup.percentage,
-          0
-        );
-        this.hotelID = this.hotel.hotelID;
       }
+
+      // Calculate total discount and markup percentages
+      this.dPercentage = this.hotel.discountDTO.reduce(
+        (sum: number, discount: any) => sum + discount.percentage,
+        0
+      );
+      this.mPercentage = this.hotel.markupDTO.percentage;
+      this.hotelID = this.hotel.hotelID;
     } else {
       console.error('No hotel data passed');
     }
@@ -91,6 +89,14 @@ export class MakebookingComponent implements OnInit {
     const bookingData = this.bookingService.getBookingData();
     // console.log('Booking data:', bookingData);
 
+    // Ensure dates are properly formatted
+    const checkInDate = bookingData.checkInDate
+      ? this.formatDate(bookingData.checkInDate)
+      : '';
+    const checkOutDate = bookingData.checkOutDate
+      ? this.formatDate(bookingData.checkOutDate)
+      : '';
+
     this.bookingForm = this.fb.group({
       fullName: ['', Validators.required],
       telephone: ['', Validators.required],
@@ -98,8 +104,8 @@ export class MakebookingComponent implements OnInit {
       address: ['', Validators.required],
       city: ['', Validators.required],
       country: ['', Validators.required],
-      checkIn: [bookingData.checkInDate || '', Validators.required],
-      checkOut: [bookingData.checkOutDate || '', Validators.required],
+      checkIn: [checkInDate, Validators.required],
+      checkOut: [checkOutDate, Validators.required],
       noOfAdults: [
         bookingData.adultCount || 1,
         [Validators.required, Validators.min(1)],
@@ -118,11 +124,19 @@ export class MakebookingComponent implements OnInit {
     this.addSupplement();
 
     const userData = this.userServicetoGetData.getUserData();
-    console.log('User data:', userData);
+  }
+
+  formatDate(date: string): string {
+    const d = new Date(date);
+    const month = ('0' + (d.getMonth() + 1)).slice(-2);
+    const day = ('0' + d.getDate()).slice(-2);
+    const year = d.getFullYear();
+    return `${year}-${month}-${day}`;
   }
 
   initializeFormWithHotelData(hotel: any) {
     const bookingData = this.bookingService.getBookingData();
+    // console.log(bookingData);
 
     this.bookingForm.patchValue({
       fullName: hotel.fullName || '',
@@ -131,18 +145,22 @@ export class MakebookingComponent implements OnInit {
       address: hotel.address || '',
       city: hotel.city || '',
       country: hotel.country || '',
-      checkIn: bookingData.checkInDate || '',
-      checkOut: bookingData.checkOutDate || '',
+      checkIn: bookingData.checkInDate
+        ? this.formatDate(bookingData.checkInDate)
+        : '',
+      checkOut: bookingData.checkOutDate
+        ? this.formatDate(bookingData.checkOutDate)
+        : '',
       noOfAdults: bookingData.adultCount || 1,
       noOfChildren: bookingData.childCount || 0,
     });
 
-    if (hotel.roomTypes) {
-      hotel.roomTypes.forEach((roomType: any) => this.addRoomType(roomType));
+    if (hotel.roomTypeDTO) {
+      hotel.roomTypeDTO.forEach((roomType: any) => this.addRoomType(roomType));
     }
 
-    if (hotel.supplements) {
-      hotel.supplements.forEach((supplement: any) =>
+    if (hotel.supplementDTOS) {
+      hotel.supplementDTOS.forEach((supplement: any) =>
         this.addSupplement(supplement)
       );
     }
@@ -352,16 +370,14 @@ export class MakebookingComponent implements OnInit {
         .makeBooking(payload)
         .then((response: any) => {
           console.log('Booking successful:', response);
-          // Handle successful booking, e.g., navigate to a confirmation page
+
           // this.router.navigate(['/booking-confirmation'], { state: { booking: response } });
         })
         .catch((error: any) => {
           console.error('Error making booking:', error);
-          // Handle error, e.g., show an error message to the user
         });
     } else {
       console.error('Form is invalid');
-      // Handle form validation errors, e.g., show validation messages to the user
     }
   }
 }

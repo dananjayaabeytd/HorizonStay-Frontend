@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class ContractService {
+  
   private BASE_URL = 'http://localhost:5000/api/contracts'; // Adjust as needed
 
   constructor(private http: HttpClient) {}
@@ -16,6 +17,25 @@ export class ContractService {
       Authorization: `Bearer ${token}`,
       'Content-Type': 'application/json',
     });
+  }
+
+
+  async searchContracts(
+    location: string,
+    checkInDate: string,
+    checkOutDate: string,
+    adults: number,
+    children: number
+  ): Promise<any> {
+    const url = `${this.BASE_URL}/search?location=${location}&checkInDate=${checkInDate}&checkOutDate=${checkOutDate}&adults=${adults}&children=${children}`;
+
+    try {
+      const response = await this.http.get<any>(url).toPromise();
+      console.log('result List ->',response)
+      return response;
+    } catch (error) {
+      throw error;
+    }
   }
 
   // POST: Add a new contract

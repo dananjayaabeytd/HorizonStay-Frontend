@@ -6,6 +6,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 })
 export class UsersService {
   private BASE_URL = 'http://localhost:5000';
+  authStatusChanged: any;
 
   constructor(private http: HttpClient) {}
 
@@ -35,19 +36,6 @@ export class UsersService {
     }
   }
 
-  // async register(userData: any): Promise<any> {
-  //   const url = `${this.BASE_URL}/auth/register`;
-
-  //   try {
-  //     const response = this.http
-  //       .post<any>(url, userData)
-  //       .toPromise();
-  //     return response;
-  //   } catch (error) {
-  //     throw error;
-  //   }
-  // }
-
 
   async register(userData: any, file: File): Promise<any> {
     const url = `${this.BASE_URL}/auth/register`;
@@ -63,22 +51,6 @@ export class UsersService {
       throw error;
     }
   }
-
-  // async register(userData: any, token: string): Promise<any> {
-  //   const url = `${this.BASE_URL}/auth/register`;
-  //   const headers = new HttpHeaders({
-  //     Authorization: `Bearer ${token}`,
-  //   });
-
-  //   try {
-  //     const response = this.http
-  //       .post<any>(url, userData, { headers })
-  //       .toPromise();
-  //     return response;
-  //   } catch (error) {
-  //     throw error;
-  //   }
-  // }
 
   async getAllUsers(token: string): Promise<any> {
     const url = `${this.BASE_URL}/admin/get-all-users`;

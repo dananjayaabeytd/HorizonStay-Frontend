@@ -15,11 +15,15 @@ export class NavComponent implements OnInit {
   isAuthenticated: boolean = false;
   isAdmin: boolean = false;
   isUser: boolean = false;
+  userImage:any
 
   ngOnInit(): void {
+    const img = localStorage.getItem('profileImage')
+
     this.isAuthenticated = this.userService.isAuthenticated();
     this.isAdmin = this.userService.isAdmin();
     this.isUser = this.userService.isUser();
+    this.userImage = `http://localhost:5000/profileImages/${img}`;
   }
 
   logout(): void {

@@ -30,9 +30,6 @@ export class ResultmoreComponent implements OnInit {
     }
   }
 
-  // navigateToBooking() {
-  //   this.router.navigate(['/makebooking'], { state: { hotel: this.hotel } });
-  // }
   navigateToBooking() {
     console.log('Navigating with hotel data:', this.hotel);
     this.router.navigate(['/makebooking'], { state: { hotel: this.hotel } });
