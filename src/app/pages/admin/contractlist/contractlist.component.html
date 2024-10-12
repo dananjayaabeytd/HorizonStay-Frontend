@@ -33,7 +33,7 @@
       <input
         type="text"
         id="table-search-users"
-        class="block pt-2 text-sm text-gray-900 border border-gray-300 rounded-lg ps-10 w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        class="block pt-2 text-sm text-gray-900 border border-gray-300 rounded-lg ps-10 w-80 bg-gray-50 focus:ring-green-500 focus:border-green-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
         placeholder="Search for contracts"
       />
     </div>
@@ -47,7 +47,8 @@
       <tr>
         <th scope="col" class="px-6 py-3">Valid From</th>
         <th scope="col" class="px-6 py-3">Valid To</th>
-        <th scope="col" class="px-6 py-3">Action</th>
+        <th scope="col" class="px-6 py-3">Added Date</th>
+        <th scope="col" class="px-6 py-3 pl-[60px]">Action</th>
       </tr>
     </thead>
     <tbody>
@@ -61,15 +62,18 @@
         </td>
         <td class="px-6 py-4">{{ contract.validTo }}</td>
         <td class="px-6 py-4">
+          {{ contract.addedDate | date : "yyyy-MM-dd" }}
+        </td>
+        <td class="px-6 py-4 space-x-2 text-left">
           <button
             (click)="navigateToUpdateContract(contract.id)"
-            class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:bg-blue-500 dark:hover:bg-blue-600 dark:focus:ring-blue-700"
+            class="px-3 py-2 text-sm text-white bg-blue-500 rounded-lg hover:bg-blue-600"
           >
             Update
           </button>
           <button
             (click)="deleteContract(contract.id)"
-            class="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 dark:bg-red-500 dark:hover:bg-red-600 dark:focus:ring-red-700 ms-2"
+            class="px-3 py-2 text-sm text-white bg-red-500 rounded-lg hover:bg-red-600"
           >
             Delete
           </button>
