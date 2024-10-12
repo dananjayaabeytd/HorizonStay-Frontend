@@ -89,6 +89,8 @@ export class RoomTypeComponent implements OnInit {
         price: roomType.form.value.price,
       };
 
+      console.log('Room Type Form Data:', roomTypeData);
+
       // Update room type using service
       await this.roomTypeService.updateRoomType(roomType.roomTypeID, roomTypeData, this.selectedFiles, token).toPromise();
       console.log('Room Type updated successfully');

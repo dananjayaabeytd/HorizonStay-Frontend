@@ -21,10 +21,13 @@ export class UpdateuserComponent {
     userId: any;
     userData: any = {}
     errorMessage:string = ''
+    imageUrl:any;
 
 
   ngOnInit(): void {
     this.getUserById()
+
+    
   }
 
   async getUserById(){
@@ -39,6 +42,8 @@ export class UpdateuserComponent {
         let userDataResponse = await this.userService.getUsersById(this.userId, token)
         const {name, email,role ,address,nic,image} = userDataResponse.systemUsers
         this.userData = {name, email,role ,address,nic,image};
+        this.imageUrl = `http://localhost:5000/profileImages/${this.userData.image}`;
+
         
       } catch (error:any) {
         this.showError(error.message);
