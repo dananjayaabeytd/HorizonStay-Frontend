@@ -1,86 +1,53 @@
-<div class="mt-[130px]">
-  <h2 class="my-10 text-4xl font-extrabold text-center dark:text-white">
-    My Bookings
+<div
+  class="relative overflow-x-auto shadow-md sm:rounded-lg mt-[120px] mx-[300px]"
+>
+  <h2 class="text-4xl font-extrabold text-center dark:text-white mb-[50px]">
+    Bookings
   </h2>
-  <div
-    *ngFor="let booking of bookings"
-    class="flex items-center justify-center mb-10"
+  <table
+    class="w-full text-sm text-left text-gray-500 rtl:text-right dark:text-gray-400"
   >
-    <div class="grid grid-cols-1 gap-8 md:grid-cols-1">
-      <!-- Card -->
-      <div
-        class="relative flex flex-row items-start h-auto max-w-4xl p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700"
+    <thead
+      class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
+    >
+      <tr>
+        <th scope="col" class="px-6 py-3">Hotel Name</th>
+        <th scope="col" class="px-6 py-3">Location</th>
+        <th scope="col" class="px-6 py-3">Check-in</th>
+        <th scope="col" class="px-6 py-3">Check-out</th>
+        <th scope="col" class="px-6 py-3">Guests</th>
+        <th scope="col" class="px-6 py-3">Total Price</th>
+        <th scope="col" class="px-6 py-3">
+          <span class="sr-only">Edit</span>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        *ngFor="let booking of bookings"
+        class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
       >
-        <!-- Image Section -->
-        <div class="w-1/3 h-full">
-          <img
-            [src]="booking.hotelImages[0]"
-            alt="Hotel Image"
-            class="object-cover w-full h-full rounded-l-lg"
-          />
-        </div>
-
-        <!-- Hotel Info Section -->
-        <div class="flex flex-col items-start w-2/3 p-6">
-          <h5
-            class="text-2xl font-bold tracking-tight text-gray-900 dark:text-white"
-          >
-            {{ booking.hotelName }} ★ {{ booking.hotelRating }}
-          </h5>
-          <p class="text-sm text-gray-500 dark:text-gray-400">
-            (3,250 Reviews)
-          </p>
-          <p class="mb-3 text-sm font-medium text-gray-700 dark:text-gray-300">
-            {{ booking.hotelLocation }}
-          </p>
-
-          <!-- Check-in/Check-out Details -->
-          <p class="text-gray-700 dark:text-gray-300">
-            <strong>Check-in:</strong> {{ booking.checkIn }}
-          </p>
-          <p class="mb-3 text-gray-700 dark:text-gray-300">
-            <strong>Check-out:</strong> {{ booking.checkOut }}
-          </p>
-
-          <!-- Booking Info -->
-          <p class="text-gray-700 dark:text-gray-300">
-            <strong>Booking Id:</strong> {{ booking.bookingId }}
-          </p>
-          <!-- <p class="text-gray-700 dark:text-gray-300"><strong>Room Type:</strong> Deluxe Double Room, Eiffel Tower View</p> -->
-          <p class="mb-3 text-gray-700 dark:text-gray-300">
-            <strong>Guests:</strong> {{ booking.noOfAdults }} Adults ,
-            {{ booking.noOfChildren }} Children
-          </p>
-
-          <!-- Total Price -->
-          <p class="text-lg font-bold text-gray-900 dark:text-white">
-            <strong>Total Price:</strong> LKR {{ booking.payableAmount }}
-          </p>
-
-          <!-- Button -->
-          <button
+        <th
+          scope="row"
+          class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+        >
+          {{ booking.hotelName }}
+        </th>
+        <td class="px-6 py-4">{{ booking.hotelLocation }}</td>
+        <td class="px-6 py-4">{{ booking.checkIn }}</td>
+        <td class="px-6 py-4">{{ booking.checkOut }}</td>
+        <td class="px-6 py-4">
+          {{ booking.noOfAdults }} Adults, {{ booking.noOfChildren }} Children
+        </td>
+        <td class="px-6 py-4">LKR {{ booking.payableAmount }}</td>
+        <td class="px-6 py-4 text-right">
+          <a
             (click)="viewBookingDetails(booking.bookingId)"
-            class="absolute inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-green-500 rounded-lg bottom-4 right-4 hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
+            class="font-medium text-green-500 dark:text-green-500 hover:underline"
+            >Details</a
           >
-            View Details
-            <svg
-              class="rtl:rotate-180 w-3.5 h-3.5 ms-2"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 14 10"
-            >
-              <path
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M1 5h12m0 0L9 1m4 4L9 9"
-              />
-            </svg>
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>
