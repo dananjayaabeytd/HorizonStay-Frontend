@@ -68,38 +68,6 @@
       />
     </div>
 
-    <!-- <div>
-      <label
-        for="password"
-        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-        >Your Password</label
-      >
-      <input
-        type="password"
-        id="password"
-
-        name="password"
-        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-gray-500 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-green-500 dark:focus:border-green-500"
-        required
-      />
-    </div>
-
-    <div>
-      <label
-        for="confirmPassword"
-        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-        >Confirm Password</label
-      >
-      <input
-        type="password"
-        id="confirmPassword"
-
-        name="confirmPassword"
-        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-gray-500 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-green-500 dark:focus:border-green-500"
-        required
-      />
-    </div> -->
-
     <div>
       <label
         for="address"
@@ -167,6 +135,7 @@
 
   <button
     type="submit"
+    [disabled]="!areFieldsValid()"
     class="flex items-center justify-center text-white bg-green-500 hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-500 dark:focus:ring-green-600"
   >
     Update Details

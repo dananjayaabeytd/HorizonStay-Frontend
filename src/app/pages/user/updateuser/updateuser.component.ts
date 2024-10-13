@@ -85,6 +85,16 @@ export class UpdateuserComponent {
       this.showError(error.message);
     }
   }
+  
+  areFieldsValid(): boolean {
+    return (
+      this.userData.name &&
+      this.userData.email &&
+      this.userData.address &&
+      this.userData.nic &&
+      this.userData.role
+    );
+  }
 
   showError(mess: string) {
     this.errorMessage = mess;
