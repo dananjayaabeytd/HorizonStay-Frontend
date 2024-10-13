@@ -31,7 +31,7 @@ export class RegisterComponent {
     private readonly userService: UsersService,
     private alertService: AlertService,
     private readonly router: Router
-  ) {}
+  ) {}  
 
   onFileSelected(event: any) {
     this.selectedFile = event.target.files[0];
