@@ -8,20 +8,37 @@ export class UsersService {
   private BASE_URL = 'http://localhost:5000';
   authStatusChanged: any;
 
-  constructor(private http: HttpClient) {}
-
-  private userData: any = {};
-
-  setUserData(data: any) {
-    this.userData = { ...this.userData, ...data };
+  constructor(private http: HttpClient) {
+    this.loadUser();
   }
 
-  getUserData() {
-    console.log('Retrieved user data:', this.userData);
-    return this.userData;
+  private user: any;
+
+  // Load user details from local storage
+  private loadUser() {
+    const userId = localStorage.getItem('userId');
+    const role = localStorage.getItem('role');
+    const profileImage = localStorage.getItem('profileImage');
+    const email = localStorage.getItem('email');
+    const address = localStorage.getItem('address');
+    const userName = localStorage.getItem('userName');
+
+    if (userId) {
+      this.user = {
+        id: userId,
+        role: role,
+        profileImage: profileImage,
+        email: email,
+        address: address,
+        name: userName,
+      };
+    }
   }
 
-  
+  // Getter methods to access user attributes
+  getUser() {
+    return this.user;
+  }
 
   async login(email: string, password: string): Promise<any> {
     const url = `${this.BASE_URL}/auth/login`;
@@ -36,12 +53,14 @@ export class UsersService {
     }
   }
 
-
   async register(userData: any, file: File): Promise<any> {
     const url = `${this.BASE_URL}/auth/register`;
 
     const formData: FormData = new FormData();
-    formData.append('user', new Blob([JSON.stringify(userData)], { type: 'application/json' }));
+    formData.append(
+      'user',
+      new Blob([JSON.stringify(userData)], { type: 'application/json' })
+    );
     formData.append('files', file);
 
     try {
@@ -125,8 +144,10 @@ export class UsersService {
 
   logOut(): void {
     if (typeof localStorage !== 'undefined') {
-      localStorage.removeItem('token');
-      localStorage.removeItem('role');
+      // localStorage.removeItem('token');
+      // localStorage.removeItem('role');
+      this.user = null; // Clear user data in memory
+      localStorage.clear(); // Clear local storage
     }
   }
 

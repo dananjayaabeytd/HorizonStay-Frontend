@@ -126,8 +126,6 @@ export class MakebookingComponent implements OnInit {
     // Initialize with one room type and one supplement
     this.addRoomType();
     this.addSupplement();
-
-    const userData = this.userServicetoGetData.getUserData();
   }
 
   formatDate(date: string): string {
@@ -357,11 +355,8 @@ export class MakebookingComponent implements OnInit {
         })),
       ];
 
-      // Retrieve user data
-      const userData = this.userServicetoGetData.getUserData();
-
       const payload = {
-        systemUserId: userData.userID,
+        systemUserId:'' ,
         fullName: formValue.fullName,
         telephone: formValue.telephone,
         email: formValue.email,

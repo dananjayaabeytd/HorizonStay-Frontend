@@ -5,7 +5,6 @@ import { UsersService } from '../../../services/user/users.service';
 import { Router } from '@angular/router';
 import { AlertService } from '../../../services/alert/alert.service';
 
-
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -35,18 +34,19 @@ export class LoginComponent {
     try {
       const response = await this.usersService.login(this.email, this.password);
       console.log(response);
+      
       if (response.statusCode == 200) {
         localStorage.setItem('token', response.token);
+
+        localStorage.setItem('userId', response.userId);
         localStorage.setItem('role', response.role);
         localStorage.setItem('profileImage', response.image);
+        localStorage.setItem('email', response.email);
+        localStorage.setItem('address', response.address);
+        localStorage.setItem('userName', response.name);
+
         this.router.navigate(['/profile']);
-
-        this.usersService.setUserData({
-          userId: response.userId,
-          role: response.role,
-        })
-
-        console.log(this.usersService.getUserData());
+;
       } else {
         // this.showError(response.message);
         this.alertService.showError(response.error);

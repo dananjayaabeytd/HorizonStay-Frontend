@@ -13,8 +13,13 @@ import { AlertService } from '../../../services/alert/alert.service';
 
 export class UserslistComponent implements OnInit {
 
+  token: any = localStorage.getItem('token');
   users: any[] = [];
   errorMessage: string = ''
+  loggedinUser:any
+  userName: string = '';
+  user:any;
+
   constructor(
     private readonly userService: UsersService,
     private alertService: AlertService,
@@ -24,6 +29,7 @@ export class UserslistComponent implements OnInit {
   
   ngOnInit(): void {
     this.loadUsers();
+    this.user = this.userService.getUser();
   }
 
   async loadUsers() {
@@ -59,7 +65,6 @@ export class UserslistComponent implements OnInit {
         this.alertService.showSuccess("User deleted successfully.");
         this.loadUsers();
       } catch (error: any) {
-        // this.showError(error.message);
         this.alertService.showError(error.message);
       }
     }
