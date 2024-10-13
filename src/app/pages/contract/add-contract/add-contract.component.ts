@@ -201,7 +201,7 @@ export class AddContractComponent implements OnInit {
       if (token) {
         try {
           const response = await this.contractService.addContract(
-            1,
+            this.hotelID,
             contractData,
             token
           ).toPromise();
