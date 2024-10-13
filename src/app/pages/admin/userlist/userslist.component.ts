@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { UsersService } from '../../../services/user/users.service';
+import { AlertService } from '../../../services/alert/alert.service';
 
 @Component({
   selector: 'app-userslist',
@@ -9,12 +10,14 @@ import { UsersService } from '../../../services/user/users.service';
   imports: [CommonModule, RouterLink],
   templateUrl: './userslist.component.html',
 })
+
 export class UserslistComponent implements OnInit {
 
   users: any[] = [];
   errorMessage: string = ''
   constructor(
     private readonly userService: UsersService,
+    private alertService: AlertService,
     private readonly router: Router
   ) {}
 
@@ -38,14 +41,26 @@ export class UserslistComponent implements OnInit {
   }
 
   async deleteUser(userId: string) {
-    const confirmDelete = confirm('Are you sure you want to delete this user?');
+
+    const confirmDelete = await this.alertService.showConfirm(
+      'Are you sure you want to delete this user?',
+      'Do you want to proceed?',
+      'Yes, proceed',
+      'No, cancel'
+    );
+    if (!confirmDelete) {
+      return;
+    }
+
     if (confirmDelete) {
       try {
         const token: any = localStorage.getItem('token');
         await this.userService.deleteUser(userId, token);
+        this.alertService.showSuccess("User deleted successfully.");
         this.loadUsers();
       } catch (error: any) {
-        this.showError(error.message);
+        // this.showError(error.message);
+        this.alertService.showError(error.message);
       }
     }
   }

@@ -71,7 +71,6 @@ export class RegisterComponent {
     try {
       if (this.selectedFile) {
         const response = await this.userService.register(this.formData, this.selectedFile);
-        this.alertService.normalSuccess(response.message);
         
         const token = localStorage.getItem('token');
         if (!token) {
