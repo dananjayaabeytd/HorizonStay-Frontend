@@ -80,9 +80,13 @@ export class RegisterComponent {
 
         console.log(response);
         // alert(response.message);
+
+        if (response.statusCode === 409) {
+          this.alertService.showError('User Already Exists with this email.');
+          this.router.navigate(['/register']);
+        }
         
         if (response.statusCode === 200) {
-          
           this.router.navigate(['/users']);
         } else {
           this.showError(response.message);
