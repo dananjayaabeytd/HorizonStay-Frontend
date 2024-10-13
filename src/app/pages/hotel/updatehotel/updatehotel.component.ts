@@ -3,6 +3,7 @@ import { HotelService } from '../../../services/hotel/hotel.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { AlertService } from '../../../services/alert/alert.service';
 
 @Component({
   selector: 'app-update-hotel',
@@ -21,6 +22,7 @@ export class UpdatehotelComponent implements OnInit {
   constructor(
     private readonly hotelService: HotelService,
     private readonly router: Router,
+    private alertService: AlertService,
     private readonly route: ActivatedRoute
   ) {}
 
@@ -80,7 +82,14 @@ export class UpdatehotelComponent implements OnInit {
 
   // Update the hotel details
   async updateHotel() {
-    const confirmUpdate = confirm("Are you sure you want to update this hotel?");
+
+    const confirmUpdate = await this.alertService.showConfirm(
+      'Are you sure you want to Update Hotel Details?',
+      'Do you want to proceed?',
+      'Yes, proceed',
+      'No, cancel'
+    );
+
     if (!confirmUpdate) return;
 
     const token = localStorage.getItem('token');
