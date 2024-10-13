@@ -117,4 +117,18 @@ export class UpdatehotelComponent implements OnInit {
       this.errorMessage = '';
     }, 3000);
   }
+
+  scrollCarousel(direction: number) {
+    const carousel = document.getElementById('imageCarousel');
+    if (carousel) {
+      const scrollAmount = direction * carousel.clientWidth; // Scroll by the width of one image
+      carousel.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+    }
+  }
+
+  triggerFileInput() {
+    document.getElementById('images')?.click();
+  }
+
+  
 }

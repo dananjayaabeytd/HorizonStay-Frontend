@@ -1,177 +1,217 @@
-<form
-  (ngSubmit)="updateHotel()"
-  class="max-w-lg p-6 mx-auto mt-10 rounded-lg shadow-md bg-green-50"
->
+<div class="max-w-4xl p-6 mx-auto mt-[60px]">
   <h2
     class="my-5 text-4xl font-extrabold text-center text-gray-900 dark:text-white"
   >
     Update Hotel
   </h2>
 
-  <!-- Image Preview Section -->
-  <div id="imagePreview" class="grid grid-cols-2 gap-4 mb-5">
-    <div *ngFor="let img of imagePreviews" class="flex flex-col items-center">
-      <img
-        [src]="img.src"
-        class="object-cover w-24 h-24 mb-2 rounded-lg"
-        alt="Image preview"
-      />
-      <span class="text-sm text-gray-700 dark:text-gray-300">{{
-        img.name
-      }}</span>
-    </div>
-  </div>
-
-  <!-- Upload Images Field -->
-  <div class="mb-5">
-    <label
-      for="images"
-      class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-      >Upload Images</label
-    >
-    <input
-      type="file"
-      id="images"
-      name="images"
-      multiple
-      class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-500 dark:border-gray-600 dark:placeholder-gray-400"
-      accept="image/*"
-      (change)="onSelectFile($event)"
-    />
-  </div>
-
-  <!-- Hotel Name -->
-  <div class="mb-5">
-    <label
-      for="hotelName"
-      class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-      >Hotel Email</label
-    >
-    <input
-      type="text"
-      id="hotelName"
-      [(ngModel)]="hotelData.hotelEmail"
-      name="hotelEmail"
-      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-gray-500 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-green-500 dark:focus:border-green-500"
-      required
-    />
-  </div>
-  <div class="mb-5">
-    <label
-      for="hotelName"
-      class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-      >Hotel Name</label
-    >
-    <input
-      type="text"
-      id="hotelName"
-      [(ngModel)]="hotelData.hotelName"
-      name="hotelName"
-      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-gray-500 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-green-500 dark:focus:border-green-500"
-      required
-    />
-  </div>
-
-  <!-- Contact Number -->
-  <div class="mb-5">
-    <label
-      for="contactNumber"
-      class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-      >Contact Number</label
-    >
-    <input
-      type="tel"
-      id="contactNumber"
-      [(ngModel)]="hotelData.hotelContactNumber"
-      name="contactNumber"
-      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-gray-500 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-green-500 dark:focus:border-green-500"
-      placeholder="+1234567890"
-      required
-    />
-  </div>
-
-  <!-- City -->
-  <div class="mb-5">
-    <label
-      for="hotelCity"
-      class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-      >City</label
-    >
-    <input
-      type="text"
-      id="hotelCity"
-      [(ngModel)]="hotelData.hotelCity"
-      name="hotelCity"
-      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-gray-500 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-green-500 dark:focus:border-green-500"
-      required
-    />
-  </div>
-
-  <!-- Country -->
-  <div class="mb-5">
-    <label
-      for="hotelCountry"
-      class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-      >Country</label
-    >
-    <input
-      type="text"
-      id="hotelCountry"
-      [(ngModel)]="hotelData.hotelCountry"
-      name="hotelCountry"
-      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-gray-500 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-green-500 dark:focus:border-green-500"
-      required
-    />
-  </div>
-
-  <!-- Description Field -->
-  <div class="mb-5">
-    <label
-      for="description"
-      class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-      >Description</label
-    >
-    <textarea
-      id="description"
-      [(ngModel)]="hotelData.hotelDescription"
-      name="description"
-      rows="4"
-      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-gray-500 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-green-500 dark:focus:border-green-500"
-      placeholder="Write a brief description about the hotel"
-      required
-    ></textarea>
-  </div>
-
-  <!-- Rating Slider -->
-  <div class="mb-5">
-    <label
-      for="rating"
-      class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-      >Rating</label
-    >
-    <input
-      type="range"
-      id="rating"
-      name="rating"
-      min="0"
-      max="5"
-      step="0.1"
-      [(ngModel)]="hotelData.hotelRating"
-      class="w-full h-2 bg-gray-300 rounded-lg appearance-none cursor-pointer dark:bg-gray-500 focus:outline-none focus:ring-green-500 focus:border-green-500"
-    />
-    <span class="text-sm font-medium text-gray-900 dark:text-white">{{
-      hotelData.hotelRating
-    }}</span>
-  </div>
-
-  <!-- Submit Button -->
-  <button
-    type="submit"
-    class="w-full px-5 py-2.5 text-sm font-medium text-center text-white bg-green-500 rounded-lg hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-500 dark:focus:ring-green-600"
+  <form
+    (ngSubmit)="updateHotel()"
+    class="grid grid-cols-1 gap-6 p-6 rounded-lg shadow-md bg-gray-50 md:grid-cols-2"
   >
-    Update Hotel
-  </button>
+    <!-- Left Column: Form Inputs -->
+    <div>
+      <div class="mb-5">
+        <label
+          for="hotelEmail"
+          class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+          >Hotel Email</label
+        >
+        <input
+          type="email"
+          id="hotelEmail"
+          [(ngModel)]="hotelData.hotelEmail"
+          name="hotelEmail"
+          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-gray-500 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-green-500 dark:focus:border-green-500"
+          placeholder="Hotel@gmail.com"
+          required
+        />
+      </div>
 
-  <!-- Error Message -->
-  <p *ngIf="errorMessage" class="text-red-500">{{ errorMessage }}</p>
-</form>
+      <div class="grid grid-cols-1 gap-4 mb-5 md:grid-cols-2">
+        <div>
+          <label
+            for="hotelName"
+            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            >Hotel Name</label
+          >
+          <input
+            type="text"
+            id="hotelName"
+            [(ngModel)]="hotelData.hotelName"
+            name="hotelName"
+            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-gray-500 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-green-500 dark:focus:border-green-500"
+            placeholder="Hotel ABC"
+            required
+          />
+        </div>
+
+        <div>
+          <label
+            for="contactNumber"
+            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            >Contact Number</label
+          >
+          <input
+            type="tel"
+            id="contactNumber"
+            [(ngModel)]="hotelData.hotelContactNumber"
+            name="contactNumber"
+            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-gray-500 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-green-500 dark:focus:border-green-500"
+            placeholder="+1234567890"
+            required
+          />
+        </div>
+
+        <div>
+          <label
+            for="city"
+            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            >City</label
+          >
+          <input
+            type="text"
+            id="city"
+            [(ngModel)]="hotelData.hotelCity"
+            name="city"
+            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-gray-500 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-green-500 dark:focus:border-green-500"
+            placeholder="New York"
+            required
+          />
+        </div>
+
+        <div>
+          <label
+            for="country"
+            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            >Country</label
+          >
+          <input
+            type="text"
+            id="country"
+            [(ngModel)]="hotelData.hotelCountry"
+            name="country"
+            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-gray-500 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-green-500 dark:focus:border-green-500"
+            placeholder="USA"
+            required
+          />
+        </div>
+      </div>
+
+      <div class="mb-2">
+        <label
+          for="rating"
+          class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+          >Rating</label
+        >
+        <input
+          type="range"
+          id="rating"
+          name="rating"
+          min="0"
+          max="5"
+          step="0.1"
+          [(ngModel)]="hotelData.hotelRating"
+          class="w-full h-2 bg-gray-300 rounded-lg appearance-none cursor-pointer dark:bg-gray-500 focus:outline-none focus:ring-green-500 focus:border-green-500"
+        />
+        <span class="text-sm font-medium text-gray-900 dark:text-white">{{
+          hotelData.hotelRating
+        }}</span>
+      </div>
+
+      <div
+        class="border-2 border-gray-300 border-dotted rounded-lg mt-[20px] p-5"
+      >
+        <div
+          class="flex items-center space-x-2 cursor-pointer"
+          (click)="triggerFileInput()"
+        >
+          <svg
+            class="w-6 h-6 text-gray-500 dark:text-gray-400"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1M12 12v6m0 0l-3-3m3 3l3-3m-3-3V4m0 0L9 7m3-3l3 3"
+            ></path>
+          </svg>
+          <span class="text-sm font-medium text-gray-900 dark:text-white"
+            >Click here to upload Hotel images</span
+          >
+        </div>
+        <input
+          type="file"
+          id="images"
+          name="images"
+          multiple
+          class="hidden"
+          accept="image/*"
+          (change)="onSelectFile($event)"
+        />
+      </div>
+    </div>
+
+    <!-- Right Column: Description, Image Upload and Preview -->
+    <div>
+      <div class="mb-5">
+        <label
+          for="description"
+          class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+          >Description</label
+        >
+        <textarea
+          id="description"
+          [(ngModel)]="hotelData.hotelDescription"
+          name="description"
+          rows="4"
+          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-gray-500 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-green-500 dark:focus:border-green-500"
+          placeholder="Write a brief description about the hotel"
+          required
+        ></textarea>
+      </div>
+
+      <div class="relative w-full mt-[20px]">
+        <div class="flex overflow-hidden" id="imageCarousel">
+          <div
+            *ngFor="let img of imagePreviews"
+            class="flex-shrink-0 w-full h-64"
+          >
+            <img
+              [src]="img.src"
+              class="object-cover w-[400px] h-[200px] rounded-lg"
+              alt="Image preview"
+            />
+          </div>
+        </div>
+        <button
+          *ngIf="imagePreviews.length > 0"
+          type="button"
+          class="absolute left-0 p-2 transform -translate-y-1/2 bg-gray-300 rounded-full top-1/2"
+          (click)="scrollCarousel(-1)"
+        >
+          &#10094;
+        </button>
+        <button
+          *ngIf="imagePreviews.length > 0"
+          type="button"
+          class="absolute right-0 p-2 transform -translate-y-1/2 bg-gray-300 rounded-full top-1/2"
+          (click)="scrollCarousel(1)"
+        >
+          &#10095;
+        </button>
+      </div>
+
+      <button
+        type="submit"
+        class="w-full px-5 py-2.5 text-sm font-medium text-center text-white bg-green-500 rounded-lg hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-500 dark:focus:ring-green-600 mt-2"
+      >
+        Update Hotel
+      </button>
+    </div>
+  </form>
+</div>
