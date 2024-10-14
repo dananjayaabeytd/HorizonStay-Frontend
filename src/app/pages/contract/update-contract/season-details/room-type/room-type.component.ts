@@ -1,8 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RoomTypeService } from '../../../../../services/roomType/room-type.service';
 import { CommonModule } from '@angular/common';
+import { AlertService } from '../../../../../services/alert/alert.service';
 
 @Component({
   selector: 'app-roomtype',
@@ -21,6 +27,7 @@ export class RoomTypeComponent implements OnInit {
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
+    private alertService: AlertService,
     private roomTypeService: RoomTypeService
   ) {
     this.newRoomTypeForm = this.fb.group({
@@ -42,18 +49,22 @@ export class RoomTypeComponent implements OnInit {
       if (!token) {
         throw new Error('Token not found');
       }
-      const response = await this.roomTypeService.getRoomTypesBySeasonId(this.seasonID, token).toPromise();
+      const response = await this.roomTypeService
+        .getRoomTypesBySeasonId(this.seasonID, token)
+        .toPromise();
 
-      console.log(response)
+      console.log(response);
       if (response) {
         this.roomTypes = response.map((roomType: any) => ({
           ...roomType,
           form: this.fb.group({
             roomTypeName: [roomType.roomTypeName, Validators.required],
             numberOfRooms: [roomType.numberOfRooms, Validators.required],
-            maxNumberOfPersons: [roomType.maxNumberOfPersons, Validators.required],
+            maxNumberOfPersons: [
+              roomType.maxNumberOfPersons,
+              Validators.required,
+            ],
             price: [roomType.price, Validators.required],
-
           }),
         }));
       } else {
@@ -66,11 +77,14 @@ export class RoomTypeComponent implements OnInit {
 
   onFileSelected(event: any) {
     this.selectedFiles = Array.from(event.target.files);
-    this.imagePreviews = this.selectedFiles.map((file) => URL.createObjectURL(file));
+    this.imagePreviews = this.selectedFiles.map((file) =>
+      URL.createObjectURL(file)
+    );
   }
 
   async onSubmitRoomTypeDetails(roomType: any) {
     if (roomType.form.invalid) {
+      this.alertService.showError('All fields are required');
       console.log('Form is invalid');
       return;
     }
@@ -87,14 +101,19 @@ export class RoomTypeComponent implements OnInit {
         numberOfRooms: roomType.form.value.numberOfRooms,
         maxNumberOfPersons: roomType.form.value.maxNumberOfPersons,
         price: roomType.form.value.price,
+        roomTypeImages: roomType.roomTypeImages,
       };
 
-      console.log('Room Type Form Data:', roomTypeData);
-
-      // Update room type using service
-      await this.roomTypeService.updateRoomType(roomType.roomTypeID, roomTypeData, this.selectedFiles, token).toPromise();
+      await this.roomTypeService
+        .updateRoomType(
+          roomType.roomTypeID,
+          roomTypeData,
+          token
+        )
+        .toPromise();
       console.log('Room Type updated successfully');
-      await this.loadRoomTypes(); // Reload room types to refresh the list
+      this.alertService.showSuccess('Room Type Updated Successfully');
+      await this.loadRoomTypes();
     } catch (error) {
       console.error('Error updating room type:', error);
     }
@@ -103,6 +122,7 @@ export class RoomTypeComponent implements OnInit {
   async onAddNewRoomType() {
     if (this.newRoomTypeForm.invalid) {
       console.log('Form is invalid');
+      this.alertService.showError('All fields are required');
       return;
     }
 
@@ -117,31 +137,64 @@ export class RoomTypeComponent implements OnInit {
         ...this.newRoomTypeForm.value,
         seasonID: this.seasonID,
       };
-      // Add new room type using service
-      await this.roomTypeService.addRoomTypeToSeason(this.seasonID, newRoomTypeData, this.selectedFiles, token).toPromise();
+
+      await this.roomTypeService
+        .addRoomTypeToSeason(
+          this.seasonID,
+          newRoomTypeData,
+          this.selectedFiles,
+          token
+        )
+        .toPromise();
+      this.alertService.showSuccess('Room Type added successfully');
       console.log('New Room Type added successfully');
       this.newRoomTypeForm.reset();
       this.imagePreviews = []; // Clear previews
       this.selectedFiles = []; // Clear file input
       await this.loadRoomTypes(); // Reload room types to refresh the list
     } catch (error) {
+      this.alertService.showError('Error occurred while adding Room Type');
       console.error('Error adding new room type:', error);
     }
   }
 
   async onDeleteRoomType(roomTypeID: number) {
+    const confirmDelete = await this.alertService.showConfirm(
+      'Are you sure you want to Delete this Discount?',
+      'Do you want to proceed?',
+      'Yes, proceed',
+      'No, cancel'
+    );
+
     const token: string | null = localStorage.getItem('token');
     if (!token) {
       console.error('Token not found');
       return;
     }
 
-    try {
-      await this.roomTypeService.deleteRoomType(roomTypeID, token).toPromise();
-      console.log('Room Type deleted successfully');
-      await this.loadRoomTypes(); // Reload room types to refresh the list
-    } catch (error) {
-      console.error('Error deleting room type:', error);
+    if (!confirmDelete) return;
+
+    if (confirmDelete) {
+      try {
+        await this.roomTypeService
+          .deleteRoomType(roomTypeID, token)
+          .toPromise();
+        console.log('Room Type deleted successfully');
+        this.alertService.showSuccess('Room Type Deleted Successfully');
+        await this.loadRoomTypes(); // Reload room types to refresh the list
+      } catch (error) {
+        console.error('Error deleting room type:', error);
+        this.alertService.showError('Error occurred while deleting Room Type');
+      }
+    }
+  }
+
+  triggerFileInput() {
+    const fileInput = document.getElementById(
+      'roomTypeImages'
+    ) as HTMLInputElement;
+    if (fileInput) {
+      fileInput.click();
     }
   }
 }
