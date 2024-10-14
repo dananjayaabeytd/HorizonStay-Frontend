@@ -35,8 +35,13 @@ export const routes: Routes = [
     component: AddContractComponent,
   },
 
+  // {
+  //   path: 'update-contract/:id',
+  //   component: UpdateContractComponent,
+  // },
+
   {
-    path: 'update-contract/:id',
+    path: 'hotel/:hotelID/update-contract/:contractId',
     component: UpdateContractComponent,
   },
 

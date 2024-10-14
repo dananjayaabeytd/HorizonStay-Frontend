@@ -46,8 +46,12 @@ export class ContractlistComponent implements OnInit {
     }
   }
 
-  navigateToUpdateContract(contractId: any) {
-    this.router.navigate(['/update-contract', contractId]);
+  // navigateToUpdateContract(contractId: any) {
+  //   this.router.navigate(['/update-contract', contractId]);
+  // }
+
+  navigateToUpdateContract(hotelID: any, contractId: any) {
+    this.router.navigate([`/hotel/${hotelID}/update-contract/${contractId}`]);
   }
 
   async deleteContract(contractId: any) {

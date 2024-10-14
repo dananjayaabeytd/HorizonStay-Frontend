@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ContractService } from '../../../services/contract/contract.service';
 import { CommonModule } from '@angular/common';
@@ -15,6 +20,7 @@ export class UpdateContractComponent implements OnInit {
   form: FormGroup;
   newSeasonForm: FormGroup;
   contractID: any;
+  hotelID: any;
   seasons: any[] = [];
 
   constructor(
@@ -28,13 +34,13 @@ export class UpdateContractComponent implements OnInit {
       validFrom: ['', Validators.required],
       validTo: ['', Validators.required],
       cancellationPolicy: ['', Validators.required],
-      paymentPolicy: ['', Validators.required]
+      paymentPolicy: ['', Validators.required],
     });
 
     this.newSeasonForm = this.fb.group({
       seasonName: ['', Validators.required],
       validFrom: ['', Validators.required],
-      validTo: ['', Validators.required]
+      validTo: ['', Validators.required],
     });
   }
 
@@ -45,15 +51,15 @@ export class UpdateContractComponent implements OnInit {
 
   async loadContract() {
     try {
-      this.contractID = this.route.snapshot.paramMap.get('id');
+      this.contractID = this.route.snapshot.paramMap.get('contractId');
+      this.hotelID = this.route.snapshot.paramMap.get('hotelID');
       const token: string | null = localStorage.getItem('token');
       if (!token) {
         throw new Error('Token not found');
       }
-      const response = await this.contractService.getContractById(
-        this.contractID,
-        token
-      ).toPromise();
+      const response = await this.contractService
+        .getContractById(this.contractID, token)
+        .toPromise();
       console.log('API Response:', response);
 
       if (response) {
@@ -61,7 +67,7 @@ export class UpdateContractComponent implements OnInit {
           validFrom: response.validFrom,
           validTo: response.validTo,
           cancellationPolicy: response.cancellationPolicy,
-          paymentPolicy: response.paymentPolicy
+          paymentPolicy: response.paymentPolicy,
         });
       } else {
         console.log('No Contract found.');
@@ -77,10 +83,9 @@ export class UpdateContractComponent implements OnInit {
       if (!token) {
         throw new Error('Token not found');
       }
-      const response = await this.seasonService.getSeasonsByContractId(
-        this.contractID,
-        token
-      ).toPromise();
+      const response = await this.seasonService
+        .getSeasonsByContractId(this.contractID, token)
+        .toPromise();
       console.log('Seasons API Response:', response);
 
       if (response) {
@@ -89,8 +94,8 @@ export class UpdateContractComponent implements OnInit {
           form: this.fb.group({
             seasonName: [season.seasonName, Validators.required],
             validFrom: [season.validFrom, Validators.required],
-            validTo: [season.validTo, Validators.required]
-          })
+            validTo: [season.validTo, Validators.required],
+          }),
         }));
       } else {
         console.log('No Seasons found.');
@@ -111,7 +116,9 @@ export class UpdateContractComponent implements OnInit {
     }
     try {
       console.log('Form Data:', this.form.value); // Log the form data
-      const response = await this.contractService.updateContract(this.contractID, this.form.value, token).toPromise();
+      const response = await this.contractService
+        .updateContract(this.contractID, this.form.value, token)
+        .toPromise();
       console.log('Contract updated:', response);
       // this.router.navigate(['/contracts']);
     } catch (error: any) {
@@ -130,7 +137,9 @@ export class UpdateContractComponent implements OnInit {
     }
     try {
       console.log('Season Form Data:', season.form.value); // Log the season form data
-      const response = await this.seasonService.updateSeason(season.id, season.form.value, token).toPromise();
+      const response = await this.seasonService
+        .updateSeason(season.id, season.form.value, token)
+        .toPromise();
       console.log('Season updated:', response);
       this.loadSeasons(); // Reload seasons after update
     } catch (error: any) {
@@ -149,7 +158,9 @@ export class UpdateContractComponent implements OnInit {
     }
     try {
       console.log('New Season Form Data:', this.newSeasonForm.value); // Log the new season form data
-      const response = await this.seasonService.addSeasonToContract(this.contractID, this.newSeasonForm.value, token).toPromise();
+      const response = await this.seasonService
+        .addSeasonToContract(this.contractID, this.newSeasonForm.value, token)
+        .toPromise();
       console.log('New Season added:', response);
       this.loadSeasons(); // Reload seasons after adding new season
       this.newSeasonForm.reset(); // Reset the form after submission
@@ -165,7 +176,9 @@ export class UpdateContractComponent implements OnInit {
       return;
     }
     try {
-      const response = await this.seasonService.deleteSeason(seasonId, token).toPromise();
+      const response = await this.seasonService
+        .deleteSeason(seasonId, token)
+        .toPromise();
       console.log('Season deleted:', response);
       this.loadSeasons(); // Reload seasons after deletion
     } catch (error: any) {
@@ -173,7 +186,13 @@ export class UpdateContractComponent implements OnInit {
     }
   }
 
+  // navigateToSeasonDetails(seasonId: number) {
+  //   this.router.navigate([`/season-details/${seasonId}`]);
+  // }
+
   navigateToSeasonDetails(seasonId: number) {
-    this.router.navigate([`/season-details/${seasonId}`]);
+    this.router.navigate([`/season-details/${seasonId}`], {
+      queryParams: { hotelID: this.hotelID, contractID: this.contractID },
+    });
   }
 }
