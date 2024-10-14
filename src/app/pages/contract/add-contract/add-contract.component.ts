@@ -7,6 +7,7 @@ import { RoomTypeService } from '../../../services/roomType/room-type.service';
 import { DiscountService } from '../../../services/discount/discount.service';
 import { MarkupService } from '../../../services/markup/markup.service';
 import { SupplementService } from '../../../services/supplement/supplement.service';
+import { AlertService } from '../../../services/alert/alert.service';
 
 import {
   FormBuilder,
@@ -31,12 +32,13 @@ interface ImageDetails {
   imports: [ReactiveFormsModule, CommonModule],
 })
 export class AddContractComponent implements OnInit {
-
   form: FormGroup;
   roomImages: ImageDetails[][][] = [];
   hotelID: any;
   contractID: any;
   seasonID: any;
+  isContractSubmitted = false; // New property to track submission state
+  isSeasonSubmitted: boolean[] = []; // New property to track season submission state
 
   constructor(
     private fb: FormBuilder,
@@ -46,6 +48,7 @@ export class AddContractComponent implements OnInit {
     private discountService: DiscountService,
     private markupService: MarkupService,
     private supplementService: SupplementService,
+    private alertService: AlertService,
     private readonly route: ActivatedRoute,
     private readonly router: Router,
     private cdr: ChangeDetectorRef
@@ -80,11 +83,13 @@ export class AddContractComponent implements OnInit {
 
     this.seasons.push(seasonGroup);
     this.roomImages.push([]);
+    this.isSeasonSubmitted.push(false); // Initialize the submission state for the new season
   }
 
   removeSeason(index: number) {
     this.seasons.removeAt(index);
     this.roomImages.splice(index, 1);
+    this.isSeasonSubmitted.splice(index, 1); // Remove the submission state for the removed season
   }
 
   roomTypes(seasonIndex: number) {
@@ -196,67 +201,136 @@ export class AddContractComponent implements OnInit {
         seasons: [],
       };
 
+      if (contractData.validFrom > contractData.validTo) {
+        this.alertService.showError(
+          'Contract valid from date cannot be greater than valid to date'
+        );
+        return;
+      }
+
+      // if (this.seasons.length === 0) {
+      //   this.alertService.showError('At least one season is required');
+      //   return;
+      // }
+
       const token = localStorage.getItem('token');
 
       if (token) {
         try {
-          const response = await this.contractService.addContract(
-            this.hotelID,
-            contractData,
-            token
-          ).toPromise();
+          const response = await this.contractService
+            .addContract(this.hotelID, contractData, token)
+            .toPromise();
           this.contractID = response.id;
-          console.log('Contract added successfully:', response);
+          console.log('Main Details added successfully:', response);
+          this.alertService.showSuccess('Main Details added successfully');
+          this.isContractSubmitted = true; // Set to true upon successful submission
         } catch (error) {
           console.error('Error adding contract:', error);
         }
       }
     } else {
+      this.alertService.showError('Please fill all the main details');
       console.log('Form is not valid');
     }
   }
 
   async onSubmitSeasonDetails(seasonIndex: number) {
     const season = this.seasons.at(seasonIndex).value;
+
+    if (!season.seasonName || !season.validFrom || !season.validTo) {
+      this.alertService.showError('Please fill all the season details');
+      return;
+    }
+
+    if (season.validFrom > season.validTo) {
+      this.alertService.showError(
+        'Season valid from date cannot be greater than valid to date'
+      );
+      return;
+    }
+
+    if (
+      season.validFrom < this.form.value.contractvalidFrom ||
+      season.validTo > this.form.value.contractvalidTo
+    ) {
+      this.alertService.showError(
+        'Season dates must be within the contract dates'
+      );
+      return;
+    }
+
     const token = localStorage.getItem('token');
 
     if (token) {
       try {
-        const response = await this.seasonService.addSeasonToContract(
-          this.contractID,
-          season,
-          token
-        ).toPromise();
+        const response = await this.seasonService
+          .addSeasonToContract(this.contractID, season, token)
+          .toPromise();
         this.seasonID = response.id;
+        this.alertService.showSuccess(season.seasonName + ' added successfully');
         console.log('Season added successfully:', response);
+        this.isSeasonSubmitted[seasonIndex] = true; // Set to true upon successful submission
       } catch (error) {
         console.error('Error adding season:', error);
+        this.alertService.showError('Error occured when adding '+ season.seasonName);
       }
     }
   }
 
+  // async onSubmitSeasonDetails(seasonIndex: number) {
+  //   const season = this.seasons.at(seasonIndex).value;
+  //   const token = localStorage.getItem('token');
+
+  //   if (token) {
+  //     try {
+  //       const response = await this.seasonService.addSeasonToContract(
+  //         this.contractID,
+  //         season,
+  //         token
+  //       ).toPromise();
+  //       this.seasonID = response.id;
+  //       console.log('Season added successfully:', response);
+  //       this.isSeasonSubmitted[seasonIndex] = true; // Set to true upon successful submission
+  //     } catch (error) {
+  //       console.error('Error adding season:', error);
+  //     }
+  //   }
+  // }
+
   async onSubmitRoomTypeDetails(seasonIndex: number, roomIndex: number) {
     const roomType = this.roomTypes(seasonIndex).at(roomIndex).value;
+
+    if (!roomType.roomTypeName || !roomType.numberOfRooms || !roomType.maxNumberOfPersons || !roomType.price) {
+      this.alertService.showError('Please fill all the room type details');
+      return;
+    }
+
     const token = localStorage.getItem('token');
 
     if (token) {
       try {
-        const response = await this.roomTypeService.addRoomTypeToSeason(
-          this.seasonID,
-          roomType,
-          this.roomImages[seasonIndex][roomIndex].map(imageDetail => {
-            const byteString = atob(imageDetail.src.split(',')[1]);
-            const arrayBuffer = new ArrayBuffer(byteString.length);
-            const intArray = new Uint8Array(arrayBuffer);
-            for (let i = 0; i < byteString.length; i++) {
-              intArray[i] = byteString.charCodeAt(i);
-            }
-            return new File([arrayBuffer], imageDetail.name, { type: imageDetail.type });
-          }),
-          token
-        ).toPromise();
+        const response = await this.roomTypeService
+          .addRoomTypeToSeason(
+            this.seasonID,
+            roomType,
+            this.roomImages[seasonIndex][roomIndex].map((imageDetail) => {
+              const byteString = atob(imageDetail.src.split(',')[1]);
+              const arrayBuffer = new ArrayBuffer(byteString.length);
+              const intArray = new Uint8Array(arrayBuffer);
+              for (let i = 0; i < byteString.length; i++) {
+                intArray[i] = byteString.charCodeAt(i);
+              }
+              return new File([arrayBuffer], imageDetail.name, {
+                type: imageDetail.type,
+              });
+            }),
+            token
+          )
+          .toPromise();
+        this.alertService.showSuccess(roomType.roomTypeName + ' added successfully');
         console.log('Room type added successfully:', response);
       } catch (error) {
+        this.alertService.showError('Error occured when adding '+ roomType.roomTypeName);
         console.error('Error adding room type:', error);
       }
     }
@@ -264,17 +338,23 @@ export class AddContractComponent implements OnInit {
 
   async onSubmitDiscountDetails(seasonIndex: number, discountIndex: number) {
     const discount = this.discounts(seasonIndex).at(discountIndex).value;
+
+    if (!discount.discountName || discount.percentage === null) {
+      this.alertService.showError('Please fill all the discount details');
+      return;
+    }
+
     const token = localStorage.getItem('token');
 
     if (token) {
       try {
-        const response = await this.discountService.addDiscountToSeason(
-          this.seasonID,
-          discount,
-          token
-        ).toPromise();
+        const response = await this.discountService
+          .addDiscountToSeason(this.seasonID, discount, token)
+          .toPromise();
+        this.alertService.showSuccess(discount.discountNamee + ' added successfully');
         console.log('Discount added successfully:', response);
       } catch (error) {
+        this.alertService.showError('Error occured when adding '+ discount.discountNamee);
         console.error('Error adding discount:', error);
       }
     }
@@ -282,35 +362,50 @@ export class AddContractComponent implements OnInit {
 
   async onSubmitMarkupDetails(seasonIndex: number, markupIndex: number) {
     const markup = this.markups(seasonIndex).at(markupIndex).value;
+
+    if (!markup.markupName || markup.percentage === null) {
+      this.alertService.showError('Please fill all the markup details');
+      return;
+    }
+
     const token = localStorage.getItem('token');
 
     if (token) {
       try {
-        const response = await this.markupService.addMarkupToSeason(
-          this.seasonID,
-          markup,
-          token
-        ).toPromise();
+        const response = await this.markupService
+          .addMarkupToSeason(this.seasonID, markup, token)
+          .toPromise();
+        this.alertService.showSuccess(markup.markupName + ' added successfully');
         console.log('Markup added successfully:', response);
       } catch (error) {
+        this.alertService.showError('Error occured when adding '+ markup.markupName);
         console.error('Error adding markup:', error);
       }
     }
   }
 
-  async onSubmitSupplementDetails(seasonIndex: number, supplementIndex: number) {
+  async onSubmitSupplementDetails(
+    seasonIndex: number,
+    supplementIndex: number
+  ) {
     const supplement = this.supplements(seasonIndex).at(supplementIndex).value;
+
+    if (!supplement.supplementName || supplement.price === null) {
+      this.alertService.showError('Please fill all the supplement details');
+      return;
+    }
+
     const token = localStorage.getItem('token');
 
     if (token) {
       try {
-        const response = await this.supplementService.addSupplementToSeason(
-          this.seasonID,
-          supplement,
-          token
-        ).toPromise();
+        const response = await this.supplementService
+          .addSupplementToSeason(this.seasonID, supplement, token)
+          .toPromise();
+        this.alertService.showSuccess(supplement.supplementName + ' added successfully');
         console.log('Supplement added successfully:', response);
       } catch (error) {
+        this.alertService.showError('Error occured when adding '+ supplement.supplementName);
         console.error('Error adding supplement:', error);
       }
     }
@@ -318,5 +413,5 @@ export class AddContractComponent implements OnInit {
 
   complete() {
     this.router.navigate(['hotel/contracts/', this.hotelID]);
-    }
+  }
 }

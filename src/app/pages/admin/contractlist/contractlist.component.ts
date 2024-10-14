@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink, ActivatedRoute } from '@angular/router';
 import { ContractService } from '../../../services/contract/contract.service';
+import { AlertService } from '../../../services/alert/alert.service';
 
 @Component({
   selector: 'app-contractlist',
@@ -17,6 +18,7 @@ export class ContractlistComponent implements OnInit {
   constructor(
     private readonly contractService: ContractService,
     private readonly route: ActivatedRoute,
+    private alertService: AlertService,
     private readonly router: Router
   ) {}
 
@@ -28,12 +30,11 @@ export class ContractlistComponent implements OnInit {
     try {
       this.hotelID = this.route.snapshot.paramMap.get('id');
       const token: any = localStorage.getItem('token');
-      const response = await this.contractService.getContractsByHotelId(
-        this.hotelID,
-        token
-      ).toPromise(); // Convert Observable to Promise
-      console.log('API Response:', response); // Log the entire response
-  
+      const response = await this.contractService
+        .getContractsByHotelId(this.hotelID, token)
+        .toPromise(); // Convert Observable to Promise
+      // console.log('API Response:', response); // Log the entire response
+
       if (response && Array.isArray(response)) {
         console.log('Contracts found:', response);
         this.contracts = response;
@@ -50,19 +51,32 @@ export class ContractlistComponent implements OnInit {
   }
 
   async deleteContract(contractId: any) {
-    try {
-      const token: any = localStorage.getItem('token');
-      const response = await this.contractService.deleteContract(
-        contractId,
-        token
-      );
-      if (response) {
-        this.loadContracts(); // Reload contracts after deletion
-      } else {
-        console.log('Failed to delete contract.');
+    const confirmDelete = await this.alertService.showConfirm(
+      'Are you sure you want to delete this contract ?',
+      'Do you want to proceed?',
+      'Yes, proceed',
+      'No, cancel'
+    );
+    if (!confirmDelete) {
+      return;
+    }
+
+    if (confirmDelete) {
+      try {
+        const token: any = localStorage.getItem('token');
+        const response = this.contractService
+          .deleteContract(contractId, token)
+          .toPromise(); // Convert Observable to Promise
+
+        // console.log('response ->',response)
+        if (await response) {
+          this.loadContracts(); // Reload contracts after deletion
+        } else {
+          console.log('Failed to delete contract.');
+        }
+      } catch (error: any) {
+        console.log(error.message);
       }
-    } catch (error: any) {
-      console.log(error.message);
     }
   }
 }
