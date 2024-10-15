@@ -48,6 +48,17 @@ export class BookingService {
     }
   }
 
+  async updateAvailability(bookingData: any): Promise<any> {
+    const url = `${this.BASE_URL}/booking/availability`;
+
+    try {
+      const response = await this.http.post<any>(url, bookingData).toPromise();
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  }
+
   async viewBookingsByEmail(email: string): Promise<any> {
     const url = `${this.BASE_URL}/booking/${email}`;
 

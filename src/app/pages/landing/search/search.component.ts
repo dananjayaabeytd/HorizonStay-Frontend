@@ -13,8 +13,8 @@ import { BookingService } from '../../../services/booking/booking.service'; // I
 })
 export class SearchComponent {
   location = 'colombo';
-  checkInDate = '2025-11-10';
-  checkOutDate = '2025-12-31';
+  checkInDate = '2024-09-30';
+  checkOutDate = '2025-11-05';
   adultCount = 2;
   childCount = 1;
   showAdultDropdown = false;

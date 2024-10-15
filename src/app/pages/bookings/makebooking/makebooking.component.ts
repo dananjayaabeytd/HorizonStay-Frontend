@@ -239,7 +239,10 @@ export class MakebookingComponent implements OnInit {
 
     if (selectedRoomType) {
       this.roomTypes.at(index).get('price')?.setValue(selectedRoomType.price);
-      this.roomTypes.at(index).get('roomTypeID')?.setValue(selectedRoomType.roomTypeID); // Set roomTypeID
+      this.roomTypes
+        .at(index)
+        .get('roomTypeID')
+        ?.setValue(selectedRoomType.roomTypeID); // Set roomTypeID
       this.updateRoomTypePrice(this.roomTypes.at(index) as FormGroup);
     }
   }
@@ -257,7 +260,10 @@ export class MakebookingComponent implements OnInit {
         .at(index)
         .get('price')
         ?.setValue(selectedSupplement.price);
-      this.supplements.at(index).get('supplementID')?.setValue(selectedSupplement.supplementID); // Set supplementID
+      this.supplements
+        .at(index)
+        .get('supplementID')
+        ?.setValue(selectedSupplement.supplementID); // Set supplementID
       this.updateSupplementPrice(this.supplements.at(index) as FormGroup);
     }
   }
@@ -272,7 +278,9 @@ export class MakebookingComponent implements OnInit {
     if (selectedRoomType) {
       const totalPrice = selectedRoomType.price * numberOfRooms;
       roomTypeFormGroup.get('price')?.setValue(totalPrice);
-      roomTypeFormGroup.get('roomTypeID')?.setValue(selectedRoomType.roomTypeID); // Set roomTypeID
+      roomTypeFormGroup
+        .get('roomTypeID')
+        ?.setValue(selectedRoomType.roomTypeID); // Set roomTypeID
     }
   }
 
@@ -286,7 +294,9 @@ export class MakebookingComponent implements OnInit {
     if (selectedSupplement) {
       const totalPrice = selectedSupplement.price * quantity;
       supplementFormGroup.get('price')?.setValue(totalPrice);
-      supplementFormGroup.get('supplementID')?.setValue(selectedSupplement.supplementID); // Set supplementID
+      supplementFormGroup
+        .get('supplementID')
+        ?.setValue(selectedSupplement.supplementID); // Set supplementID
     }
   }
 
@@ -324,7 +334,9 @@ export class MakebookingComponent implements OnInit {
 
     console.log('payload -> ', payload);
 
-    this.bookingService.calculateAmount(payload).then((response: any) => {
+    this.bookingService
+      .calculateAmount(payload)
+      .then((response: any) => {
         console.log(response);
 
         this.totalAmount = response.payableAmount;
@@ -356,7 +368,7 @@ export class MakebookingComponent implements OnInit {
       ];
 
       const payload = {
-        systemUserId:'' ,
+        systemUserId: '',
         fullName: formValue.fullName,
         telephone: formValue.telephone,
         email: formValue.email,
@@ -371,18 +383,36 @@ export class MakebookingComponent implements OnInit {
         discount: this.totalAmount,
         payableAmount: this.discountAmount,
         items: items,
+        bookingRooms: formValue.roomTypes.map((roomType: any) => ({
+          roomTypeID: roomType.roomTypeID,
+          numberOfRooms: roomType.numberOfRooms,
+        })),
       };
 
-      this.bookingService
-        .makeBooking(payload)
-        .then((response: any) => {
-          console.log('Booking successful:', response);
+      const availability_payload = {
+        checkIn: formValue.checkIn,
+        checkOut: formValue.checkOut,
+        roomTypes: formValue.roomTypes.map((roomType: any) => ({
+          roomTypeID: roomType.roomTypeID,
+          numberOfRooms: roomType.numberOfRooms,
+        })),
+      };
 
-          // this.router.navigate(['/booking-confirmation'], { state: { booking: response } });
-        })
-        .catch((error: any) => {
-          console.error('Error making booking:', error);
-        });
+      this.bookingService.makeBooking(payload).then((response: any) => {
+        console.log('Booking successful:', response);
+
+        if (response.statusCode === 200) {
+          this.bookingService.updateAvailability(availability_payload).then((response: any) => {
+            console.log('Availability updated successfully:', response);
+          })
+          .catch((error: any) => {
+            console.error('Error updating availability:', error);
+          });
+        }
+      })
+      .catch((error: any) => {
+        console.error('Error making booking:', error);
+      });
     } else {
       console.error('Form is invalid');
     }
