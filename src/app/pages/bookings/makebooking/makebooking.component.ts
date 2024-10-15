@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { BookingService } from '../../../services/booking/booking.service';
 import { UsersService } from '../../../services/user/users.service';
+import { AlertService } from '../../../services/alert/alert.service';
 import {
   FormBuilder,
   FormGroup,
@@ -50,6 +51,7 @@ export class MakebookingComponent implements OnInit {
     private route: ActivatedRoute,
     private bookingService: BookingService,
     private userService: UsersService,
+    private alertService: AlertService,
     private userServicetoGetData: UsersService
   ) {}
 
@@ -423,6 +425,7 @@ export class MakebookingComponent implements OnInit {
         console.error('Error making booking:', error);
       });
     } else {
+      this.alertService.showError('Form is invalid, Check the form and try again');
       console.error('Form is invalid');
     }
   }
