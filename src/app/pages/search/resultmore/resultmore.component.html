@@ -39,7 +39,7 @@
           <h6 class="text-2xl font-semibold text-gray-800 dark:text-gray-300">
             {{ roomType.roomTypeName }} - <strong>LKR {{ roomType.price }}</strong>
           </h6>
-          <p><strong>Max Occupancy:</strong> {{ roomType.maxNumberOfPersons }} persons</p>
+          <p><strong>Max Occupancy:</strong> {{ roomType.maxNumberOfPersons }} persons | Max Number of Rooms {{roomType.availableRooms}}</p>
 
           <div class="relative w-full mt-4" [attr.id]="'room-carousel-' + roomType.roomTypeName" data-carousel="slide">
             <div class="relative h-32 overflow-hidden rounded-lg">

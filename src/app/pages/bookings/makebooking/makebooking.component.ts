@@ -15,6 +15,7 @@ interface RoomType {
   roomTypeID: number;
   roomTypeName: string;
   price: number;
+  availableRooms: number; // Add available rooms field
 }
 
 interface Supplement {
@@ -30,6 +31,7 @@ interface Supplement {
   templateUrl: './makebooking.component.html',
 })
 export class MakebookingComponent implements OnInit {
+[x: string]: any;
   bookingForm!: FormGroup;
   totalAmount: number = 0;
   discountAmount: number = 0;
@@ -64,6 +66,7 @@ export class MakebookingComponent implements OnInit {
             roomTypeID: roomType.roomTypeID,
             roomTypeName: roomType.roomTypeName,
             price: roomType.price,
+            availableRooms: roomType.availableRooms, // Ensure this value is included
           })
         );
       }
@@ -189,6 +192,12 @@ export class MakebookingComponent implements OnInit {
         [Validators.required, Validators.min(1)],
       ],
     });
+
+    // Add value change listener with validation logic
+  roomTypeFormGroup.get('numberOfRooms')?.valueChanges.subscribe(() => {
+    this.validateRoomAvailability(roomTypeFormGroup);
+  });
+
     this.roomTypes.push(roomTypeFormGroup);
     roomTypeFormGroup
       .get('numberOfRooms')
@@ -417,4 +426,23 @@ export class MakebookingComponent implements OnInit {
       console.error('Form is invalid');
     }
   }
+
+  validateRoomAvailability(roomTypeFormGroup: FormGroup) {
+    const roomTypeName = roomTypeFormGroup.get('roomTypeName')?.value;
+    const selectedRoomType = this.availableRoomTypes.find(
+      (room) => room.roomTypeName === roomTypeName
+    );
+  
+    if (selectedRoomType) {
+      const numberOfRooms = roomTypeFormGroup.get('numberOfRooms')?.value;
+      if (numberOfRooms > selectedRoomType.availableRooms) {
+        roomTypeFormGroup
+          .get('numberOfRooms')
+          ?.setErrors({ roomLimitExceeded: true });
+      } else {
+        roomTypeFormGroup.get('numberOfRooms')?.setErrors(null);
+      }
+    }
+  }
+  
 }
