@@ -11,7 +11,11 @@ export class DiscountService {
   constructor(private http: HttpClient) {}
 
   // Add a new discount to a season
-  addDiscountToSeason(seasonID: number, discountData: any, token: string): Observable<any> {
+  addDiscountToSeason(
+    seasonID: number,
+    discountData: any,
+    token: string
+  ): Observable<any> {
     const url = `${this.BASE_URL}/discount/${seasonID}`;
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -31,7 +35,11 @@ export class DiscountService {
   }
 
   // Update a discount by ID
-  updateDiscount(discountID: number, discountData: any, token: string): Observable<any> {
+  updateDiscount(
+    discountID: number,
+    discountData: any,
+    token: string
+  ): Observable<any> {
     const url = `${this.BASE_URL}/discount/update/${discountID}`;
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',

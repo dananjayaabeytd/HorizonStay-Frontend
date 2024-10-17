@@ -26,7 +26,6 @@ export class LoginComponent {
 
   async handleSubmit() {
     if (!this.email || !this.password) {
-      // this.showError('Email and Password is required');
       this.alertService.showError('Email and Password are required');
       return;
     }
@@ -34,10 +33,9 @@ export class LoginComponent {
     try {
       const response = await this.usersService.login(this.email, this.password);
       console.log(response);
-      
+
       if (response.statusCode == 200) {
         localStorage.setItem('token', response.token);
-
         localStorage.setItem('userId', response.userId);
         localStorage.setItem('role', response.role);
         localStorage.setItem('profileImage', response.image);
@@ -46,9 +44,7 @@ export class LoginComponent {
         localStorage.setItem('userName', response.name);
 
         this.router.navigate(['/profile']);
-;
       } else {
-        // this.showError(response.message);
         this.alertService.showError(response.error);
       }
     } catch (error: any) {

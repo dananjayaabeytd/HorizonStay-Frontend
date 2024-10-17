@@ -11,7 +11,11 @@ export class MarkupService {
   constructor(private http: HttpClient) {}
 
   // Add a new markup to a season
-  addMarkupToSeason(seasonID: number, markupData: any, token: string): Observable<any> {
+  addMarkupToSeason(
+    seasonID: number,
+    markupData: any,
+    token: string
+  ): Observable<any> {
     const url = `${this.BASE_URL}/markup/${seasonID}`;
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -31,7 +35,11 @@ export class MarkupService {
   }
 
   // Update a markup by ID
-  updateMarkup(markupID: number, markupData: any, token: string): Observable<any> {
+  updateMarkup(
+    markupID: number,
+    markupData: any,
+    token: string
+  ): Observable<any> {
     const url = `${this.BASE_URL}/markup/update/${markupID}`;
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',

@@ -6,7 +6,6 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class ContractService {
-  
   private BASE_URL = 'http://localhost:5000/api/contracts'; // Adjust as needed
 
   constructor(private http: HttpClient) {}
@@ -19,7 +18,6 @@ export class ContractService {
     });
   }
 
-
   async searchContracts(
     location: string,
     checkInDate: string,
@@ -31,7 +29,7 @@ export class ContractService {
 
     try {
       const response = await this.http.get<any>(url).toPromise();
-      console.log('result List ->',response)
+      console.log('result List ->', response);
       return response;
     } catch (error) {
       throw error;
@@ -39,7 +37,11 @@ export class ContractService {
   }
 
   // POST: Add a new contract
-  addContract(hotelID: number, contractData: any, token: string): Observable<any> {
+  addContract(
+    hotelID: number,
+    contractData: any,
+    token: string
+  ): Observable<any> {
     const url = `${this.BASE_URL}/${hotelID}`;
     const headers = this.createHeaders(token);
     return this.http.post<any>(url, contractData, { headers });
@@ -53,7 +55,11 @@ export class ContractService {
   }
 
   // PUT: Update a contract by its ID
-  updateContract(contractID: number, contractData: any, token: string): Observable<any> {
+  updateContract(
+    contractID: number,
+    contractData: any,
+    token: string
+  ): Observable<any> {
     const url = `${this.BASE_URL}/update/${contractID}`;
     const headers = this.createHeaders(token);
     return this.http.put<any>(url, contractData, { headers });

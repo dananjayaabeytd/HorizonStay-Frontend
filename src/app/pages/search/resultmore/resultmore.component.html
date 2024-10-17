@@ -10,9 +10,16 @@
           {{ hotel.hotelName }}
         </h2>
 
-        <div id="season-carousel" class="relative w-full mb-6" data-carousel="slide">
+        <div
+          id="season-carousel"
+          class="relative w-full mb-6"
+          data-carousel="slide"
+        >
           <div class="relative h-56 overflow-hidden rounded-lg md:h-96">
-            <div *ngFor="let image of hotel.hotelImages; let i = index" [attr.data-carousel-item]="i">
+            <div
+              *ngFor="let image of hotel.hotelImages; let i = index"
+              [attr.data-carousel-item]="i"
+            >
               <img
                 [src]="'http://localhost:5000/HotelImages/' + image"
                 class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
@@ -26,7 +33,9 @@
         <p>{{ hotel.cancellationPolicy }}</p>
         <p>{{ hotel.paymentPolicy }}</p>
 
-        <h5 class="mt-4 text-3xl font-bold tracking-tight text-gray-900 dark:text-white">
+        <h5
+          class="mt-4 text-3xl font-bold tracking-tight text-gray-900 dark:text-white"
+        >
           {{ hotel.seasonDTO.seasonName }}
         </h5>
         <p class="text-gray-600 dark:text-gray-400">
@@ -35,15 +44,30 @@
         </p>
 
         <!-- Room Types -->
-        <div *ngFor="let roomType of hotel.roomTypeDTO" class="pt-4 mt-6 border-t">
+        <div
+          *ngFor="let roomType of hotel.roomTypeDTO"
+          class="pt-4 mt-6 border-t"
+        >
           <h6 class="text-2xl font-semibold text-gray-800 dark:text-gray-300">
-            {{ roomType.roomTypeName }} - <strong>LKR {{ roomType.price }}</strong>
+            {{ roomType.roomTypeName }} -
+            <strong>LKR {{ roomType.price }}</strong>
           </h6>
-          <p><strong>Max Occupancy:</strong> {{ roomType.maxNumberOfPersons }} persons | Max Number of Rooms {{roomType.availableRooms}}</p>
+          <p>
+            <strong>Max Occupancy:</strong>
+            {{ roomType.maxNumberOfPersons }} persons | Max Number of Rooms
+            {{ roomType.availableRooms }}
+          </p>
 
-          <div class="relative w-full mt-4" [attr.id]="'room-carousel-' + roomType.roomTypeName" data-carousel="slide">
+          <div
+            class="relative w-full mt-4"
+            [attr.id]="'room-carousel-' + roomType.roomTypeName"
+            data-carousel="slide"
+          >
             <div class="relative h-32 overflow-hidden rounded-lg">
-              <div *ngFor="let image of roomType.roomTypeImages; let j = index" [attr.data-carousel-item]="j">
+              <div
+                *ngFor="let image of roomType.roomTypeImages; let j = index"
+                [attr.data-carousel-item]="j"
+              >
                 <img
                   [src]="'http://localhost:5000/roomTypeImages/' + image"
                   alt="{{ roomType.roomTypeName }} Image {{ j + 1 }}"
@@ -59,7 +83,8 @@
           <strong class="text-gray-700 dark:text-gray-300">Supplements:</strong>
           <ul class="pl-5 list-disc">
             <li *ngFor="let supplement of hotel.supplementDTOS">
-              {{ supplement.supplementName }} - <strong>LKR {{ supplement.price }}</strong>
+              {{ supplement.supplementName }} -
+              <strong>LKR {{ supplement.price }}</strong>
             </li>
           </ul>
         </div>
@@ -69,7 +94,8 @@
           <strong class="text-gray-700 dark:text-gray-300">Discounts:</strong>
           <ul class="pl-5 list-disc">
             <li *ngFor="let discount of hotel.discountDTO">
-              {{ discount.discountName }} - <strong>{{ discount.percentage }}%</strong>
+              {{ discount.discountName }} -
+              <strong>{{ discount.percentage }}%</strong>
             </li>
           </ul>
         </div>
@@ -79,7 +105,8 @@
           <strong class="text-gray-700 dark:text-gray-300">Markups:</strong>
           <ul class="pl-5 list-disc">
             <li>
-              {{ hotel.markupDTO.markupName }} - <strong>{{ hotel.markupDTO.percentage }}%</strong>
+              {{ hotel.markupDTO.markupName }} -
+              <strong>{{ hotel.markupDTO.percentage }}%</strong>
             </li>
           </ul>
         </div>

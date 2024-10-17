@@ -4,6 +4,7 @@ import { ContractService } from '../../../services/contract/contract.service';
 import { SearchService } from '../../../services/search/search.service'; // Adjust the path as necessary
 import { FormsModule } from '@angular/forms';
 import { BookingService } from '../../../services/booking/booking.service'; // Import BookingService
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-search',
@@ -24,7 +25,8 @@ export class SearchComponent {
   constructor(
     private contractService: ContractService,
     private searchService: SearchService,
-    private bookingService: BookingService
+    private bookingService: BookingService,
+    private readonly router: Router
   ) {}
 
   toggleDropdown(type: 'adult' | 'child'): void {
@@ -92,6 +94,7 @@ export class SearchComponent {
 
 
       this.searchService.updateHotels(response); // Update the hotels data in the service
+      this.router.navigate(['/search']);
     } catch (error) {
       console.error('Error searching contracts:', error);
     }

@@ -2,16 +2,16 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class BookingService {
   getBookingByEmail(email: any, token: string) {
     throw new Error('Method not implemented.');
   }
 
-  private BASE_URL = "http://localhost:5000";
+  private BASE_URL = 'http://localhost:5000';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   private bookingData: any = {};
 
@@ -70,14 +70,20 @@ export class BookingService {
     }
   }
 
-  async adminUpdateBookingById(bookingId: number, bookingData: any, token: string): Promise<any> {
+  async adminUpdateBookingById(
+    bookingId: number,
+    bookingData: any,
+    token: string
+  ): Promise<any> {
     const url = `${this.BASE_URL}/booking/admin/update/${bookingId}`;
     const headers = new HttpHeaders({
-      'Authorization': `Bearer ${token}`
+      Authorization: `Bearer ${token}`,
     });
 
     try {
-      const response = await this.http.put<any>(url, bookingData, { headers }).toPromise();
+      const response = await this.http
+        .put<any>(url, bookingData, { headers })
+        .toPromise();
       return response;
     } catch (error) {
       throw error;
@@ -87,11 +93,13 @@ export class BookingService {
   async adminDeleteBookingById(bookingId: number, token: string): Promise<any> {
     const url = `${this.BASE_URL}/booking/admin/delete/${bookingId}`;
     const headers = new HttpHeaders({
-      'Authorization': `Bearer ${token}`
+      Authorization: `Bearer ${token}`,
     });
 
     try {
-      const response = await this.http.delete<any>(url, { headers }).toPromise();
+      const response = await this.http
+        .delete<any>(url, { headers })
+        .toPromise();
       return response;
     } catch (error) {
       throw error;
@@ -101,7 +109,7 @@ export class BookingService {
   async adminGetBookingById(bookingId: number, token: string): Promise<any> {
     const url = `${this.BASE_URL}/booking/admin/get/${bookingId}`;
     const headers = new HttpHeaders({
-      'Authorization': `Bearer ${token}`
+      Authorization: `Bearer ${token}`,
     });
 
     try {

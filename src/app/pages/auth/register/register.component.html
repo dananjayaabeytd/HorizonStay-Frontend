@@ -1,13 +1,20 @@
 <form
   (submit)="handleSubmit()"
-  class="max-w-lg mx-auto mt-[100px] bg-gray-50 p-6 rounded-lg"
+  class="max-w-lg mx-auto mt-[100px] p-6 rounded-lg"
 >
   <h2 class="my-5 text-4xl font-extrabold text-center dark:text-white">
     Signup
   </h2>
 
   <div class="flex justify-center mb-5">
-    <input type="file" id="image" accept="image/*" class="hidden" (change)="onFileSelected($event)" required />
+    <input
+      type="file"
+      id="image"
+      accept="image/*"
+      class="hidden"
+      (change)="onFileSelected($event)"
+      required
+    />
     <label for="image" class="cursor-pointer">
       <img
         id="previewImage"
@@ -52,7 +59,7 @@
         type="email"
         id="email"
         name="email"
-        [(ngModel)]="formData.email" 
+        [(ngModel)]="formData.email"
         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-gray-500 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-green-500 dark:focus:border-green-500"
         placeholder="name@gmail.com"
         required
@@ -126,7 +133,7 @@
       />
     </div>
 
-    <div>
+    <div *ngIf="isAdmin">
       <label
         for="role"
         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"

@@ -32,8 +32,9 @@
       </div>
       <input
         type="text"
+        [(ngModel)]="searchTerm"
         id="table-search-users"
-        class="block pt-2 text-sm text-gray-900 border border-gray-300 rounded-lg ps-10 w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        class="block pt-2 text-sm text-gray-900 border border-gray-300 rounded-lg ps-10 w-80 bg-gray-50 focus:ring-green-500 focus:border-green-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
         placeholder="Search for users"
       />
     </div>
@@ -52,7 +53,7 @@
     </thead>
     <tbody>
       <tr
-        *ngFor="let user of users"
+        *ngFor="let user of filteredUsers"
         key="user.id"
         class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
       >
@@ -83,7 +84,5 @@
       </tr>
     </tbody>
   </table>
-  
 </div>
-<div>
-</div>
+<div></div>

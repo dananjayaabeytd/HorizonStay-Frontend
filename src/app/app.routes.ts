@@ -35,11 +35,6 @@ export const routes: Routes = [
     component: AddContractComponent,
   },
 
-  // {
-  //   path: 'update-contract/:id',
-  //   component: UpdateContractComponent,
-  // },
-
   {
     path: 'hotel/:hotelID/update-contract/:contractId',
     component: UpdateContractComponent,
@@ -162,35 +157,6 @@ export const routes: Routes = [
     path: 'completebooking',
     component: BookingcompleteComponent,
   },
-
-
-
-  
-  
-  
-  
-  
-  
-  
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
   //Error page
   {

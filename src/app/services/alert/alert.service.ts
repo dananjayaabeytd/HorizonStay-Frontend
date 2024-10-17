@@ -1,19 +1,17 @@
 import { Injectable } from '@angular/core';
 import Swal from 'sweetalert2';
 
-
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AlertService {
+  constructor() {}
 
-  constructor() { }
-
-  normalSuccess(message:string){
+  normalSuccess(message: string) {
     Swal.fire({
-      title: "Good job!",
-      text: "You clicked the button!",
-      icon: "success"
+      title: 'Good job!',
+      text: 'You clicked the button!',
+      icon: 'success',
     });
   }
 
@@ -27,8 +25,8 @@ export class AlertService {
       timer: 1000,
       timerProgressBar: true,
       customClass: {
-        popup: 'custom-toast'
-      }
+        popup: 'custom-toast',
+      },
     });
   }
 
@@ -42,12 +40,17 @@ export class AlertService {
       timer: 1000,
       timerProgressBar: true,
       customClass: {
-        popup: 'custom-toast'
-      }
+        popup: 'custom-toast',
+      },
     });
   }
 
-  async showConfirm(title: string, text: string, confirmButtonText: string, cancelButtonText: string): Promise<boolean> {
+  async showConfirm(
+    title: string,
+    text: string,
+    confirmButtonText: string,
+    cancelButtonText: string
+  ): Promise<boolean> {
     const result = await Swal.fire({
       title: title,
       text: text,
@@ -56,11 +59,9 @@ export class AlertService {
       confirmButtonText: confirmButtonText,
       cancelButtonText: cancelButtonText,
       customClass: {
-        popup: 'custom-confirm'
-      }
+        popup: 'custom-confirm',
+      },
     });
     return result.isConfirmed;
   }
-
-
 }

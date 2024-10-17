@@ -2,13 +2,12 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class HotelService {
+  private BASE_URL = 'http://localhost:5000';
 
-  private BASE_URL = "http://localhost:5000";
-
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   // async addHotel(hotelData: any, token: string): Promise<any> {
   //   const url = `${this.BASE_URL}/admin/hotel/add`;
@@ -28,28 +27,32 @@ export class HotelService {
     const url = `${this.BASE_URL}/admin/hotel/add`;
 
     const formData: FormData = new FormData();
-    formData.append('hotel', new Blob([JSON.stringify(hotelData)], { type: 'application/json' }));
+    formData.append(
+      'hotel',
+      new Blob([JSON.stringify(hotelData)], { type: 'application/json' })
+    );
     files.forEach((file, index) => {
       formData.append('files', file, file.name);
     });
 
     const headers = new HttpHeaders({
-      'Authorization': `Bearer ${token}`
+      Authorization: `Bearer ${token}`,
     });
 
     try {
-      const response = await this.http.post<any>(url, formData, { headers }).toPromise();
+      const response = await this.http
+        .post<any>(url, formData, { headers })
+        .toPromise();
       return response;
     } catch (error) {
       throw error;
     }
   }
 
-
   async getAllHotels(token: string): Promise<any> {
     const url = `${this.BASE_URL}/admin/hotel/get-all`;
     const headers = new HttpHeaders({
-      'Authorization': `Bearer ${token}`
+      Authorization: `Bearer ${token}`,
     });
 
     try {
@@ -63,7 +66,7 @@ export class HotelService {
   async getHotelById(hotelId: string, token: string): Promise<any> {
     const url = `${this.BASE_URL}/admin/hotel/get/${hotelId}`;
     const headers = new HttpHeaders({
-      'Authorization': `Bearer ${token}`
+      Authorization: `Bearer ${token}`,
     });
 
     try {
@@ -74,14 +77,20 @@ export class HotelService {
     }
   }
 
-  async updateHotel(hotelId: string, hotelData: any, token: string): Promise<any> {
+  async updateHotel(
+    hotelId: string,
+    hotelData: any,
+    token: string
+  ): Promise<any> {
     const url = `${this.BASE_URL}/admin/hotel/update/${hotelId}`;
     const headers = new HttpHeaders({
-      'Authorization': `Bearer ${token}`
+      Authorization: `Bearer ${token}`,
     });
 
     try {
-      const response = this.http.put<any>(url, hotelData, { headers }).toPromise();
+      const response = this.http
+        .put<any>(url, hotelData, { headers })
+        .toPromise();
       return response;
     } catch (error) {
       throw error;
@@ -91,7 +100,7 @@ export class HotelService {
   async deleteHotel(hotelId: string, token: string): Promise<any> {
     const url = `${this.BASE_URL}/admin/hotel/delete/${hotelId}`;
     const headers = new HttpHeaders({
-      'Authorization': `Bearer ${token}`
+      Authorization: `Bearer ${token}`,
     });
 
     try {

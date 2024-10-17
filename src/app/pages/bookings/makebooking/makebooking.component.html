@@ -142,8 +142,8 @@
         <!-- Room Name Dropdown -->
         <div>
           <label for="roomTypeName" class="block mb-2 text-sm font-medium"
-            >Room Type </label
-          >
+            >Room Type
+          </label>
           <select
             id="roomTypeName"
             formControlName="roomTypeName"
@@ -155,7 +155,7 @@
               *ngFor="let roomType of hotel.roomTypeDTO"
               [value]="roomType.roomTypeName"
             >
-              {{ roomType.roomTypeName }} 
+              {{ roomType.roomTypeName }}
             </option>
           </select>
         </div>
@@ -193,7 +193,9 @@
             roomTypes.at(i).get('numberOfRooms')?.hasError('roomLimitExceeded')
           "
         >
-          <span class="font-bold text-red-600 error">Selected rooms exceed available rooms!</span>
+          <span class="font-bold text-red-600 error"
+            >Selected rooms exceed available rooms!</span
+          >
         </div>
       </div>
       <button

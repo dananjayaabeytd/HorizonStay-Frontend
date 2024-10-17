@@ -7,11 +7,15 @@ import { Observable } from 'rxjs';
 })
 export class SupplementService {
   private BASE_URL = 'http://localhost:5000';
-  
+
   constructor(private http: HttpClient) {}
 
   // Add a new supplement to a season
-  addSupplementToSeason(seasonID: number, supplementData: any, token: string): Observable<any> {
+  addSupplementToSeason(
+    seasonID: number,
+    supplementData: any,
+    token: string
+  ): Observable<any> {
     const url = `${this.BASE_URL}/supplement/${seasonID}`;
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -31,7 +35,11 @@ export class SupplementService {
   }
 
   // Update a supplement by ID
-  updateSupplement(supplementID: number, supplementData: any, token: string): Observable<any> {
+  updateSupplement(
+    supplementID: number,
+    supplementData: any,
+    token: string
+  ): Observable<any> {
     const url = `${this.BASE_URL}/supplement/update/${supplementID}`;
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',

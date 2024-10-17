@@ -11,7 +11,11 @@ export class SeasonService {
   constructor(private http: HttpClient) {}
 
   // Add a new season to a contract
-  addSeasonToContract(contractID: number, seasonData: any, token: string): Observable<any> {
+  addSeasonToContract(
+    contractID: number,
+    seasonData: any,
+    token: string
+  ): Observable<any> {
     const url = `${this.BASE_URL}/api/seasons/${contractID}`;
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -31,7 +35,11 @@ export class SeasonService {
   }
 
   // Update a season by ID
-  updateSeason(seasonID: number, seasonData: any, token: string): Observable<any> {
+  updateSeason(
+    seasonID: number,
+    seasonData: any,
+    token: string
+  ): Observable<any> {
     const url = `${this.BASE_URL}/api/seasons/update/${seasonID}`;
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',

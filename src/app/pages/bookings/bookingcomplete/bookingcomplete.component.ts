@@ -6,6 +6,4 @@ import { Component } from '@angular/core';
   imports: [],
   templateUrl: './bookingcomplete.component.html',
 })
-export class BookingcompleteComponent {
-
-}
+export class BookingcompleteComponent {}

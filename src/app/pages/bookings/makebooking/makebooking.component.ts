@@ -32,7 +32,7 @@ interface Supplement {
   templateUrl: './makebooking.component.html',
 })
 export class MakebookingComponent implements OnInit {
-[x: string]: any;
+  [x: string]: any;
   bookingForm!: FormGroup;
   totalAmount: number = 0;
   discountAmount: number = 0;
@@ -196,9 +196,9 @@ export class MakebookingComponent implements OnInit {
     });
 
     // Add value change listener with validation logic
-  roomTypeFormGroup.get('numberOfRooms')?.valueChanges.subscribe(() => {
-    this.validateRoomAvailability(roomTypeFormGroup);
-  });
+    roomTypeFormGroup.get('numberOfRooms')?.valueChanges.subscribe(() => {
+      this.validateRoomAvailability(roomTypeFormGroup);
+    });
 
     this.roomTypes.push(roomTypeFormGroup);
     roomTypeFormGroup
@@ -409,23 +409,29 @@ export class MakebookingComponent implements OnInit {
         })),
       };
 
-      this.bookingService.makeBooking(payload).then((response: any) => {
-        console.log('Booking successful:', response);
+      this.bookingService
+        .makeBooking(payload)
+        .then((response: any) => {
+          console.log('Booking successful:', response);
 
-        if (response.statusCode === 200) {
-          this.bookingService.updateAvailability(availability_payload).then((response: any) => {
-            console.log('Availability updated successfully:', response);
-          })
-          .catch((error: any) => {
-            console.error('Error updating availability:', error);
-          });
-        }
-      })
-      .catch((error: any) => {
-        console.error('Error making booking:', error);
-      });
+          if (response.statusCode === 200) {
+            this.bookingService
+              .updateAvailability(availability_payload)
+              .then((response: any) => {
+                console.log('Availability updated successfully:', response);
+              })
+              .catch((error: any) => {
+                console.error('Error updating availability:', error);
+              });
+          }
+        })
+        .catch((error: any) => {
+          console.error('Error making booking:', error);
+        });
     } else {
-      this.alertService.showError('Form is invalid, Check the form and try again');
+      this.alertService.showError(
+        'Form is invalid, Check the form and try again'
+      );
       console.error('Form is invalid');
     }
   }
@@ -435,7 +441,7 @@ export class MakebookingComponent implements OnInit {
     const selectedRoomType = this.availableRoomTypes.find(
       (room) => room.roomTypeName === roomTypeName
     );
-  
+
     if (selectedRoomType) {
       const numberOfRooms = roomTypeFormGroup.get('numberOfRooms')?.value;
       if (numberOfRooms > selectedRoomType.availableRooms) {
@@ -447,5 +453,4 @@ export class MakebookingComponent implements OnInit {
       }
     }
   }
-  
 }

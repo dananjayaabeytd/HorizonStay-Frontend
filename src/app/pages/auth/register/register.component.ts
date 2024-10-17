@@ -1,10 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { UsersService } from '../../../services/user/users.service';
 import { AlertService } from '../../../services/alert/alert.service';
-
 
 @Component({
   selector: 'app-register',
@@ -12,8 +11,7 @@ import { AlertService } from '../../../services/alert/alert.service';
   imports: [FormsModule, CommonModule],
   templateUrl: './register.component.html',
 })
-
-export class RegisterComponent {
+export class RegisterComponent implements OnInit {
   formData: any = {
     name: '',
     email: '',
@@ -23,15 +21,21 @@ export class RegisterComponent {
     image: '',
     nic: '',
   };
+
   errorMessage: string = '';
   selectedFile: File | null = null;
   previewImageUrl: string | ArrayBuffer | null = null;
+  isAdmin: boolean = false;
 
   constructor(
     private readonly userService: UsersService,
     private alertService: AlertService,
     private readonly router: Router
-  ) {}  
+  ) {}
+
+  ngOnInit(): void {
+    this.isAdmin = this.userService.isAdmin();
+  }
 
   onFileSelected(event: any) {
     this.selectedFile = event.target.files[0];
@@ -70,8 +74,11 @@ export class RegisterComponent {
 
     try {
       if (this.selectedFile) {
-        const response = await this.userService.register(this.formData, this.selectedFile);
-        
+        const response = await this.userService.register(
+          this.formData,
+          this.selectedFile
+        );
+
         const token = localStorage.getItem('token');
         if (!token) {
           this.router.navigate(['/login']);
@@ -85,7 +92,7 @@ export class RegisterComponent {
           this.alertService.showError('User Already Exists with this email.');
           this.router.navigate(['/register']);
         }
-        
+
         if (response.statusCode === 200) {
           this.router.navigate(['/users']);
         } else {
