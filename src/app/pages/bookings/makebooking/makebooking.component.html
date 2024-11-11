@@ -300,10 +300,10 @@
       Calculate Total
     </button>
     <span class="font-bold text-gray-900 text-md"
-      >Payable Amount: {{ totalAmount | currency }}</span
+      >Payable Amount: LKR {{ totalAmount }}</span
     >
     <span class="font-bold text-gray-900 text-md"
-      >Discount Amount: {{ discountAmount | currency }}</span
+      >Discount Amount: LKR {{ discountAmount  }}</span
     >
   </div>
 
@@ -315,15 +315,12 @@
     </p>
   </div>
 
-  <div class="mt-6">
+  <!-- <div class="mt-6">
     <h3 class="text-2xl font-bold">Markup Percentage</h3>
     <p class="mt-2 text-gray-700">
-      <!-- <span *ngFor="let markup of hotel?.seasons[0]?.markups">
-        {{ markup.percentage }}%
-      </span> -->
       {{ mPercentage }}
     </p>
-  </div>
+  </div> -->
 
   <div class="mt-6">
     <h3 class="text-2xl font-bold">Discount Percentage</h3>

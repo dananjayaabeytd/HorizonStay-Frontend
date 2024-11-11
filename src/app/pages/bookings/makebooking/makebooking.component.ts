@@ -57,10 +57,12 @@ export class MakebookingComponent implements OnInit {
 
   ngOnInit() {
     const state = history.state;
+    
+    // Retrieve booking data from BookingService
+    const bookingData = this.bookingService.getBookingData();
 
     if (state && state.hotel) {
       this.hotel = state.hotel;
-      // console.log('Received hotel data:', this.hotel);
 
       if (this.hotel.roomTypeDTO && this.hotel.roomTypeDTO.length > 0) {
         this.availableRoomTypes = this.hotel.roomTypeDTO.map(
@@ -84,19 +86,38 @@ export class MakebookingComponent implements OnInit {
       }
 
       // Calculate total discount and markup percentages
-      this.dPercentage = this.hotel.discountDTO.reduce(
-        (sum: number, discount: any) => sum + discount.percentage,
-        0
-      );
+      // this.dPercentage = this.hotel.discountDTO.reduce(
+      //   (sum: number, discount: any) => sum + discount.percentage,
+      //   0
+      // );
+
+      const today = new Date();
+      const daysDifference = Math.ceil((bookingData.checkinDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
+
+      this.dPercentage = this.hotel.discountDTO.reduce((sum: number, discount: any) => {
+        const match = discount.type.match(/(\d+)Days/); // Extracts the number of days from the discount type
+    
+        if (match) {
+          const requiredDays = parseInt(match[1], 10); // Convert the extracted string to a number
+          if (daysDifference >= requiredDays) {
+            return sum + discount.percentage;
+          }
+        } else {
+          // If no days condition in discount type, include it by default
+          return sum + discount.percentage;
+        }
+    
+        return sum; // If the condition isn't met, don't add the percentage
+        
+      }, 0);
+
+
       this.mPercentage = this.hotel.markupDTO.percentage;
       this.hotelID = this.hotel.hotelID;
+
     } else {
       console.error('No hotel data passed');
     }
-
-    // Retrieve booking data from BookingService
-    const bookingData = this.bookingService.getBookingData();
-    // console.log('Booking data:', bookingData);
 
     // Ensure dates are properly formatted
     const checkInDate = bookingData.checkInDate
@@ -129,8 +150,8 @@ export class MakebookingComponent implements OnInit {
     }
 
     // Initialize with one room type and one supplement
-    this.addRoomType();
-    this.addSupplement();
+    // this.addRoomType();
+    // this.addSupplement();
   }
 
   formatDate(date: string): string {

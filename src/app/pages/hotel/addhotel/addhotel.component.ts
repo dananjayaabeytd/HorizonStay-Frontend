@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { HotelService } from '../../../services/hotel/hotel.service'; // Import the hotel service
+import { HotelService } from '../../../services/hotel/hotel.service';
 import { AlertService } from '../../../services/alert/alert.service';
 import { Router } from '@angular/router';
 
@@ -113,7 +113,7 @@ export class AddhotelComponent implements OnInit {
         );
       }else{
         this.alertService.showSuccess('Hotel added successfully!');
-        this.router.navigate(['/register']);
+        this.router.navigate(['/hotels']);
       }
 
     } catch (error: any) {

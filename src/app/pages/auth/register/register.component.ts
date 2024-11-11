@@ -17,7 +17,7 @@ export class RegisterComponent implements OnInit {
     email: '',
     address: '',
     password: '',
-    role: '',
+    role: 'ADMIN',
     image: '',
     nic: '',
   };
@@ -53,7 +53,7 @@ export class RegisterComponent implements OnInit {
       !this.formData.name ||
       !this.formData.email ||
       !this.formData.password ||
-      !this.formData.role ||
+      !this.formData.role || 
       !this.formData.address ||
       !this.formData.nic
     ) {

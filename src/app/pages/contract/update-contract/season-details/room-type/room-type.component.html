@@ -1,5 +1,5 @@
 <div class="max-w-3xl p-6 mx-auto mt-10 rounded-lg bg-gray-50">
-  <h2 class="mb-5 text-4xl font-extrabold text-center dark:text-white">
+  <h2 class="mb-10 text-4xl font-extrabold text-center dark:text-white">
     Manage Room Types
   </h2>
 
@@ -24,7 +24,7 @@
         />
       </div>
       <div>
-        <label for="maxNumberOfPersons" class="block mb-2 text-sm font-medium">Max Number of Persons</label>
+        <label for="maxNumberOfPersons" class="block mb-2 text-sm font-medium">Max No. of Persons</label>
         <input
           id="maxNumberOfPersons"
           formControlName="maxNumberOfPersons"
@@ -47,7 +47,7 @@
           class="p-5 border-2 border-gray-300 border-dotted rounded-lg cursor-pointer"
           (click)="triggerFileInput()"
         >
-          <div class="flex items-center space-x-2">
+          <div class="flex items-center space-x-2 m-[-12px]">
             <svg
               class="w-6 h-6 text-gray-500 dark:text-gray-400"
               fill="none"
@@ -63,7 +63,7 @@
               ></path>
             </svg>
             <span class="text-sm font-medium text-gray-900 dark:text-white">
-              Click here to upload Room Type images
+              Upload
             </span>
           </div>
           <input
@@ -105,6 +105,7 @@
             id="roomTypeName"
             formControlName="roomTypeName"
             class="w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50"
+            readonly
           />
         </div>
         <div>
@@ -117,7 +118,7 @@
           />
         </div>
         <div>
-          <label for="maxNumberOfPersons" class="block mb-2 text-sm font-medium">Max Number of Persons</label>
+          <label for="maxNumberOfPersons" class="block mb-2 text-sm font-medium">Max No. of Persons</label>
           <input
             id="maxNumberOfPersons"
             formControlName="maxNumberOfPersons"
@@ -135,12 +136,12 @@
           />
         </div>
         <div class="col-span-2 lg:col-span-1">
-          <label for="newFiles" class="block mb-2 text-sm font-medium">Upload New Images</label>
+          <label for="newFiles" class="block mb-2 text-sm font-medium">Images</label>
           <div
             class="p-5 border-2 border-gray-300 border-dotted rounded-lg cursor-pointer"
             (click)="triggerFileInput()"
           >
-            <div class="flex items-center space-x-2">
+            <div class="flex items-center space-x-2 m-[-12px]">
               <svg
                 class="w-6 h-6 text-gray-500 dark:text-gray-400"
                 fill="none"
@@ -156,7 +157,7 @@
                 ></path>
               </svg>
               <span class="text-sm font-medium text-gray-900 dark:text-white">
-                Click here to upload Room Type images
+                Upload
               </span>
             </div>
             <input
