@@ -23,9 +23,24 @@ export class UpdateuserComponent {
   userData: any = {};
   errorMessage: string = '';
   imageUrl: any;
+  selectedFile: File | null = null;
+  previewImageUrl: string | ArrayBuffer | null = null;
+  isAdmin:boolean | undefined;
 
   ngOnInit(): void {
     this.getUserById();
+    this.isAdmin = this.userService.isAdmin()
+  }
+
+  onFileSelected(event: any) {
+    this.selectedFile = event.target.files[0];
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.previewImageUrl = reader.result;
+    };
+    if (this.selectedFile) {
+      reader.readAsDataURL(this.selectedFile);
+    }
   }
 
   async getUserById() {
@@ -50,41 +65,112 @@ export class UpdateuserComponent {
     }
   }
 
-  async updateUser() {
-    const confirmUpdate = await this.alertService.showConfirm(
-      'Are you sure you want to Update User Details?',
-      'Do you want to proceed?',
-      'Yes, proceed',
-      'No, cancel'
-    );
+  // async updateUser() {
+  //   const confirmUpdate = await this.alertService.showConfirm(
+  //     'Are you sure you want to Update User Details?',
+  //     'Do you want to proceed?',
+  //     'Yes, proceed',
+  //     'No, cancel'
+  //   );
 
-    if (!confirmUpdate) {
-      return;
+  //   if (!confirmUpdate) {
+  //     return;
+  //   }
+
+  //   try {
+  //     const token = localStorage.getItem('token');
+  //     if (!token) {
+  //       throw new Error('Token not found');
+  //     }
+
+  //     if (!this.selectedFile) {
+  //       throw new Error('No file selected');
+  //     }
+
+  //     const res = await this.userService.updateUser(
+  //       this.userId,
+  //       this.userData,
+  //       this.selectedFile,
+  //       token
+  //     );
+  //     console.log(res);
+
+  //     if (res.statusCode === 200) {
+  //       this.alertService.showSuccess('User Updated Successfully');
+  //       this.router.navigate(['/users']);
+  //     } else {
+  //       this.alertService.showError('Error Occured When updating');
+  //       this.showError(res.message);
+  //     }
+  //   } catch (error: any) {
+  //     this.alertService.showError('Error Occured When updating 2');
+  //     this.showError(error.message);
+  //   }
+  // }
+
+  async updateUser() {
+  const confirmUpdate = await this.alertService.showConfirm(
+    'Are you sure you want to Update User Details?',
+    'Do you want to proceed?',
+    'Yes, proceed',
+    'No, cancel'
+  );
+
+  if (!confirmUpdate) {
+    return;
+  }
+
+  try {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      throw new Error('Token not found');
     }
 
-    try {
-      const token = localStorage.getItem('token');
-      if (!token) {
-        throw new Error('Token not found');
-      }
+    if (!this.areFieldsValid()) {
+      throw new Error('All fields are required');
+    }
 
-      const res = await this.userService.updateUser(
-        this.userId,
-        this.userData,
-        token
-      );
-      console.log(res);
+    if (this.selectedFile) {
+    const res = await this.userService.updateUser(
+      this.userId,
+      this.userData,
+      this.selectedFile, // Allow selectedFile to be null
+      token
+    );
+    console.log(res);
 
-      if (res.statusCode === 200) {
-        this.alertService.showSuccess('User Updated Successfully');
-        this.router.navigate(['/users']);
-      } else {
-        this.showError(res.message);
-      }
-    } catch (error: any) {
-      this.showError(error.message);
+    if (res.statusCode === 200) {
+      this.alertService.showSuccess('User Updated Successfully');
+      this.router.navigate(['/users']);
+    } else {
+      this.alertService.showError('Error Occured When updating');
+      this.showError(res.message);
     }
   }
+
+  if (!this.selectedFile) {
+    const res = await this.userService.updateUser2(
+      this.userId,
+      this.userData,
+      token
+    );
+
+    console.log(res);
+
+    if (res.statusCode === 200) {
+      this.alertService.showSuccess('User Updated Successfully');
+      this.router.navigate(['/users']);
+    } else {
+      this.alertService.showError('Error Occured When updating');
+      this.showError(res.message);
+    }
+  }
+  } catch (error: any) {
+    console.error('Update User Error:', error);
+    this.alertService.showError('Error Occured When updating 2');
+    this.showError(error.message);
+  }
+}
   
   areFieldsValid(): boolean {
     return (

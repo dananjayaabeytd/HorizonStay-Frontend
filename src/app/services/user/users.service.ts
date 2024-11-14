@@ -71,6 +71,27 @@ export class UsersService {
     }
   }
 
+  async updateUser(userId: string, userData: any, file: File, token: string): Promise<any> {
+    const url = `${this.BASE_URL}/admin/update/${userId}`;
+
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
+  
+    const formData: FormData = new FormData();
+    formData.append('user', new Blob([JSON.stringify(userData)], { type: 'application/json' }));
+    formData.append('files', file);
+  
+    try {
+      const response = await this.http
+        .put<any>(url, formData, { headers })
+        .toPromise();
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  }
+
   async getAllUsers(token: string): Promise<any> {
     const url = `${this.BASE_URL}/admin/get-all-users`;
 
@@ -125,7 +146,9 @@ export class UsersService {
     }
   }
 
-  async updateUser(userId: string, userData: any, token: string): Promise<any> {
+  
+
+  async updateUser2(userId: string, userData: any, token: string): Promise<any> {
     const url = `${this.BASE_URL}/admin/update/${userId}`;
     const headers = new HttpHeaders({
       Authorization: `Bearer ${token}`,

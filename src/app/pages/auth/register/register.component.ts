@@ -11,13 +11,14 @@ import { AlertService } from '../../../services/alert/alert.service';
   imports: [FormsModule, CommonModule],
   templateUrl: './register.component.html',
 })
+
 export class RegisterComponent implements OnInit {
   formData: any = {
     name: '',
     email: '',
     address: '',
     password: '',
-    role: 'ADMIN',
+    role: 'USER',
     image: '',
     nic: '',
   };
