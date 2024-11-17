@@ -46,10 +46,6 @@ export class ContractlistComponent implements OnInit {
     }
   }
 
-  // navigateToUpdateContract(contractId: any) {
-  //   this.router.navigate(['/update-contract', contractId]);
-  // }
-
   navigateToUpdateContract(hotelID: any, contractId: any) {
     this.router.navigate([`/hotel/${hotelID}/update-contract/${contractId}`]);
   }
@@ -81,6 +77,43 @@ export class ContractlistComponent implements OnInit {
       } catch (error: any) {
         console.log(error.message);
       }
+    }
+  }
+
+  async toggleContractStatus(contractId: number): Promise<void> {
+    const contract = this.contracts.find(c => c.id === contractId);
+    if (contract) {
+
+      const updateStatus = await this.alertService.showConfirm(
+        'Are you sure you want to Update Status ?',
+        'Do you want to proceed?',
+        'Yes, proceed',
+        'No, cancel'
+      );
+      if (!updateStatus) {
+        return;
+      }
+  
+      if (updateStatus) {
+        try {
+          const token: any = localStorage.getItem('token');
+          const response = this.contractService
+            .updateContractStatus(contractId, token)
+            .toPromise(); // Convert Observable to Promise
+  
+          // console.log('response ->',response)
+          if (await response) {
+            this.loadContracts(); // Reload contracts after deletion
+          } else {
+            console.log('Failed to delete contract.');
+          }
+        } catch (error: any) {
+          console.log(error.message);
+        }
+      }
+
+
+      contract.isActive = !contract.isActive;
     }
   }
 }

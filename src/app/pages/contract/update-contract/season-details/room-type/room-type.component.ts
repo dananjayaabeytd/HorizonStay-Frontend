@@ -105,11 +105,7 @@ export class RoomTypeComponent implements OnInit {
       };
 
       await this.roomTypeService
-        .updateRoomType(
-          roomType.roomTypeID,
-          roomTypeData,
-          token
-        )
+        .updateRoomType(roomType.roomTypeID, roomTypeData, token)
         .toPromise();
       console.log('Room Type updated successfully');
       this.alertService.showSuccess('Room Type Updated Successfully');
@@ -138,7 +134,8 @@ export class RoomTypeComponent implements OnInit {
         seasonID: this.seasonID,
       };
 
-      await this.roomTypeService
+      if(this.selectedFiles.length != 0) {
+        const response = await this.roomTypeService
         .addRoomTypeToSeason(
           this.seasonID,
           newRoomTypeData,
@@ -146,8 +143,23 @@ export class RoomTypeComponent implements OnInit {
           token
         )
         .toPromise();
-      this.alertService.showSuccess('Room Type added successfully');
-      console.log('New Room Type added successfully');
+        if (response.statusCode === 409) {
+          this.alertService.showError(
+            'Hotel already exists with same name or email'
+          );
+        }
+  
+        if (response.statusCode === 200) {
+          this.alertService.showSuccess('Room Type added successfully');
+          console.log('New Room Type added successfully');
+        }
+      }else{
+        this.alertService.showError(
+          'Please Select Images'
+        );
+        return;
+      }
+
       this.newRoomTypeForm.reset();
       this.imagePreviews = []; // Clear previews
       this.selectedFiles = []; // Clear file input

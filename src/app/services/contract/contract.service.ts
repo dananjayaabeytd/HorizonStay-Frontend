@@ -65,6 +65,16 @@ export class ContractService {
     return this.http.put<any>(url, contractData, { headers });
   }
 
+  // PUT: Update a contract by its ID
+  updateContractStatus(
+    contractID: number,
+    token: string
+  ): Observable<any> {
+    const url = `${this.BASE_URL}/update/status/${contractID}`;
+    const headers = this.createHeaders(token);
+    return this.http.put<any>(url, { headers });
+  }
+
   // DELETE: Delete a contract by its ID
   deleteContract(contractID: number, token: string): Observable<any> {
     const url = `${this.BASE_URL}/delete/${contractID}`;
