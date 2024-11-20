@@ -38,6 +38,7 @@ export class MakebookingComponent implements OnInit {
   discountAmount: number = 0;
   hotel: any;
   hotelID: any;
+  loggedInUserId: any;
 
   dPercentage: number = 0;
   mPercentage: number = 0;
@@ -56,6 +57,9 @@ export class MakebookingComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.loggedInUserId = localStorage.getItem('userId');
+    console.log('logged in user id ->', this.loggedInUserId);
+
     const state = history.state;
     
     // Retrieve booking data from BookingService
@@ -91,11 +95,13 @@ export class MakebookingComponent implements OnInit {
       //   0
       // );
 
+      console.log('cehck in date ->', bookingData.checkInDate);
+
       const today = new Date();
-      const daysDifference = Math.ceil((bookingData.checkinDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
+      const daysDifference = Math.ceil((bookingData.checkInDate - today.getTime()) / (1000 * 60 * 60 * 24));
 
       this.dPercentage = this.hotel.discountDTO.reduce((sum: number, discount: any) => {
-        const match = discount.type.match(/(\d+)Days/); // Extracts the number of days from the discount type
+        const match = discount.discountName.match(/(\d+)Days/); // Extracts the number of days from the discount type
     
         if (match) {
           const requiredDays = parseInt(match[1], 10); // Convert the extracted string to a number
@@ -173,6 +179,7 @@ export class MakebookingComponent implements OnInit {
       address: hotel.address || '',
       city: hotel.city || '',
       country: hotel.country || '',
+      systemUserId: this.loggedInUserId,
       checkIn: bookingData.checkInDate
         ? this.formatDate(bookingData.checkInDate)
         : '',
