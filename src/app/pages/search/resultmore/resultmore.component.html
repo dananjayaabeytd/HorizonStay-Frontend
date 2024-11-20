@@ -33,15 +33,19 @@
         <p>{{ hotel.cancellationPolicy }}</p>
         <p>{{ hotel.paymentPolicy }}</p>
 
-        <h5
-          class="mt-4 text-3xl font-bold tracking-tight text-gray-900 dark:text-white"
-        >
-          {{ hotel.seasonDTO.seasonName }}
-        </h5>
-        <p class="text-gray-600 dark:text-gray-400">
-          Valid from: <strong>{{ hotel.seasonDTO.validFrom }}</strong> to
-          <strong>{{ hotel.seasonDTO.validTo }}</strong>
-        </p>
+        <div *ngIf="hotel.seasonDTO">
+
+          <h5
+            class="mt-4 text-3xl font-bold tracking-tight text-gray-900 dark:text-white"
+          >
+            {{ hotel.seasonDTO.seasonName }}
+          </h5>
+          <p class="text-gray-600 dark:text-gray-400">
+            Valid from: <strong>{{ hotel.seasonDTO.validFrom }}</strong> to
+            <strong>{{ hotel.seasonDTO.validTo }}</strong>
+          </p>
+        </div>
+
 
         <!-- Room Types -->
         <div
