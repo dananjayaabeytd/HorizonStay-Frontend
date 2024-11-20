@@ -37,26 +37,6 @@ export class RoomTypeService {
     return this.http.post(url, formData, { headers });
   }
 
-  // Update a room type by ID with images
-  // updateRoomType(roomTypeID: number, roomTypeData: any, files: File[], token: string): Observable<any> {
-  //   const url = `${this.BASE_URL}/roomtype/update/${roomTypeID}`;
-  //   const headers = new HttpHeaders({
-  //     Authorization: `Bearer ${token}`,
-  //   });
-
-  //   const formData: FormData = new FormData();
-  //   // Append room type details
-  //   formData.append('roomtype', new Blob([JSON.stringify(roomTypeData)], { type: 'application/json' }));
-
-  //   // Append each file to the form data
-  //   for (let file of files) {
-  //     formData.append('files', file, file.name);
-  //   }
-
-  //   return this.http.put(url, formData, { headers });
-
-  // }
-
   updateRoomType(
     roomTypeID: number,
     roomTypeData: any,

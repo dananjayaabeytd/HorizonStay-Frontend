@@ -66,13 +66,20 @@ export class ContractService {
   }
 
   // PUT: Update a contract by its ID
-  updateContractStatus(
-    contractID: number,
-    token: string
-  ): Observable<any> {
+  // updateContractStatus(
+  //   contractID: number,
+  //   token: string
+  // ): Observable<any> {
+  //   const url = `${this.BASE_URL}/update/status/${contractID}`;
+  //   const headers = this.createHeaders(token);
+  //   return this.http.put<any>(url, { headers });
+  // }
+
+  // In contract.service.ts
+  updateContractStatus(contractID: number, token: string): Observable<any> {
     const url = `${this.BASE_URL}/update/status/${contractID}`;
     const headers = this.createHeaders(token);
-    return this.http.put<any>(url, { headers });
+    return this.http.put<any>(url, null, { headers }); // Correctly passing headers
   }
 
   // DELETE: Delete a contract by its ID
