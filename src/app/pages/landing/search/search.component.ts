@@ -13,9 +13,9 @@ import { Router } from '@angular/router';
   templateUrl: './search.component.html',
 })
 export class SearchComponent {
-  location = 'colombo';
-  checkInDate = '2024-09-30';
-  checkOutDate = '2025-11-05';
+  location = '';
+  checkInDate = '';
+  checkOutDate = '';
   adultCount = 2;
   childCount = 1;
   showAdultDropdown = false;
